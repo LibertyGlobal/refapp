@@ -45,7 +45,7 @@ const events = {
 };
 
 const appTypesMap = {
-    html5: 'wpe',
+    html5: 'WebApp',
     spark: 'spark',
     native: 'native',
 };
