@@ -48,11 +48,11 @@ function render(model) {
         const oldSelection = generateId(model.itemsProps[oldValue].text);
         const newSelection = generateId(model.itemsProps[newValue].text);
 
-        Animation.animate(viewNode.getNodeById('highlighter'), {
-            timingFunction: Animation.timingFunctions.LINEAR,
-            duration: 0.12,
-            xDistance: (newValue - oldValue) * item.width,
-        });
+//        Animation.animate(viewNode.getNodeById('highlighter'), {
+//            timingFunction: Animation.timingFunctions.LINEAR,
+//            duration: 0.12,
+//            xDistance: (newValue - oldValue) * item.width,
+//        });
 
         updateNode(oldSelection, {
             fontColor: '#ffffff',
@@ -83,16 +83,16 @@ function render(model) {
                     background: '#ffffff',
                 },
             },
-            {
-                id: 'highlighter',
-                styles: {
-                    width: highlighter.width,
-                    left: (selectedIndex * item.width) + highlighter.left,
-                    height: highlighter.height,
-                    top: container.height - underline.bottom - (highlighter.height / 2),
-                    background: '#3489cd',
-                },
-            },
+//            {
+//                id: 'highlighter',
+//                styles: {
+//                    width: highlighter.width,
+//                    left: (selectedIndex * item.width) + highlighter.left,
+//                    height: highlighter.height,
+//                    top: container.height - underline.bottom - (highlighter.height / 2),
+//                    background: '#3489cd',
+//                },
+//            },
         ],
     };
 
