@@ -1,31 +1,19 @@
 [
     {
         "appType": "html5",
-        "logo": "default_app_collection.png",
-        "title": "Youtube",
-        "url": "https://www.youtube.com/tv"
+        "logo": "HTML5_Badge_128.png",
+        "title": "HTML5 Test",
+        "url": "http://html5test.com/"
     },
     {
         "appType": "html5",
-        "logo": "metrological.png",
-        "title": "Metrological",
-        "url": "https://widgets.metrological.com/mlexhibit/2c5e24317b75c657af084442d27884ff"
+        "logo": "css3-icon-28.jpg",
+        "title": "CSS3 Test",
+        "url": "https://css3test.com/"
     },
     {
         "appType": "html5",
-        "logo": "default_app_collection.png",
-        "title": "Vimeo",
-        "url": "https://widgets.metrological.com/mlexhibit/2c5e24317b75c657af084442d27884ff#app:com.metrological.app.VimeoV2"
-    },
-    {
-        "appType": "html5",
-        "logo": "default_app_collection.png",
-        "title": "Deezer",
-        "url": "https://widgets.metrological.com/mlexhibit/2c5e24317b75c657af084442d27884ff#app:com.metrological.widgets.tv.Deezer"
-    },
-    {
-        "appType": "html5",
-        "logo": "default_app_collection.png",
+        "logo": "google.jpg",
         "title": "Google",
         "url": "https://google.com"
     },
@@ -61,13 +49,19 @@
     },
     {
         "appType": "native",
+        "logo": "cobalt-logo.png",
+        "title": "Cobalt YT",
+        "cmd": "cobalt"
+    },
+    {
+        "appType": "native",
         "logo": "wayland.png",
-        "title": "westeros_test",
+        "title": "Wayland test",
         "cmd": "westeros_test"
     },
     {
         "appType": "native",
         "logo": "default_app_collection.png",
-        "title": "netflix"
+        "title": "Netflix"
     }
 ]
