@@ -1,6 +1,12 @@
 # Operator reference application
 
-Simple [Spark](http://www.sparkui.org/) based application utilizing [LG rendering engine](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/js-plugins/+/master/lgire/src/lgire).
+The [operator reference appliation](https://github.com/LibertyGlobal/refapp) provides a basic GUI that allows for playback of QAM and IP video and startup of various types of applications in the [RDK](https://wiki.rdkcentral.com/display/RDK/RDK+Central+Wiki) environment. It is a JavaScript application that runs in the [Spark](http://www.sparkui.org/) Application Engine with [lgire](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/js-plugins/) as thin graphic abstraction layer on top.  For control of QAM, IP and applications the refapp uses the api offered by the RDK components sessionmanager, aamp and optimus.
+
+The refapp serves as example, starting point for how operators, integrators, community members can glue the various pieces of RDK together into a user experience. It works standalone without need for any Comcast or Liberty Global backend.
+
+The refapp is also useful for RDK integration testing as it exercises the various rdk components and requires them to work well together (vs standalone component testing). It is used in RDK Continuous Integration testing.
+
+There is an "[rdk-generic-hybrid-refapp](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/rdk-oe/meta-cmf-video-restricted/+/master/recipes-core/images/rdk-generic-hybrid-refapp-image.bb)" yocto image available that contains the refapp javascript application and the various native RDK components that it makes use of such as [spark](https://github.com/pxscene/pxCore/tree/master/examples/pxScene2d), [rmfstreamer](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/rdk-oe/meta-cmf-video-restricted/+/master/recipes-extended/rmfstreamer/rmfstreamer_git.bbappend) with [sessionmanager](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/sessionmgr), IP players ([aamp](https://github.com/rdkcmf/rdk-aamp) and [Liberty IPplayer](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/websocket-ipplayer2)), [WPE browser](https://github.com/WebPlatformForEmbedded/WPEWebKit), [westeros](https://github.com/rdkcmf/westeros) and [optimus](https://github.com/pxscene/pxCore/blob/b8e0aa0e26e83d78cdb44cd55bd1e42e268171e9/examples/pxScene2d/src/rcvrcore/optimus.js) application manager.
 
 ## Table of contents
 
