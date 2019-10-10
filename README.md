@@ -8,11 +8,13 @@ The refapp is also useful for RDK integration testing as it exercises the variou
 
 There is an "[rdk-generic-hybrid-refapp](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/rdk-oe/meta-cmf-video-restricted/+/master/recipes-core/images/rdk-generic-hybrid-refapp-image.bb)" yocto image available that contains the refapp javascript application and the various native RDK components that it makes use of such as [spark](https://github.com/pxscene/pxCore/tree/master/examples/pxScene2d), [rmfstreamer](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/rdk-oe/meta-cmf-video-restricted/+/master/recipes-extended/rmfstreamer/rmfstreamer_git.bbappend) with [sessionmanager](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/sessionmgr), IP players ([aamp](https://github.com/rdkcmf/rdk-aamp) and [Liberty IPplayer](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/websocket-ipplayer2)), [WPE browser](https://github.com/WebPlatformForEmbedded/WPEWebKit), [westeros](https://github.com/rdkcmf/westeros) and [optimus](https://github.com/pxscene/pxCore/blob/b8e0aa0e26e83d78cdb44cd55bd1e42e268171e9/examples/pxScene2d/src/rcvrcore/optimus.js) application manager.
 
+Wiki page on refapp with more information is available on https://wiki.rdkcentral.com/display/RDK/Operator+Reference+Application
+(you need to be registered RDK member to access it)
+
 ## Table of contents
 
 - [Getting started](#getting-started)
-- [Tests](#tests)
-- [Project structure](#project-structure)
+- [Refapp breakdown](#refapp-breakdown)
 	- [Components](#components)
 	    - [Apps](#apps)
 		- [Channel Bar](#channel-bar)
@@ -37,17 +39,12 @@ There is an "[rdk-generic-hybrid-refapp](https://code.rdkcentral.com/r/plugins/g
 - [Contributing](#contributing)
 
 ## <a name="getting-started"></a>Getting started
+see wiki on RDK 
+https://wiki.rdkcentral.com/display/RDK/Operator+Reference+Application
+(you need to be registered RDK member to access it)
+There you can also download prebuild image for Raspberry pi 
 
-1. Clone repository: `git clone https://github.com/LibertyGlobal/refapp.git`
-2. Run `npm install` to install node.js dependencies
-
-## <a name="tests"></a>Tests
-
-This command runs the unit tests:
-
-    npm test
-
-## <a name="project-structure"></a>Project structure
+## <a name="refapp-breakdown"></a>Refapp breakdown
 
 
 ### <a name="components"></a>Components
