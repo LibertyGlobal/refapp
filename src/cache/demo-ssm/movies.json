@@ -20,7 +20,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 3 description",
         "poster": "poster_03.png",
         "refId": "vod#2",
@@ -80,7 +80,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 9 description",
         "poster": "poster_09.png",
         "refId": "vod#8",
@@ -140,7 +140,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 15 description",
         "poster": "poster_15.png",
         "refId": "vod#14",
@@ -200,7 +200,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 21 description",
         "poster": "poster_21.png",
         "refId": "vod#20",
@@ -260,7 +260,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 27 description",
         "poster": "poster_27.png",
         "refId": "vod#26",
@@ -320,7 +320,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 33 description",
         "poster": "poster_33.png",
         "refId": "vod#32",
@@ -380,7 +380,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/634cd01c-6822-4630-8444-8dd6279f94c6/CaminandesLlamaDrama4K.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 39 description",
         "poster": "poster_37.png",
         "refId": "vod#38",
