@@ -140,12 +140,13 @@ function startPlayer(options = {}) {
 
     // the rdkmediaplayer has an issue with report position if we reuse the player object
     if (waylandObj){
-        waylandObj.destroy();
-        waylandObj=null;
-        player=null;
+        //waylandObj.destroy();
+        //waylandObj=null;
+        //player=null;
+    } else {
+        waylandObj = scene.create(fullOptions);
     }
 
-    waylandObj = scene.create(fullOptions);
     waylandObj.focus = true;
     waylandObj.moveToBack();
     return waylandObj.remoteReady.then((wayland) => {

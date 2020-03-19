@@ -1,6 +1,6 @@
 [
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 1 description",
         "poster": "poster_01.png",
         "refId": "vod#0",
@@ -10,7 +10,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 2 description",
         "poster": "poster_02.png",
         "refId": "vod#1",
@@ -20,7 +20,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 3 description",
         "poster": "poster_03.png",
         "refId": "vod#2",
@@ -30,7 +30,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 4 description",
         "poster": "poster_04.png",
         "refId": "vod#3",
@@ -40,7 +40,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bc57e088-27ec-44e0-ac20-a85ccbcd50da/TearsOfSteel.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 5 description",
         "poster": "poster_05.png",
         "refId": "vod#4",
@@ -50,7 +50,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bb34a723-f69a-4231-afba-dc850f9e3da8/ChildOfThe90s.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 6 description",
         "poster": "poster_06.png",
         "refId": "vod#5",
@@ -60,7 +60,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 7 description",
         "poster": "poster_07.png",
         "refId": "vod#6",
@@ -70,7 +70,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 8 description",
         "poster": "poster_08.png",
         "refId": "vod#7",
@@ -80,7 +80,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 9 description",
         "poster": "poster_09.png",
         "refId": "vod#8",
@@ -90,7 +90,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 10 description",
         "poster": "poster_10.png",
         "refId": "vod#9",
@@ -100,7 +100,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bc57e088-27ec-44e0-ac20-a85ccbcd50da/TearsOfSteel.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 11 description",
         "poster": "poster_11.png",
         "refId": "vod#10",
@@ -110,7 +110,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bb34a723-f69a-4231-afba-dc850f9e3da8/ChildOfThe90s.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 12 description",
         "poster": "poster_12.png",
         "refId": "vod#11",
@@ -130,7 +130,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 14 description",
         "poster": "poster_14.png",
         "refId": "vod#13",
@@ -140,7 +140,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 15 description",
         "poster": "poster_15.png",
         "refId": "vod#14",
@@ -150,7 +150,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 16 description",
         "poster": "poster_16.png",
         "refId": "vod#15",
@@ -160,7 +160,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bc57e088-27ec-44e0-ac20-a85ccbcd50da/TearsOfSteel.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 17 description",
         "poster": "poster_17.png",
         "refId": "vod#16",
@@ -170,7 +170,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bb34a723-f69a-4231-afba-dc850f9e3da8/ChildOfThe90s.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 18 description",
         "poster": "poster_18.png",
         "refId": "vod#17",
@@ -180,7 +180,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 19 description",
         "poster": "poster_19.png",
         "refId": "vod#18",
@@ -190,7 +190,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 20 description",
         "poster": "poster_20.png",
         "refId": "vod#19",
@@ -200,7 +200,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 21 description",
         "poster": "poster_21.png",
         "refId": "vod#20",
@@ -210,7 +210,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 22 description",
         "poster": "poster_22.png",
         "refId": "vod#21",
@@ -220,7 +220,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bc57e088-27ec-44e0-ac20-a85ccbcd50da/TearsOfSteel.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 23 description",
         "poster": "poster_23.png",
         "refId": "vod#22",
@@ -230,7 +230,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bb34a723-f69a-4231-afba-dc850f9e3da8/ChildOfThe90s.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 24 description",
         "poster": "poster_24.png",
         "refId": "vod#23",
@@ -240,7 +240,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 25 description",
         "poster": "poster_25.png",
         "refId": "vod#24",
@@ -260,7 +260,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 27 description",
         "poster": "poster_27.png",
         "refId": "vod#26",
@@ -270,7 +270,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 28 description",
         "poster": "poster_28.png",
         "refId": "vod#27",
@@ -280,7 +280,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bc57e088-27ec-44e0-ac20-a85ccbcd50da/TearsOfSteel.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 29 description",
         "poster": "poster_29.png",
         "refId": "vod#28",
@@ -290,7 +290,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bb34a723-f69a-4231-afba-dc850f9e3da8/ChildOfThe90s.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 30 description",
         "poster": "poster_30.png",
         "refId": "vod#29",
@@ -300,7 +300,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 31 description",
         "poster": "poster_31.png",
         "refId": "vod#30",
@@ -310,7 +310,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 32 description",
         "poster": "poster_32.png",
         "refId": "vod#31",
@@ -320,7 +320,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 33 description",
         "poster": "poster_33.png",
         "refId": "vod#32",
@@ -330,7 +330,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 34 description",
         "poster": "poster_34.png",
         "refId": "vod#33",
@@ -340,7 +340,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bc57e088-27ec-44e0-ac20-a85ccbcd50da/TearsOfSteel.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 35 description",
         "poster": "poster_35.png",
         "refId": "vod#34",
@@ -350,7 +350,7 @@
         "year": 2018
     },
     {
-        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/bb34a723-f69a-4231-afba-dc850f9e3da8/ChildOfThe90s.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 36 description",
         "poster": "poster_36.png",
         "refId": "vod#35",
@@ -360,7 +360,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/dash264/TestCases/5a/1/manifest.mpd",
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
         "mediumSynopsis": "Movie 37 description",
         "poster": "poster_37.png",
         "refId": "vod#36",
@@ -370,7 +370,7 @@
         "year": 2018
     },
     {
-        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 38 description",
         "poster": "poster_37.png",
         "refId": "vod#37",
@@ -380,7 +380,7 @@
         "year": 2018
     },
     {
-        "locator": "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+        "locator": "http://profficialsite.origin.mediaservices.windows.net/4e598133-f9d9-4ee4-9d83-64e31c3fabeb/sintel-1280-surround-m3u8-aapl.ism/manifest(format=m3u8-aapl)",
         "mediumSynopsis": "Movie 39 description",
         "poster": "poster_37.png",
         "refId": "vod#38",
@@ -390,7 +390,7 @@
         "year": 2018
     },
     {
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd",
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
         "mediumSynopsis": "Movie 40 description",
         "poster": "poster_37.png",
         "refId": "vod#39",
