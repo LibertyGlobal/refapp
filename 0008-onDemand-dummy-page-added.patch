@@ -1,0 +1,269 @@
+From d0ce42081c4a63216471feab9a383502e3f67169 Mon Sep 17 00:00:00 2001
+From: kathiravan <kathiravan.s@ltts.com>
+Date: Wed, 8 Apr 2020 22:12:25 +0530
+Subject: [PATCH 8/9] onDemand dummy page added
+
+---
+ src/App.js             | 72 +++++++++++++++++++++++++++++++++++++++---
+ src/core/list.js       | 26 +++++++--------
+ src/mainMenu/config.js |  6 +++-
+ src/mainMenu/menu.js   | 15 +++------
+ src/mainMenu/view.js   | 11 +++++--
+ 5 files changed, 97 insertions(+), 33 deletions(-)
+
+diff --git a/src/App.js b/src/App.js
+index 8aaee0c..07ee93c 100644
+--- a/src/App.js
++++ b/src/App.js
+@@ -1,5 +1,6 @@
+ import { Lightning, Utils } from 'wpe-lightning-sdk'
+ import Menu from './mainMenu/menu.js'
++import OnDemand from './OnDemand/ondemand.js'
+ 
+ export default class App extends Lightning.Component {
+   static getFonts() {
+@@ -8,9 +9,24 @@ export default class App extends Lightning.Component {
+ 
+   static _template() {
+     return {
+-      Menu: {
+-        type: Menu,
+-        alpha: 1
++      Menu: { type: Menu, alpha: 0, signals: { select: true } },
++      App: {
++        type: OnDemand,
++        alpha: 0,
++        signals: { select: true },
++        argument: 'App Page Under Construction. Please Press Enter key.'
++      },
++      Movie: {
++        type: OnDemand,
++        alpha: 0,
++        signals: { select: true },
++        argument: 'Movie Page Under Construction. Please Press Enter key.'
++      },
++      Setting: {
++        type: OnDemand,
++        alpha: 0,
++        signals: { select: true },
++        argument: 'Setting Under Construction. Please Press Enter key.'
+       }
+     }
+   }
+@@ -25,14 +41,60 @@ export default class App extends Lightning.Component {
+         $enter() {
+           this.tag('Menu').setSmooth('alpha', 1)
+         }
+-
+         $exit() {
+           this.tag('Menu').setSmooth('alpha', 0)
+         }
+-
+         _getFocused() {
+           return this.tag('Menu')
+         }
++        select({ item }) {
++          this._setState(item.target)
++        }
++      },
++      class App extends this {
++        $enter() {
++          this.tag('App').setSmooth('alpha', 1)
++        }
++        $exit() {
++          this.tag('App').setSmooth('alpha', 0)
++        }
++        _getFocused() {
++          return this.tag('App')
++        }
++        select({ item }) {
++          console.log('App')
++          this._setState(item.target)
++        }
++      },
++      class Movie extends this {
++        $enter() {
++          this.tag('Movie').setSmooth('alpha', 1)
++        }
++        $exit() {
++          this.tag('Movie').setSmooth('alpha', 0)
++        }
++        _getFocused() {
++          return this.tag('Movie')
++        }
++        select({ item }) {
++          console.log('Movie')
++          this._setState(item.target)
++        }
++      },
++      class Setting extends this {
++        $enter() {
++          this.tag('Setting').setSmooth('alpha', 1)
++        }
++        $exit() {
++          this.tag('Setting').setSmooth('alpha', 0)
++        }
++        _getFocused() {
++          return this.tag('Setting')
++        }
++        select({ item }) {
++          console.log('Setting')
++          this._setState(item.target)
++        }
+       }
+     ]
+   }
+diff --git a/src/core/list.js b/src/core/list.js
+index b38ef5c..5e99460 100644
+--- a/src/core/list.js
++++ b/src/core/list.js
+@@ -1,13 +1,13 @@
+-import config from '../mainMenu/config.js'
++import Config from '../mainMenu/config.js'
+ import { Lightning } from 'wpe-lightning-sdk'
+ 
+ export class ListItem extends Lightning.Component {
+   static _template() {
+     return {
+       rect: true,
+-      w: config.MAINMENU_ITEM_WIDTH,
+-      h: config.MAINMENU_ITEM_HEIGHT,
+-      color: config.MAINMENU_ITEM_COLOR,
++      w: Config.MAINMENU_ITEM_WIDTH,
++      h: Config.MAINMENU_ITEM_HEIGHT,
++      color: Config.MAINMENU_ITEM_COLOR,
+       alpha: 0.8,
+       Label: {
+         x: 20,
+@@ -30,9 +30,9 @@ export class ImageListItem extends ListItem {
+   static _template() {
+     return {
+       rect: true,
+-      w: config.MAINMENU_ITEM_WIDTH,
+-      h: config.MAINMENU_ITEM_HEIGHT,
+-      color: config.MAINMENU_ITEM_COLOR,
++      w: Config.MAINMENU_ITEM_WIDTH,
++      h: Config.MAINMENU_ITEM_HEIGHT,
++      color: Config.MAINMENU_ITEM_COLOR,
+       alpha: 0.8,
+       Img: {
+         x: 0,
+@@ -63,11 +63,11 @@ export class List extends Lightning.Component {
+   }
+ 
+   set items(items) {
+-    let startX = config.MAINMENU_x,
++    let startX = Config.MAINMENU_x,
+       startY = 0
+-    let xspace = config.MAINMENU_ITEM_XSPACE,
+-      yspace = config.MAINMENU_ITEM_YSPACE
+-    let width = config.MAINMENU_ITEM_WIDTH
++    let xspace = Config.MAINMENU_ITEM_XSPACE,
++      yspace = Config.MAINMENU_ITEM_YSPACE
++    let width = Config.MAINMENU_ITEM_WIDTH
+ 
+     this.children = items.map((item, index) => {
+       return {
+@@ -84,16 +84,14 @@ export class List extends Lightning.Component {
+   _handleLeft() {
+     if (this.index > 0) {
+       this.index--
+-      this.signal('select', { item: { item: this.children[this.index].item, ref: this.ref } })
+     }
+   }
+   _handleRight() {
+     if (this.index < this.children.length - 1) {
+       this.index++
+-      this.signal('select', { item: { item: this.children[this.index].item, ref: this.ref } })
+     }
+   }
+   _handleEnter() {
+-    console.log('List Item ' + this.ref)
++    this.signal('select', { item: this.children[this.index].item, ref: this.ref })
+   }
+ }
+diff --git a/src/mainMenu/config.js b/src/mainMenu/config.js
+index 5d1221b..c0db733 100644
+--- a/src/mainMenu/config.js
++++ b/src/mainMenu/config.js
+@@ -8,7 +8,11 @@ let MenuConfig = {
+   MAINMENU_ITEM_TXT_X: 0,
+   MAINMENU_ITEM_TXT_Y: 0,
+   MAINMENU_ITEM_COLOR: 0xff0000ff,
+-  MAINMENU_LIST_TYPE: 'vertical'
++  MAINMENU_LIST_TYPE: 'vertical',
++  SUBMENU_LIST_X: 0,
++  SUBMENU_LIST_Y: 0,
++  LIST_BACKGROUND_WIDTH: 1920,
++  LIST_BACKGROUND_HEIGHT: 70
+ }
+ 
+ export default MenuConfig
+diff --git a/src/mainMenu/menu.js b/src/mainMenu/menu.js
+index d68171e..c0a4913 100644
+--- a/src/mainMenu/menu.js
++++ b/src/mainMenu/menu.js
+@@ -38,29 +38,22 @@ export default class Menu extends Lightning.Component {
+     this._setState('SubMenuList')
+   }
+ 
++  _handleBack() {}
++
+   static _states() {
+     return [
+       class SubMenuList extends this {
+         _getFocused() {
+           return this.tag('SubMenuList')
+         }
+-        select({ item }) {
+-          console.log(item)
+-        }
++        select({ item }) {}
+       },
+       class MainList extends this {
+         _getFocused() {
+           return this.tag('MainList')
+         }
+         select({ item }) {
+-          let data = this.model.data
+-          this.tag('SubMenuList').items = []
+-          for (var index in data) {
+-            if (item.item.label === data[index].title) {
+-              this.tag('SubMenuList').items = data[index].submenu.map(i => ({ label: i }))
+-              break
+-            }
+-          }
++          this.signal('select', { item: { label: 'menu', target: item.label } })
+         }
+       }
+     ]
+diff --git a/src/mainMenu/view.js b/src/mainMenu/view.js
+index 252a96d..737b0ec 100644
+--- a/src/mainMenu/view.js
++++ b/src/mainMenu/view.js
+@@ -2,7 +2,14 @@ import { List } from './../core/list.js'
+ import Config from './config.js'
+ 
+ export function getBackground() {
+-  return { x: 0, y: 0, rect: true, color: 0xff000000, w: 1920, h: 1080 }
++  return {
++    x: 0,
++    y: 0,
++    rect: true,
++    color: 0xff000000,
++    w: Config.LIST_BACKGROUND_WIDTH,
++    h: Config.LIST_BACKGROUND_HEIGHT
++  }
+ }
+ 
+ export function getMainList() {
+@@ -10,5 +17,5 @@ export function getMainList() {
+ }
+ 
+ export function getSubMenuList() {
+-  return { y: 400, type: List, signals: { select: true } }
++  return { y: Config.SUBMENU_LIST_Y, type: List, signals: { select: true } }
+ }
+-- 
+2.23.0.windows.1
+

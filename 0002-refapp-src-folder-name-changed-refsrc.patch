@@ -1,0 +1,995 @@
+From c67cb9542e64da8fe3c2be37a551a34185585f23 Mon Sep 17 00:00:00 2001
+From: kathiravan <kathiravan.s@ltts.com>
+Date: Tue, 7 Apr 2020 12:32:11 +0530
+Subject: [PATCH 2/9] refapp src folder name changed refsrc
+
+---
+ {src => refsrc}/appManager/index.js                 |   0
+ {src => refsrc}/boot.js                             |   0
+ {src => refsrc}/cache/apps.json                     |   0
+ .../cache/appsLogos/default_app_collection.png      | Bin
+ {src => refsrc}/cache/appsLogos/metrological.png    | Bin
+ {src => refsrc}/cache/appsLogos/spark.png           | Bin
+ {src => refsrc}/cache/config.json                   |   0
+ {src => refsrc}/cache/demo-ssm/channelsV2.json      |   0
+ {src => refsrc}/cache/demo-ssm/movies.json          |   0
+ {src => refsrc}/cache/demo/channelsV2.json          |   0
+ {src => refsrc}/cache/demo/movies.json              |   0
+ {src => refsrc}/cache/eventsV2.json                 |   0
+ {src => refsrc}/components/apps/constants.js        |   0
+ {src => refsrc}/components/apps/controller.js       |   0
+ {src => refsrc}/components/apps/helpers.js          |   0
+ {src => refsrc}/components/apps/index.js            |   0
+ {src => refsrc}/components/apps/model.js            |   0
+ .../components/apps/subComponents/tile.js           |   0
+ {src => refsrc}/components/apps/view.js             |   0
+ .../assets/channel-bar-bottom-gradient.png          | Bin
+ .../channelBar/assets/header_gradient_default.png   | Bin
+ {src => refsrc}/components/channelBar/constants.js  |   0
+ {src => refsrc}/components/channelBar/controller.js |   0
+ {src => refsrc}/components/channelBar/index.js      |   0
+ {src => refsrc}/components/channelBar/model.js      |   0
+ {src => refsrc}/components/channelBar/view.js       |   0
+ {src => refsrc}/components/coverflow/controller.js  |   0
+ .../components/coverflow/coverflow_v2.js            |   0
+ .../components/coverflow/coverflowtest_v2.js        |   0
+ {src => refsrc}/components/coverflow/data.js        |   0
+ {src => refsrc}/components/coverflow/index.js       |   0
+ {src => refsrc}/components/detailPage/controller.js |   0
+ {src => refsrc}/components/detailPage/index.js      |   0
+ {src => refsrc}/components/detailPage/model.js      |   0
+ {src => refsrc}/components/detailPage/view.js       |   0
+ .../components/mainMenu/assets/mainMenuGrad.png     | Bin
+ {src => refsrc}/components/mainMenu/controller.js   |   0
+ {src => refsrc}/components/mainMenu/index.js        |   0
+ {src => refsrc}/components/mainMenu/model.js        |   0
+ {src => refsrc}/components/mainMenu/view.js         |   0
+ .../mastHead/assets/header_gradient_default.png     | Bin
+ {src => refsrc}/components/mastHead/constants.js    |   0
+ {src => refsrc}/components/mastHead/controller.js   |   0
+ {src => refsrc}/components/mastHead/index.js        |   0
+ {src => refsrc}/components/mastHead/model.js        |   0
+ {src => refsrc}/components/mastHead/view.js         |   0
+ {src => refsrc}/components/ondemand/components.js   |   0
+ {src => refsrc}/components/ondemand/controller.js   |   0
+ {src => refsrc}/components/ondemand/index.js        |   0
+ {src => refsrc}/components/ondemand/model.js        |   0
+ {src => refsrc}/components/ondemand/view.js         |   0
+ .../components/player/assets/circle_33.png          | Bin
+ .../components/player/assets/player-gradient.png    | Bin
+ {src => refsrc}/components/player/constants.js      |   0
+ {src => refsrc}/components/player/controller.js     |   0
+ {src => refsrc}/components/player/helpers.js        |   0
+ {src => refsrc}/components/player/index.js          |   0
+ {src => refsrc}/components/player/model.js          |   0
+ {src => refsrc}/components/player/view.js           |   0
+ .../components/popups/numericInput/controller.js    |   0
+ .../components/popups/numericInput/index.js         |   0
+ .../components/popups/numericInput/model.js         |   0
+ .../components/popups/numericInput/view.js          |   0
+ .../components/popups/warning/assets/icWarning.png  | Bin
+ .../components/popups/warning/constants.js          |   0
+ .../components/popups/warning/controller.js         |   0
+ {src => refsrc}/components/popups/warning/index.js  |   0
+ {src => refsrc}/components/popups/warning/model.js  |   0
+ {src => refsrc}/components/popups/warning/view.js   |   0
+ {src => refsrc}/components/pxTest/index.js          |   0
+ {src => refsrc}/config.json                         |   0
+ {src => refsrc}/config.ssm.json                     |   0
+ {src => refsrc}/domainModels/apps/index.js          |   0
+ {src => refsrc}/domainModels/apps/service.js        |   0
+ {src => refsrc}/domainModels/channel/constants.js   |   0
+ {src => refsrc}/domainModels/channel/helpers.js     |   0
+ {src => refsrc}/domainModels/channel/index.js       |   0
+ {src => refsrc}/domainModels/channel/service.js     |   0
+ {src => refsrc}/domainModels/domainmodels.config.js |   0
+ {src => refsrc}/domainModels/epg/index.js           |   0
+ {src => refsrc}/domainModels/epg/service.js         |   0
+ {src => refsrc}/domainModels/helpers.js             |   0
+ {src => refsrc}/domainModels/ondemand/index.js      |   0
+ {src => refsrc}/domainModels/ondemand/service.js    |   0
+ {src => refsrc}/domainModels/player/constants.js    |   0
+ {src => refsrc}/domainModels/player/index.js        |   0
+ {src => refsrc}/domainModels/player/ip.player.js    |   0
+ {src => refsrc}/domainModels/player/qam.player.js   |   0
+ .../domainModels/player/strategies/constants.js     |   0
+ .../player/strategies/rdkPlayerManager.js           |   0
+ .../player/strategies/sessionManager.js             |   0
+ {src => refsrc}/domainModels/system/constants.js    |   0
+ {src => refsrc}/domainModels/system/index.js        |   0
+ {src => refsrc}/img/default-poster.jpg              | Bin
+ {src => refsrc}/img/movies/movie_01.png             | Bin
+ {src => refsrc}/img/movies/movie_02.png             | Bin
+ {src => refsrc}/img/movies/movie_03.png             | Bin
+ {src => refsrc}/img/movies/movie_04.png             | Bin
+ {src => refsrc}/img/movies/movie_05.png             | Bin
+ {src => refsrc}/img/movies/movie_06.png             | Bin
+ {src => refsrc}/img/movies/movie_07.png             | Bin
+ {src => refsrc}/img/node/border.png                 | Bin
+ {src => refsrc}/img/posters/poster_01.png           | Bin
+ {src => refsrc}/img/posters/poster_02.png           | Bin
+ {src => refsrc}/img/posters/poster_03.png           | Bin
+ {src => refsrc}/img/posters/poster_04.png           | Bin
+ {src => refsrc}/img/posters/poster_05.png           | Bin
+ {src => refsrc}/img/posters/poster_06.png           | Bin
+ {src => refsrc}/img/posters/poster_07.png           | Bin
+ {src => refsrc}/img/rdk-logo.png                    | Bin
+ {src => refsrc}/img/tvchannels/1.png                | Bin
+ {src => refsrc}/img/tvchannels/10.png               | Bin
+ {src => refsrc}/img/tvchannels/11.png               | Bin
+ {src => refsrc}/img/tvchannels/12.png               | Bin
+ {src => refsrc}/img/tvchannels/13.png               | Bin
+ {src => refsrc}/img/tvchannels/14.png               | Bin
+ {src => refsrc}/img/tvchannels/15.png               | Bin
+ {src => refsrc}/img/tvchannels/16.png               | Bin
+ {src => refsrc}/img/tvchannels/17.png               | Bin
+ {src => refsrc}/img/tvchannels/18.png               | Bin
+ {src => refsrc}/img/tvchannels/19.png               | Bin
+ {src => refsrc}/img/tvchannels/2.png                | Bin
+ {src => refsrc}/img/tvchannels/20.png               | Bin
+ {src => refsrc}/img/tvchannels/3.png                | Bin
+ {src => refsrc}/img/tvchannels/4.png                | Bin
+ {src => refsrc}/img/tvchannels/5.png                | Bin
+ {src => refsrc}/img/tvchannels/6.png                | Bin
+ {src => refsrc}/img/tvchannels/7.png                | Bin
+ {src => refsrc}/img/tvchannels/8.png                | Bin
+ {src => refsrc}/img/tvchannels/9.png                | Bin
+ {src => refsrc}/keyEmitters/dbus.js                 |   0
+ {src => refsrc}/keyEmitters/keyboard.js             |   0
+ {src => refsrc}/main.js                             |   0
+ {src => refsrc}/main.ssm.js                         |   0
+ {src => refsrc}/navigation/constants.js             |   0
+ {src => refsrc}/navigation/index.js                 |   0
+ {src => refsrc}/navigation/navigator.js             |   0
+ {src => refsrc}/navigation/routes.js                |   0
+ {src => refsrc}/networks/AWC/AWC.network.js         |   0
+ {src => refsrc}/networks/AWC/constants.js           |   0
+ {src => refsrc}/networks/AWC/htmlApp.controller.js  |   0
+ {src => refsrc}/networks/AWC/index.js               |   0
+ {src => refsrc}/networks/comcast/constants.js       |   0
+ {src => refsrc}/networks/comcast/index.js           |   0
+ {src => refsrc}/rcuManager/constants.js             |   0
+ {src => refsrc}/rcuManager/globalHandlers.js        |   0
+ {src => refsrc}/rcuManager/index.js                 |   0
+ {src => refsrc}/rcuManager/onPreKey.js              |   0
+ {src => refsrc}/renderer/helpers.js                 |   0
+ {src => refsrc}/renderer/index.js                   |   0
+ {src => refsrc}/renderer/list.js                    |   0
+ {src => refsrc}/run.sh                              |   0
+ {src => refsrc}/shared/DynamicList.js               |   0
+ {src => refsrc}/shared/ViewModel.js                 |   0
+ {src => refsrc}/shared/animation/constants.js       |   0
+ {src => refsrc}/shared/animation/draw.js            |   0
+ {src => refsrc}/shared/animation/index.js           |   0
+ {src => refsrc}/shared/constants.js                 |   0
+ {src => refsrc}/shared/eventEmitter.js              |   0
+ {src => refsrc}/shared/helpers.js                   |   0
+ {src => refsrc}/shared/logger.js                    |   0
+ {src => refsrc}/shared/mapKeyCode.js                |   0
+ {src => refsrc}/shared/request.js                   |   0
+ {src => refsrc}/shared/utils.js                     |   0
+ 164 files changed, 0 insertions(+), 0 deletions(-)
+ rename {src => refsrc}/appManager/index.js (100%)
+ rename {src => refsrc}/boot.js (100%)
+ rename {src => refsrc}/cache/apps.json (100%)
+ rename {src => refsrc}/cache/appsLogos/default_app_collection.png (100%)
+ rename {src => refsrc}/cache/appsLogos/metrological.png (100%)
+ rename {src => refsrc}/cache/appsLogos/spark.png (100%)
+ rename {src => refsrc}/cache/config.json (100%)
+ rename {src => refsrc}/cache/demo-ssm/channelsV2.json (100%)
+ rename {src => refsrc}/cache/demo-ssm/movies.json (100%)
+ rename {src => refsrc}/cache/demo/channelsV2.json (100%)
+ rename {src => refsrc}/cache/demo/movies.json (100%)
+ rename {src => refsrc}/cache/eventsV2.json (100%)
+ rename {src => refsrc}/components/apps/constants.js (100%)
+ rename {src => refsrc}/components/apps/controller.js (100%)
+ rename {src => refsrc}/components/apps/helpers.js (100%)
+ rename {src => refsrc}/components/apps/index.js (100%)
+ rename {src => refsrc}/components/apps/model.js (100%)
+ rename {src => refsrc}/components/apps/subComponents/tile.js (100%)
+ rename {src => refsrc}/components/apps/view.js (100%)
+ rename {src => refsrc}/components/channelBar/assets/channel-bar-bottom-gradient.png (100%)
+ rename {src => refsrc}/components/channelBar/assets/header_gradient_default.png (100%)
+ rename {src => refsrc}/components/channelBar/constants.js (100%)
+ rename {src => refsrc}/components/channelBar/controller.js (100%)
+ rename {src => refsrc}/components/channelBar/index.js (100%)
+ rename {src => refsrc}/components/channelBar/model.js (100%)
+ rename {src => refsrc}/components/channelBar/view.js (100%)
+ rename {src => refsrc}/components/coverflow/controller.js (100%)
+ rename {src => refsrc}/components/coverflow/coverflow_v2.js (100%)
+ rename {src => refsrc}/components/coverflow/coverflowtest_v2.js (100%)
+ rename {src => refsrc}/components/coverflow/data.js (100%)
+ rename {src => refsrc}/components/coverflow/index.js (100%)
+ rename {src => refsrc}/components/detailPage/controller.js (100%)
+ rename {src => refsrc}/components/detailPage/index.js (100%)
+ rename {src => refsrc}/components/detailPage/model.js (100%)
+ rename {src => refsrc}/components/detailPage/view.js (100%)
+ rename {src => refsrc}/components/mainMenu/assets/mainMenuGrad.png (100%)
+ rename {src => refsrc}/components/mainMenu/controller.js (100%)
+ rename {src => refsrc}/components/mainMenu/index.js (100%)
+ rename {src => refsrc}/components/mainMenu/model.js (100%)
+ rename {src => refsrc}/components/mainMenu/view.js (100%)
+ rename {src => refsrc}/components/mastHead/assets/header_gradient_default.png (100%)
+ rename {src => refsrc}/components/mastHead/constants.js (100%)
+ rename {src => refsrc}/components/mastHead/controller.js (100%)
+ rename {src => refsrc}/components/mastHead/index.js (100%)
+ rename {src => refsrc}/components/mastHead/model.js (100%)
+ rename {src => refsrc}/components/mastHead/view.js (100%)
+ rename {src => refsrc}/components/ondemand/components.js (100%)
+ rename {src => refsrc}/components/ondemand/controller.js (100%)
+ rename {src => refsrc}/components/ondemand/index.js (100%)
+ rename {src => refsrc}/components/ondemand/model.js (100%)
+ rename {src => refsrc}/components/ondemand/view.js (100%)
+ rename {src => refsrc}/components/player/assets/circle_33.png (100%)
+ rename {src => refsrc}/components/player/assets/player-gradient.png (100%)
+ rename {src => refsrc}/components/player/constants.js (100%)
+ rename {src => refsrc}/components/player/controller.js (100%)
+ rename {src => refsrc}/components/player/helpers.js (100%)
+ rename {src => refsrc}/components/player/index.js (100%)
+ rename {src => refsrc}/components/player/model.js (100%)
+ rename {src => refsrc}/components/player/view.js (100%)
+ rename {src => refsrc}/components/popups/numericInput/controller.js (100%)
+ rename {src => refsrc}/components/popups/numericInput/index.js (100%)
+ rename {src => refsrc}/components/popups/numericInput/model.js (100%)
+ rename {src => refsrc}/components/popups/numericInput/view.js (100%)
+ rename {src => refsrc}/components/popups/warning/assets/icWarning.png (100%)
+ rename {src => refsrc}/components/popups/warning/constants.js (100%)
+ rename {src => refsrc}/components/popups/warning/controller.js (100%)
+ rename {src => refsrc}/components/popups/warning/index.js (100%)
+ rename {src => refsrc}/components/popups/warning/model.js (100%)
+ rename {src => refsrc}/components/popups/warning/view.js (100%)
+ rename {src => refsrc}/components/pxTest/index.js (100%)
+ rename {src => refsrc}/config.json (100%)
+ rename {src => refsrc}/config.ssm.json (100%)
+ rename {src => refsrc}/domainModels/apps/index.js (100%)
+ rename {src => refsrc}/domainModels/apps/service.js (100%)
+ rename {src => refsrc}/domainModels/channel/constants.js (100%)
+ rename {src => refsrc}/domainModels/channel/helpers.js (100%)
+ rename {src => refsrc}/domainModels/channel/index.js (100%)
+ rename {src => refsrc}/domainModels/channel/service.js (100%)
+ rename {src => refsrc}/domainModels/domainmodels.config.js (100%)
+ rename {src => refsrc}/domainModels/epg/index.js (100%)
+ rename {src => refsrc}/domainModels/epg/service.js (100%)
+ rename {src => refsrc}/domainModels/helpers.js (100%)
+ rename {src => refsrc}/domainModels/ondemand/index.js (100%)
+ rename {src => refsrc}/domainModels/ondemand/service.js (100%)
+ rename {src => refsrc}/domainModels/player/constants.js (100%)
+ rename {src => refsrc}/domainModels/player/index.js (100%)
+ rename {src => refsrc}/domainModels/player/ip.player.js (100%)
+ rename {src => refsrc}/domainModels/player/qam.player.js (100%)
+ rename {src => refsrc}/domainModels/player/strategies/constants.js (100%)
+ rename {src => refsrc}/domainModels/player/strategies/rdkPlayerManager.js (100%)
+ rename {src => refsrc}/domainModels/player/strategies/sessionManager.js (100%)
+ rename {src => refsrc}/domainModels/system/constants.js (100%)
+ rename {src => refsrc}/domainModels/system/index.js (100%)
+ rename {src => refsrc}/img/default-poster.jpg (100%)
+ rename {src => refsrc}/img/movies/movie_01.png (100%)
+ rename {src => refsrc}/img/movies/movie_02.png (100%)
+ rename {src => refsrc}/img/movies/movie_03.png (100%)
+ rename {src => refsrc}/img/movies/movie_04.png (100%)
+ rename {src => refsrc}/img/movies/movie_05.png (100%)
+ rename {src => refsrc}/img/movies/movie_06.png (100%)
+ rename {src => refsrc}/img/movies/movie_07.png (100%)
+ rename {src => refsrc}/img/node/border.png (100%)
+ rename {src => refsrc}/img/posters/poster_01.png (100%)
+ rename {src => refsrc}/img/posters/poster_02.png (100%)
+ rename {src => refsrc}/img/posters/poster_03.png (100%)
+ rename {src => refsrc}/img/posters/poster_04.png (100%)
+ rename {src => refsrc}/img/posters/poster_05.png (100%)
+ rename {src => refsrc}/img/posters/poster_06.png (100%)
+ rename {src => refsrc}/img/posters/poster_07.png (100%)
+ rename {src => refsrc}/img/rdk-logo.png (100%)
+ rename {src => refsrc}/img/tvchannels/1.png (100%)
+ rename {src => refsrc}/img/tvchannels/10.png (100%)
+ rename {src => refsrc}/img/tvchannels/11.png (100%)
+ rename {src => refsrc}/img/tvchannels/12.png (100%)
+ rename {src => refsrc}/img/tvchannels/13.png (100%)
+ rename {src => refsrc}/img/tvchannels/14.png (100%)
+ rename {src => refsrc}/img/tvchannels/15.png (100%)
+ rename {src => refsrc}/img/tvchannels/16.png (100%)
+ rename {src => refsrc}/img/tvchannels/17.png (100%)
+ rename {src => refsrc}/img/tvchannels/18.png (100%)
+ rename {src => refsrc}/img/tvchannels/19.png (100%)
+ rename {src => refsrc}/img/tvchannels/2.png (100%)
+ rename {src => refsrc}/img/tvchannels/20.png (100%)
+ rename {src => refsrc}/img/tvchannels/3.png (100%)
+ rename {src => refsrc}/img/tvchannels/4.png (100%)
+ rename {src => refsrc}/img/tvchannels/5.png (100%)
+ rename {src => refsrc}/img/tvchannels/6.png (100%)
+ rename {src => refsrc}/img/tvchannels/7.png (100%)
+ rename {src => refsrc}/img/tvchannels/8.png (100%)
+ rename {src => refsrc}/img/tvchannels/9.png (100%)
+ rename {src => refsrc}/keyEmitters/dbus.js (100%)
+ rename {src => refsrc}/keyEmitters/keyboard.js (100%)
+ rename {src => refsrc}/main.js (100%)
+ rename {src => refsrc}/main.ssm.js (100%)
+ rename {src => refsrc}/navigation/constants.js (100%)
+ rename {src => refsrc}/navigation/index.js (100%)
+ rename {src => refsrc}/navigation/navigator.js (100%)
+ rename {src => refsrc}/navigation/routes.js (100%)
+ rename {src => refsrc}/networks/AWC/AWC.network.js (100%)
+ rename {src => refsrc}/networks/AWC/constants.js (100%)
+ rename {src => refsrc}/networks/AWC/htmlApp.controller.js (100%)
+ rename {src => refsrc}/networks/AWC/index.js (100%)
+ rename {src => refsrc}/networks/comcast/constants.js (100%)
+ rename {src => refsrc}/networks/comcast/index.js (100%)
+ rename {src => refsrc}/rcuManager/constants.js (100%)
+ rename {src => refsrc}/rcuManager/globalHandlers.js (100%)
+ rename {src => refsrc}/rcuManager/index.js (100%)
+ rename {src => refsrc}/rcuManager/onPreKey.js (100%)
+ rename {src => refsrc}/renderer/helpers.js (100%)
+ rename {src => refsrc}/renderer/index.js (100%)
+ rename {src => refsrc}/renderer/list.js (100%)
+ rename {src => refsrc}/run.sh (100%)
+ rename {src => refsrc}/shared/DynamicList.js (100%)
+ rename {src => refsrc}/shared/ViewModel.js (100%)
+ rename {src => refsrc}/shared/animation/constants.js (100%)
+ rename {src => refsrc}/shared/animation/draw.js (100%)
+ rename {src => refsrc}/shared/animation/index.js (100%)
+ rename {src => refsrc}/shared/constants.js (100%)
+ rename {src => refsrc}/shared/eventEmitter.js (100%)
+ rename {src => refsrc}/shared/helpers.js (100%)
+ rename {src => refsrc}/shared/logger.js (100%)
+ rename {src => refsrc}/shared/mapKeyCode.js (100%)
+ rename {src => refsrc}/shared/request.js (100%)
+ rename {src => refsrc}/shared/utils.js (100%)
+
+diff --git a/src/appManager/index.js b/refsrc/appManager/index.js
+similarity index 100%
+rename from src/appManager/index.js
+rename to refsrc/appManager/index.js
+diff --git a/src/boot.js b/refsrc/boot.js
+similarity index 100%
+rename from src/boot.js
+rename to refsrc/boot.js
+diff --git a/src/cache/apps.json b/refsrc/cache/apps.json
+similarity index 100%
+rename from src/cache/apps.json
+rename to refsrc/cache/apps.json
+diff --git a/src/cache/appsLogos/default_app_collection.png b/refsrc/cache/appsLogos/default_app_collection.png
+similarity index 100%
+rename from src/cache/appsLogos/default_app_collection.png
+rename to refsrc/cache/appsLogos/default_app_collection.png
+diff --git a/src/cache/appsLogos/metrological.png b/refsrc/cache/appsLogos/metrological.png
+similarity index 100%
+rename from src/cache/appsLogos/metrological.png
+rename to refsrc/cache/appsLogos/metrological.png
+diff --git a/src/cache/appsLogos/spark.png b/refsrc/cache/appsLogos/spark.png
+similarity index 100%
+rename from src/cache/appsLogos/spark.png
+rename to refsrc/cache/appsLogos/spark.png
+diff --git a/src/cache/config.json b/refsrc/cache/config.json
+similarity index 100%
+rename from src/cache/config.json
+rename to refsrc/cache/config.json
+diff --git a/src/cache/demo-ssm/channelsV2.json b/refsrc/cache/demo-ssm/channelsV2.json
+similarity index 100%
+rename from src/cache/demo-ssm/channelsV2.json
+rename to refsrc/cache/demo-ssm/channelsV2.json
+diff --git a/src/cache/demo-ssm/movies.json b/refsrc/cache/demo-ssm/movies.json
+similarity index 100%
+rename from src/cache/demo-ssm/movies.json
+rename to refsrc/cache/demo-ssm/movies.json
+diff --git a/src/cache/demo/channelsV2.json b/refsrc/cache/demo/channelsV2.json
+similarity index 100%
+rename from src/cache/demo/channelsV2.json
+rename to refsrc/cache/demo/channelsV2.json
+diff --git a/src/cache/demo/movies.json b/refsrc/cache/demo/movies.json
+similarity index 100%
+rename from src/cache/demo/movies.json
+rename to refsrc/cache/demo/movies.json
+diff --git a/src/cache/eventsV2.json b/refsrc/cache/eventsV2.json
+similarity index 100%
+rename from src/cache/eventsV2.json
+rename to refsrc/cache/eventsV2.json
+diff --git a/src/components/apps/constants.js b/refsrc/components/apps/constants.js
+similarity index 100%
+rename from src/components/apps/constants.js
+rename to refsrc/components/apps/constants.js
+diff --git a/src/components/apps/controller.js b/refsrc/components/apps/controller.js
+similarity index 100%
+rename from src/components/apps/controller.js
+rename to refsrc/components/apps/controller.js
+diff --git a/src/components/apps/helpers.js b/refsrc/components/apps/helpers.js
+similarity index 100%
+rename from src/components/apps/helpers.js
+rename to refsrc/components/apps/helpers.js
+diff --git a/src/components/apps/index.js b/refsrc/components/apps/index.js
+similarity index 100%
+rename from src/components/apps/index.js
+rename to refsrc/components/apps/index.js
+diff --git a/src/components/apps/model.js b/refsrc/components/apps/model.js
+similarity index 100%
+rename from src/components/apps/model.js
+rename to refsrc/components/apps/model.js
+diff --git a/src/components/apps/subComponents/tile.js b/refsrc/components/apps/subComponents/tile.js
+similarity index 100%
+rename from src/components/apps/subComponents/tile.js
+rename to refsrc/components/apps/subComponents/tile.js
+diff --git a/src/components/apps/view.js b/refsrc/components/apps/view.js
+similarity index 100%
+rename from src/components/apps/view.js
+rename to refsrc/components/apps/view.js
+diff --git a/src/components/channelBar/assets/channel-bar-bottom-gradient.png b/refsrc/components/channelBar/assets/channel-bar-bottom-gradient.png
+similarity index 100%
+rename from src/components/channelBar/assets/channel-bar-bottom-gradient.png
+rename to refsrc/components/channelBar/assets/channel-bar-bottom-gradient.png
+diff --git a/src/components/channelBar/assets/header_gradient_default.png b/refsrc/components/channelBar/assets/header_gradient_default.png
+similarity index 100%
+rename from src/components/channelBar/assets/header_gradient_default.png
+rename to refsrc/components/channelBar/assets/header_gradient_default.png
+diff --git a/src/components/channelBar/constants.js b/refsrc/components/channelBar/constants.js
+similarity index 100%
+rename from src/components/channelBar/constants.js
+rename to refsrc/components/channelBar/constants.js
+diff --git a/src/components/channelBar/controller.js b/refsrc/components/channelBar/controller.js
+similarity index 100%
+rename from src/components/channelBar/controller.js
+rename to refsrc/components/channelBar/controller.js
+diff --git a/src/components/channelBar/index.js b/refsrc/components/channelBar/index.js
+similarity index 100%
+rename from src/components/channelBar/index.js
+rename to refsrc/components/channelBar/index.js
+diff --git a/src/components/channelBar/model.js b/refsrc/components/channelBar/model.js
+similarity index 100%
+rename from src/components/channelBar/model.js
+rename to refsrc/components/channelBar/model.js
+diff --git a/src/components/channelBar/view.js b/refsrc/components/channelBar/view.js
+similarity index 100%
+rename from src/components/channelBar/view.js
+rename to refsrc/components/channelBar/view.js
+diff --git a/src/components/coverflow/controller.js b/refsrc/components/coverflow/controller.js
+similarity index 100%
+rename from src/components/coverflow/controller.js
+rename to refsrc/components/coverflow/controller.js
+diff --git a/src/components/coverflow/coverflow_v2.js b/refsrc/components/coverflow/coverflow_v2.js
+similarity index 100%
+rename from src/components/coverflow/coverflow_v2.js
+rename to refsrc/components/coverflow/coverflow_v2.js
+diff --git a/src/components/coverflow/coverflowtest_v2.js b/refsrc/components/coverflow/coverflowtest_v2.js
+similarity index 100%
+rename from src/components/coverflow/coverflowtest_v2.js
+rename to refsrc/components/coverflow/coverflowtest_v2.js
+diff --git a/src/components/coverflow/data.js b/refsrc/components/coverflow/data.js
+similarity index 100%
+rename from src/components/coverflow/data.js
+rename to refsrc/components/coverflow/data.js
+diff --git a/src/components/coverflow/index.js b/refsrc/components/coverflow/index.js
+similarity index 100%
+rename from src/components/coverflow/index.js
+rename to refsrc/components/coverflow/index.js
+diff --git a/src/components/detailPage/controller.js b/refsrc/components/detailPage/controller.js
+similarity index 100%
+rename from src/components/detailPage/controller.js
+rename to refsrc/components/detailPage/controller.js
+diff --git a/src/components/detailPage/index.js b/refsrc/components/detailPage/index.js
+similarity index 100%
+rename from src/components/detailPage/index.js
+rename to refsrc/components/detailPage/index.js
+diff --git a/src/components/detailPage/model.js b/refsrc/components/detailPage/model.js
+similarity index 100%
+rename from src/components/detailPage/model.js
+rename to refsrc/components/detailPage/model.js
+diff --git a/src/components/detailPage/view.js b/refsrc/components/detailPage/view.js
+similarity index 100%
+rename from src/components/detailPage/view.js
+rename to refsrc/components/detailPage/view.js
+diff --git a/src/components/mainMenu/assets/mainMenuGrad.png b/refsrc/components/mainMenu/assets/mainMenuGrad.png
+similarity index 100%
+rename from src/components/mainMenu/assets/mainMenuGrad.png
+rename to refsrc/components/mainMenu/assets/mainMenuGrad.png
+diff --git a/src/components/mainMenu/controller.js b/refsrc/components/mainMenu/controller.js
+similarity index 100%
+rename from src/components/mainMenu/controller.js
+rename to refsrc/components/mainMenu/controller.js
+diff --git a/src/components/mainMenu/index.js b/refsrc/components/mainMenu/index.js
+similarity index 100%
+rename from src/components/mainMenu/index.js
+rename to refsrc/components/mainMenu/index.js
+diff --git a/src/components/mainMenu/model.js b/refsrc/components/mainMenu/model.js
+similarity index 100%
+rename from src/components/mainMenu/model.js
+rename to refsrc/components/mainMenu/model.js
+diff --git a/src/components/mainMenu/view.js b/refsrc/components/mainMenu/view.js
+similarity index 100%
+rename from src/components/mainMenu/view.js
+rename to refsrc/components/mainMenu/view.js
+diff --git a/src/components/mastHead/assets/header_gradient_default.png b/refsrc/components/mastHead/assets/header_gradient_default.png
+similarity index 100%
+rename from src/components/mastHead/assets/header_gradient_default.png
+rename to refsrc/components/mastHead/assets/header_gradient_default.png
+diff --git a/src/components/mastHead/constants.js b/refsrc/components/mastHead/constants.js
+similarity index 100%
+rename from src/components/mastHead/constants.js
+rename to refsrc/components/mastHead/constants.js
+diff --git a/src/components/mastHead/controller.js b/refsrc/components/mastHead/controller.js
+similarity index 100%
+rename from src/components/mastHead/controller.js
+rename to refsrc/components/mastHead/controller.js
+diff --git a/src/components/mastHead/index.js b/refsrc/components/mastHead/index.js
+similarity index 100%
+rename from src/components/mastHead/index.js
+rename to refsrc/components/mastHead/index.js
+diff --git a/src/components/mastHead/model.js b/refsrc/components/mastHead/model.js
+similarity index 100%
+rename from src/components/mastHead/model.js
+rename to refsrc/components/mastHead/model.js
+diff --git a/src/components/mastHead/view.js b/refsrc/components/mastHead/view.js
+similarity index 100%
+rename from src/components/mastHead/view.js
+rename to refsrc/components/mastHead/view.js
+diff --git a/src/components/ondemand/components.js b/refsrc/components/ondemand/components.js
+similarity index 100%
+rename from src/components/ondemand/components.js
+rename to refsrc/components/ondemand/components.js
+diff --git a/src/components/ondemand/controller.js b/refsrc/components/ondemand/controller.js
+similarity index 100%
+rename from src/components/ondemand/controller.js
+rename to refsrc/components/ondemand/controller.js
+diff --git a/src/components/ondemand/index.js b/refsrc/components/ondemand/index.js
+similarity index 100%
+rename from src/components/ondemand/index.js
+rename to refsrc/components/ondemand/index.js
+diff --git a/src/components/ondemand/model.js b/refsrc/components/ondemand/model.js
+similarity index 100%
+rename from src/components/ondemand/model.js
+rename to refsrc/components/ondemand/model.js
+diff --git a/src/components/ondemand/view.js b/refsrc/components/ondemand/view.js
+similarity index 100%
+rename from src/components/ondemand/view.js
+rename to refsrc/components/ondemand/view.js
+diff --git a/src/components/player/assets/circle_33.png b/refsrc/components/player/assets/circle_33.png
+similarity index 100%
+rename from src/components/player/assets/circle_33.png
+rename to refsrc/components/player/assets/circle_33.png
+diff --git a/src/components/player/assets/player-gradient.png b/refsrc/components/player/assets/player-gradient.png
+similarity index 100%
+rename from src/components/player/assets/player-gradient.png
+rename to refsrc/components/player/assets/player-gradient.png
+diff --git a/src/components/player/constants.js b/refsrc/components/player/constants.js
+similarity index 100%
+rename from src/components/player/constants.js
+rename to refsrc/components/player/constants.js
+diff --git a/src/components/player/controller.js b/refsrc/components/player/controller.js
+similarity index 100%
+rename from src/components/player/controller.js
+rename to refsrc/components/player/controller.js
+diff --git a/src/components/player/helpers.js b/refsrc/components/player/helpers.js
+similarity index 100%
+rename from src/components/player/helpers.js
+rename to refsrc/components/player/helpers.js
+diff --git a/src/components/player/index.js b/refsrc/components/player/index.js
+similarity index 100%
+rename from src/components/player/index.js
+rename to refsrc/components/player/index.js
+diff --git a/src/components/player/model.js b/refsrc/components/player/model.js
+similarity index 100%
+rename from src/components/player/model.js
+rename to refsrc/components/player/model.js
+diff --git a/src/components/player/view.js b/refsrc/components/player/view.js
+similarity index 100%
+rename from src/components/player/view.js
+rename to refsrc/components/player/view.js
+diff --git a/src/components/popups/numericInput/controller.js b/refsrc/components/popups/numericInput/controller.js
+similarity index 100%
+rename from src/components/popups/numericInput/controller.js
+rename to refsrc/components/popups/numericInput/controller.js
+diff --git a/src/components/popups/numericInput/index.js b/refsrc/components/popups/numericInput/index.js
+similarity index 100%
+rename from src/components/popups/numericInput/index.js
+rename to refsrc/components/popups/numericInput/index.js
+diff --git a/src/components/popups/numericInput/model.js b/refsrc/components/popups/numericInput/model.js
+similarity index 100%
+rename from src/components/popups/numericInput/model.js
+rename to refsrc/components/popups/numericInput/model.js
+diff --git a/src/components/popups/numericInput/view.js b/refsrc/components/popups/numericInput/view.js
+similarity index 100%
+rename from src/components/popups/numericInput/view.js
+rename to refsrc/components/popups/numericInput/view.js
+diff --git a/src/components/popups/warning/assets/icWarning.png b/refsrc/components/popups/warning/assets/icWarning.png
+similarity index 100%
+rename from src/components/popups/warning/assets/icWarning.png
+rename to refsrc/components/popups/warning/assets/icWarning.png
+diff --git a/src/components/popups/warning/constants.js b/refsrc/components/popups/warning/constants.js
+similarity index 100%
+rename from src/components/popups/warning/constants.js
+rename to refsrc/components/popups/warning/constants.js
+diff --git a/src/components/popups/warning/controller.js b/refsrc/components/popups/warning/controller.js
+similarity index 100%
+rename from src/components/popups/warning/controller.js
+rename to refsrc/components/popups/warning/controller.js
+diff --git a/src/components/popups/warning/index.js b/refsrc/components/popups/warning/index.js
+similarity index 100%
+rename from src/components/popups/warning/index.js
+rename to refsrc/components/popups/warning/index.js
+diff --git a/src/components/popups/warning/model.js b/refsrc/components/popups/warning/model.js
+similarity index 100%
+rename from src/components/popups/warning/model.js
+rename to refsrc/components/popups/warning/model.js
+diff --git a/src/components/popups/warning/view.js b/refsrc/components/popups/warning/view.js
+similarity index 100%
+rename from src/components/popups/warning/view.js
+rename to refsrc/components/popups/warning/view.js
+diff --git a/src/components/pxTest/index.js b/refsrc/components/pxTest/index.js
+similarity index 100%
+rename from src/components/pxTest/index.js
+rename to refsrc/components/pxTest/index.js
+diff --git a/src/config.json b/refsrc/config.json
+similarity index 100%
+rename from src/config.json
+rename to refsrc/config.json
+diff --git a/src/config.ssm.json b/refsrc/config.ssm.json
+similarity index 100%
+rename from src/config.ssm.json
+rename to refsrc/config.ssm.json
+diff --git a/src/domainModels/apps/index.js b/refsrc/domainModels/apps/index.js
+similarity index 100%
+rename from src/domainModels/apps/index.js
+rename to refsrc/domainModels/apps/index.js
+diff --git a/src/domainModels/apps/service.js b/refsrc/domainModels/apps/service.js
+similarity index 100%
+rename from src/domainModels/apps/service.js
+rename to refsrc/domainModels/apps/service.js
+diff --git a/src/domainModels/channel/constants.js b/refsrc/domainModels/channel/constants.js
+similarity index 100%
+rename from src/domainModels/channel/constants.js
+rename to refsrc/domainModels/channel/constants.js
+diff --git a/src/domainModels/channel/helpers.js b/refsrc/domainModels/channel/helpers.js
+similarity index 100%
+rename from src/domainModels/channel/helpers.js
+rename to refsrc/domainModels/channel/helpers.js
+diff --git a/src/domainModels/channel/index.js b/refsrc/domainModels/channel/index.js
+similarity index 100%
+rename from src/domainModels/channel/index.js
+rename to refsrc/domainModels/channel/index.js
+diff --git a/src/domainModels/channel/service.js b/refsrc/domainModels/channel/service.js
+similarity index 100%
+rename from src/domainModels/channel/service.js
+rename to refsrc/domainModels/channel/service.js
+diff --git a/src/domainModels/domainmodels.config.js b/refsrc/domainModels/domainmodels.config.js
+similarity index 100%
+rename from src/domainModels/domainmodels.config.js
+rename to refsrc/domainModels/domainmodels.config.js
+diff --git a/src/domainModels/epg/index.js b/refsrc/domainModels/epg/index.js
+similarity index 100%
+rename from src/domainModels/epg/index.js
+rename to refsrc/domainModels/epg/index.js
+diff --git a/src/domainModels/epg/service.js b/refsrc/domainModels/epg/service.js
+similarity index 100%
+rename from src/domainModels/epg/service.js
+rename to refsrc/domainModels/epg/service.js
+diff --git a/src/domainModels/helpers.js b/refsrc/domainModels/helpers.js
+similarity index 100%
+rename from src/domainModels/helpers.js
+rename to refsrc/domainModels/helpers.js
+diff --git a/src/domainModels/ondemand/index.js b/refsrc/domainModels/ondemand/index.js
+similarity index 100%
+rename from src/domainModels/ondemand/index.js
+rename to refsrc/domainModels/ondemand/index.js
+diff --git a/src/domainModels/ondemand/service.js b/refsrc/domainModels/ondemand/service.js
+similarity index 100%
+rename from src/domainModels/ondemand/service.js
+rename to refsrc/domainModels/ondemand/service.js
+diff --git a/src/domainModels/player/constants.js b/refsrc/domainModels/player/constants.js
+similarity index 100%
+rename from src/domainModels/player/constants.js
+rename to refsrc/domainModels/player/constants.js
+diff --git a/src/domainModels/player/index.js b/refsrc/domainModels/player/index.js
+similarity index 100%
+rename from src/domainModels/player/index.js
+rename to refsrc/domainModels/player/index.js
+diff --git a/src/domainModels/player/ip.player.js b/refsrc/domainModels/player/ip.player.js
+similarity index 100%
+rename from src/domainModels/player/ip.player.js
+rename to refsrc/domainModels/player/ip.player.js
+diff --git a/src/domainModels/player/qam.player.js b/refsrc/domainModels/player/qam.player.js
+similarity index 100%
+rename from src/domainModels/player/qam.player.js
+rename to refsrc/domainModels/player/qam.player.js
+diff --git a/src/domainModels/player/strategies/constants.js b/refsrc/domainModels/player/strategies/constants.js
+similarity index 100%
+rename from src/domainModels/player/strategies/constants.js
+rename to refsrc/domainModels/player/strategies/constants.js
+diff --git a/src/domainModels/player/strategies/rdkPlayerManager.js b/refsrc/domainModels/player/strategies/rdkPlayerManager.js
+similarity index 100%
+rename from src/domainModels/player/strategies/rdkPlayerManager.js
+rename to refsrc/domainModels/player/strategies/rdkPlayerManager.js
+diff --git a/src/domainModels/player/strategies/sessionManager.js b/refsrc/domainModels/player/strategies/sessionManager.js
+similarity index 100%
+rename from src/domainModels/player/strategies/sessionManager.js
+rename to refsrc/domainModels/player/strategies/sessionManager.js
+diff --git a/src/domainModels/system/constants.js b/refsrc/domainModels/system/constants.js
+similarity index 100%
+rename from src/domainModels/system/constants.js
+rename to refsrc/domainModels/system/constants.js
+diff --git a/src/domainModels/system/index.js b/refsrc/domainModels/system/index.js
+similarity index 100%
+rename from src/domainModels/system/index.js
+rename to refsrc/domainModels/system/index.js
+diff --git a/src/img/default-poster.jpg b/refsrc/img/default-poster.jpg
+similarity index 100%
+rename from src/img/default-poster.jpg
+rename to refsrc/img/default-poster.jpg
+diff --git a/src/img/movies/movie_01.png b/refsrc/img/movies/movie_01.png
+similarity index 100%
+rename from src/img/movies/movie_01.png
+rename to refsrc/img/movies/movie_01.png
+diff --git a/src/img/movies/movie_02.png b/refsrc/img/movies/movie_02.png
+similarity index 100%
+rename from src/img/movies/movie_02.png
+rename to refsrc/img/movies/movie_02.png
+diff --git a/src/img/movies/movie_03.png b/refsrc/img/movies/movie_03.png
+similarity index 100%
+rename from src/img/movies/movie_03.png
+rename to refsrc/img/movies/movie_03.png
+diff --git a/src/img/movies/movie_04.png b/refsrc/img/movies/movie_04.png
+similarity index 100%
+rename from src/img/movies/movie_04.png
+rename to refsrc/img/movies/movie_04.png
+diff --git a/src/img/movies/movie_05.png b/refsrc/img/movies/movie_05.png
+similarity index 100%
+rename from src/img/movies/movie_05.png
+rename to refsrc/img/movies/movie_05.png
+diff --git a/src/img/movies/movie_06.png b/refsrc/img/movies/movie_06.png
+similarity index 100%
+rename from src/img/movies/movie_06.png
+rename to refsrc/img/movies/movie_06.png
+diff --git a/src/img/movies/movie_07.png b/refsrc/img/movies/movie_07.png
+similarity index 100%
+rename from src/img/movies/movie_07.png
+rename to refsrc/img/movies/movie_07.png
+diff --git a/src/img/node/border.png b/refsrc/img/node/border.png
+similarity index 100%
+rename from src/img/node/border.png
+rename to refsrc/img/node/border.png
+diff --git a/src/img/posters/poster_01.png b/refsrc/img/posters/poster_01.png
+similarity index 100%
+rename from src/img/posters/poster_01.png
+rename to refsrc/img/posters/poster_01.png
+diff --git a/src/img/posters/poster_02.png b/refsrc/img/posters/poster_02.png
+similarity index 100%
+rename from src/img/posters/poster_02.png
+rename to refsrc/img/posters/poster_02.png
+diff --git a/src/img/posters/poster_03.png b/refsrc/img/posters/poster_03.png
+similarity index 100%
+rename from src/img/posters/poster_03.png
+rename to refsrc/img/posters/poster_03.png
+diff --git a/src/img/posters/poster_04.png b/refsrc/img/posters/poster_04.png
+similarity index 100%
+rename from src/img/posters/poster_04.png
+rename to refsrc/img/posters/poster_04.png
+diff --git a/src/img/posters/poster_05.png b/refsrc/img/posters/poster_05.png
+similarity index 100%
+rename from src/img/posters/poster_05.png
+rename to refsrc/img/posters/poster_05.png
+diff --git a/src/img/posters/poster_06.png b/refsrc/img/posters/poster_06.png
+similarity index 100%
+rename from src/img/posters/poster_06.png
+rename to refsrc/img/posters/poster_06.png
+diff --git a/src/img/posters/poster_07.png b/refsrc/img/posters/poster_07.png
+similarity index 100%
+rename from src/img/posters/poster_07.png
+rename to refsrc/img/posters/poster_07.png
+diff --git a/src/img/rdk-logo.png b/refsrc/img/rdk-logo.png
+similarity index 100%
+rename from src/img/rdk-logo.png
+rename to refsrc/img/rdk-logo.png
+diff --git a/src/img/tvchannels/1.png b/refsrc/img/tvchannels/1.png
+similarity index 100%
+rename from src/img/tvchannels/1.png
+rename to refsrc/img/tvchannels/1.png
+diff --git a/src/img/tvchannels/10.png b/refsrc/img/tvchannels/10.png
+similarity index 100%
+rename from src/img/tvchannels/10.png
+rename to refsrc/img/tvchannels/10.png
+diff --git a/src/img/tvchannels/11.png b/refsrc/img/tvchannels/11.png
+similarity index 100%
+rename from src/img/tvchannels/11.png
+rename to refsrc/img/tvchannels/11.png
+diff --git a/src/img/tvchannels/12.png b/refsrc/img/tvchannels/12.png
+similarity index 100%
+rename from src/img/tvchannels/12.png
+rename to refsrc/img/tvchannels/12.png
+diff --git a/src/img/tvchannels/13.png b/refsrc/img/tvchannels/13.png
+similarity index 100%
+rename from src/img/tvchannels/13.png
+rename to refsrc/img/tvchannels/13.png
+diff --git a/src/img/tvchannels/14.png b/refsrc/img/tvchannels/14.png
+similarity index 100%
+rename from src/img/tvchannels/14.png
+rename to refsrc/img/tvchannels/14.png
+diff --git a/src/img/tvchannels/15.png b/refsrc/img/tvchannels/15.png
+similarity index 100%
+rename from src/img/tvchannels/15.png
+rename to refsrc/img/tvchannels/15.png
+diff --git a/src/img/tvchannels/16.png b/refsrc/img/tvchannels/16.png
+similarity index 100%
+rename from src/img/tvchannels/16.png
+rename to refsrc/img/tvchannels/16.png
+diff --git a/src/img/tvchannels/17.png b/refsrc/img/tvchannels/17.png
+similarity index 100%
+rename from src/img/tvchannels/17.png
+rename to refsrc/img/tvchannels/17.png
+diff --git a/src/img/tvchannels/18.png b/refsrc/img/tvchannels/18.png
+similarity index 100%
+rename from src/img/tvchannels/18.png
+rename to refsrc/img/tvchannels/18.png
+diff --git a/src/img/tvchannels/19.png b/refsrc/img/tvchannels/19.png
+similarity index 100%
+rename from src/img/tvchannels/19.png
+rename to refsrc/img/tvchannels/19.png
+diff --git a/src/img/tvchannels/2.png b/refsrc/img/tvchannels/2.png
+similarity index 100%
+rename from src/img/tvchannels/2.png
+rename to refsrc/img/tvchannels/2.png
+diff --git a/src/img/tvchannels/20.png b/refsrc/img/tvchannels/20.png
+similarity index 100%
+rename from src/img/tvchannels/20.png
+rename to refsrc/img/tvchannels/20.png
+diff --git a/src/img/tvchannels/3.png b/refsrc/img/tvchannels/3.png
+similarity index 100%
+rename from src/img/tvchannels/3.png
+rename to refsrc/img/tvchannels/3.png
+diff --git a/src/img/tvchannels/4.png b/refsrc/img/tvchannels/4.png
+similarity index 100%
+rename from src/img/tvchannels/4.png
+rename to refsrc/img/tvchannels/4.png
+diff --git a/src/img/tvchannels/5.png b/refsrc/img/tvchannels/5.png
+similarity index 100%
+rename from src/img/tvchannels/5.png
+rename to refsrc/img/tvchannels/5.png
+diff --git a/src/img/tvchannels/6.png b/refsrc/img/tvchannels/6.png
+similarity index 100%
+rename from src/img/tvchannels/6.png
+rename to refsrc/img/tvchannels/6.png
+diff --git a/src/img/tvchannels/7.png b/refsrc/img/tvchannels/7.png
+similarity index 100%
+rename from src/img/tvchannels/7.png
+rename to refsrc/img/tvchannels/7.png
+diff --git a/src/img/tvchannels/8.png b/refsrc/img/tvchannels/8.png
+similarity index 100%
+rename from src/img/tvchannels/8.png
+rename to refsrc/img/tvchannels/8.png
+diff --git a/src/img/tvchannels/9.png b/refsrc/img/tvchannels/9.png
+similarity index 100%
+rename from src/img/tvchannels/9.png
+rename to refsrc/img/tvchannels/9.png
+diff --git a/src/keyEmitters/dbus.js b/refsrc/keyEmitters/dbus.js
+similarity index 100%
+rename from src/keyEmitters/dbus.js
+rename to refsrc/keyEmitters/dbus.js
+diff --git a/src/keyEmitters/keyboard.js b/refsrc/keyEmitters/keyboard.js
+similarity index 100%
+rename from src/keyEmitters/keyboard.js
+rename to refsrc/keyEmitters/keyboard.js
+diff --git a/src/main.js b/refsrc/main.js
+similarity index 100%
+rename from src/main.js
+rename to refsrc/main.js
+diff --git a/src/main.ssm.js b/refsrc/main.ssm.js
+similarity index 100%
+rename from src/main.ssm.js
+rename to refsrc/main.ssm.js
+diff --git a/src/navigation/constants.js b/refsrc/navigation/constants.js
+similarity index 100%
+rename from src/navigation/constants.js
+rename to refsrc/navigation/constants.js
+diff --git a/src/navigation/index.js b/refsrc/navigation/index.js
+similarity index 100%
+rename from src/navigation/index.js
+rename to refsrc/navigation/index.js
+diff --git a/src/navigation/navigator.js b/refsrc/navigation/navigator.js
+similarity index 100%
+rename from src/navigation/navigator.js
+rename to refsrc/navigation/navigator.js
+diff --git a/src/navigation/routes.js b/refsrc/navigation/routes.js
+similarity index 100%
+rename from src/navigation/routes.js
+rename to refsrc/navigation/routes.js
+diff --git a/src/networks/AWC/AWC.network.js b/refsrc/networks/AWC/AWC.network.js
+similarity index 100%
+rename from src/networks/AWC/AWC.network.js
+rename to refsrc/networks/AWC/AWC.network.js
+diff --git a/src/networks/AWC/constants.js b/refsrc/networks/AWC/constants.js
+similarity index 100%
+rename from src/networks/AWC/constants.js
+rename to refsrc/networks/AWC/constants.js
+diff --git a/src/networks/AWC/htmlApp.controller.js b/refsrc/networks/AWC/htmlApp.controller.js
+similarity index 100%
+rename from src/networks/AWC/htmlApp.controller.js
+rename to refsrc/networks/AWC/htmlApp.controller.js
+diff --git a/src/networks/AWC/index.js b/refsrc/networks/AWC/index.js
+similarity index 100%
+rename from src/networks/AWC/index.js
+rename to refsrc/networks/AWC/index.js
+diff --git a/src/networks/comcast/constants.js b/refsrc/networks/comcast/constants.js
+similarity index 100%
+rename from src/networks/comcast/constants.js
+rename to refsrc/networks/comcast/constants.js
+diff --git a/src/networks/comcast/index.js b/refsrc/networks/comcast/index.js
+similarity index 100%
+rename from src/networks/comcast/index.js
+rename to refsrc/networks/comcast/index.js
+diff --git a/src/rcuManager/constants.js b/refsrc/rcuManager/constants.js
+similarity index 100%
+rename from src/rcuManager/constants.js
+rename to refsrc/rcuManager/constants.js
+diff --git a/src/rcuManager/globalHandlers.js b/refsrc/rcuManager/globalHandlers.js
+similarity index 100%
+rename from src/rcuManager/globalHandlers.js
+rename to refsrc/rcuManager/globalHandlers.js
+diff --git a/src/rcuManager/index.js b/refsrc/rcuManager/index.js
+similarity index 100%
+rename from src/rcuManager/index.js
+rename to refsrc/rcuManager/index.js
+diff --git a/src/rcuManager/onPreKey.js b/refsrc/rcuManager/onPreKey.js
+similarity index 100%
+rename from src/rcuManager/onPreKey.js
+rename to refsrc/rcuManager/onPreKey.js
+diff --git a/src/renderer/helpers.js b/refsrc/renderer/helpers.js
+similarity index 100%
+rename from src/renderer/helpers.js
+rename to refsrc/renderer/helpers.js
+diff --git a/src/renderer/index.js b/refsrc/renderer/index.js
+similarity index 100%
+rename from src/renderer/index.js
+rename to refsrc/renderer/index.js
+diff --git a/src/renderer/list.js b/refsrc/renderer/list.js
+similarity index 100%
+rename from src/renderer/list.js
+rename to refsrc/renderer/list.js
+diff --git a/src/run.sh b/refsrc/run.sh
+similarity index 100%
+rename from src/run.sh
+rename to refsrc/run.sh
+diff --git a/src/shared/DynamicList.js b/refsrc/shared/DynamicList.js
+similarity index 100%
+rename from src/shared/DynamicList.js
+rename to refsrc/shared/DynamicList.js
+diff --git a/src/shared/ViewModel.js b/refsrc/shared/ViewModel.js
+similarity index 100%
+rename from src/shared/ViewModel.js
+rename to refsrc/shared/ViewModel.js
+diff --git a/src/shared/animation/constants.js b/refsrc/shared/animation/constants.js
+similarity index 100%
+rename from src/shared/animation/constants.js
+rename to refsrc/shared/animation/constants.js
+diff --git a/src/shared/animation/draw.js b/refsrc/shared/animation/draw.js
+similarity index 100%
+rename from src/shared/animation/draw.js
+rename to refsrc/shared/animation/draw.js
+diff --git a/src/shared/animation/index.js b/refsrc/shared/animation/index.js
+similarity index 100%
+rename from src/shared/animation/index.js
+rename to refsrc/shared/animation/index.js
+diff --git a/src/shared/constants.js b/refsrc/shared/constants.js
+similarity index 100%
+rename from src/shared/constants.js
+rename to refsrc/shared/constants.js
+diff --git a/src/shared/eventEmitter.js b/refsrc/shared/eventEmitter.js
+similarity index 100%
+rename from src/shared/eventEmitter.js
+rename to refsrc/shared/eventEmitter.js
+diff --git a/src/shared/helpers.js b/refsrc/shared/helpers.js
+similarity index 100%
+rename from src/shared/helpers.js
+rename to refsrc/shared/helpers.js
+diff --git a/src/shared/logger.js b/refsrc/shared/logger.js
+similarity index 100%
+rename from src/shared/logger.js
+rename to refsrc/shared/logger.js
+diff --git a/src/shared/mapKeyCode.js b/refsrc/shared/mapKeyCode.js
+similarity index 100%
+rename from src/shared/mapKeyCode.js
+rename to refsrc/shared/mapKeyCode.js
+diff --git a/src/shared/request.js b/refsrc/shared/request.js
+similarity index 100%
+rename from src/shared/request.js
+rename to refsrc/shared/request.js
+diff --git a/src/shared/utils.js b/refsrc/shared/utils.js
+similarity index 100%
+rename from src/shared/utils.js
+rename to refsrc/shared/utils.js
+-- 
+2.23.0.windows.1
+
