@@ -11,11 +11,11 @@ export class ListItem extends Lightning.Component {
       rect: true,
       w: this.argument.ListItem.width,
       h: this.argument.ListItem.height,
-      color: this.argument.ListItem.height,
+      color: this.argument.ListItem.color,
       alpha: 0.8,
       Label: {
-        x: 20,
-        y: 0,
+        x: this.argument.ListItem.Label_x,
+        y: this.argument.ListItem.Label_y,
         text: { text: this.item.label, fontSize: 30 }
       }
     })
@@ -28,6 +28,7 @@ export class ListItem extends Lightning.Component {
   }
 }
 
+//This ListItem show image.
 export class ImageListItem extends ListItem {
   static _template() {
     return {}
@@ -36,20 +37,20 @@ export class ImageListItem extends ListItem {
   _init() {
     this.patch({
       rect: true,
-      w: Config.MAINMENU_ITEM_WIDTH,
-      h: Config.MAINMENU_ITEM_HEIGHT,
-      color: Config.MAINMENU_ITEM_COLOR,
+      w: this.argument.ListItem.width,
+      h: this.argument.ListItem.height,
+      color: this.argument.ListItem.color,
       alpha: 0.8,
       Img: {
-        x: 0,
-        y: 0,
-        w: 200,
-        h: 200,
+        x: this.argument.ListItem.img_x,
+        y: this.argument.ListItem.img_y,
+        w: this.argument.ListItem.img_width,
+        h: this.argument.ListItem.img_height,
         texture: { type: Lightning.textures.ImageTexture, src: './static/img.jpg' }
       },
       Label: {
-        x: 20,
-        y: 0
+        x: this.argument.ListItem.Label_x,
+        y: this.argument.ListItem.Label_y
       }
     })
   }

@@ -18,8 +18,8 @@ export function getMainList() {
       width: Config.MAINMENU_ITEM_WIDTH,
       height: Config.MAINMENU_ITEM_HEIGHT,
       color: Config.MAINMENU_ITEM_COLOR,
-      Label_x: 20,
-      Label_y: 0
+      Label_x: Config.MAINMENU_LISTITEM_LABEL_X,
+      Label_y: Config.MAINMENU_LISTITEM_LABEL_Y
     }
   }
   return {
@@ -32,5 +32,23 @@ export function getMainList() {
 }
 
 export function getSubMenuList() {
-  return { y: Config.SUBMENU_LIST_Y, type: List, signals: { select: true } }
+  let argument = {
+    ListItem: {
+      width: Config.MAINMENU_ITEM_WIDTH,
+      height: Config.MAINMENU_ITEM_HEIGHT,
+      color: Config.MAINMENU_ITEM_COLOR,
+      Label_x: Config.MAINMENU_LISTITEM_LABEL_X,
+      Label_y: Config.MAINMENU_LISTITEM_LABEL_Y,
+      img_x: Config.MAINMENU_LISTITEM_IMG_X,
+      img_y: Config.MAINMENU_LISTITEM_IMG_Y,
+      img_width: Config.MAINMENU_LISTITEM_IMG_HEIGHT,
+      img_height: Config.MAINMENU_LISTITEM_IMG_WIDTH
+    }
+  }
+  return {
+    y: Config.SUBMENU_LIST_Y,
+    type: List,
+    signals: { select: true },
+    argument: argument
+  }
 }
