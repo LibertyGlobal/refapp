@@ -1,42 +1,28 @@
 {
-  "name": "refapp",
-  "version": "0.0.1",
-  "description": "Operator reference application",
-  "main": "main.js",
-  "scripts": {
-    "start": "",
-    "test": "jest",
-    "test:update": "jest --updateSnapshot"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LibertyGlobal/refapp.git"
-  },
-  "author": "LibertyGlobal",
-  "license": "LibertyGlobal",
-  "bugs": {
-    "url": "https://github.com/LibertyGlobal/refapp/issues"
-  },
-  "homepage": "https://github.com/LibertyGlobal/refapp#readme",
-  "devDependencies": {
-    "app-module-path": "^2.2.0",
-    "eslint": "^4.18.0",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-promise": "^3.6.0",
-    "jest": "^23.4.1"
-  },
+  "name": "com.metrological.app.myawesomeapp",
+  "description": "My Awesome App",
   "dependencies": {
-    "dbus-native": "^0.2.5"
+    "wpe-lightning-sdk": "WebPlatformForEmbedded/Lightning-SDK"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "setupFiles": [
-      "./test/setup.js"
-    ],
-    "modulePaths": [
-      "./src",
-      "./stub_modules"
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.4.3",
+    "prettier": "^1.19.1"
   }
 }

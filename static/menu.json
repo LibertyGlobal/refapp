@@ -1,0 +1,14 @@
+[
+    {
+        "title": "App",
+        "submenu": []
+    },
+    {
+        "title": "Movie",
+        "submenu": []
+    },
+    {
+        "title": "Setting",
+        "submenu": []
+    }
+]
