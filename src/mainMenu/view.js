@@ -2,7 +2,7 @@ import { List } from './../core/list.js'
 import Config from './config.js'
 
 export function getBackground() {
-  return { x: 0, y: 0, rect: true, color: 0xffff0000, w: 1920, h: 1080 }
+  return { x: 0, y: 0, rect: true, color: 0xff000000, w: 1920, h: 1080 }
 }
 
 export function getMainList() {
