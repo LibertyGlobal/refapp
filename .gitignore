@@ -3,5 +3,6 @@
 package-lock.json
 node_modules
 package.lock
+/dist
 .DS_Store
 __snapshots__
