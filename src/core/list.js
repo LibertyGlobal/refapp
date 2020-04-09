@@ -7,7 +7,6 @@ export class ListItem extends Lightning.Component {
   }
 
   _init() {
-    console.log(this.argument.ListItem)
     this.patch({
       rect: true,
       w: this.argument.ListItem.width,
