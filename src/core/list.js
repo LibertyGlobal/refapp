@@ -1,13 +1,13 @@
-import config from '../mainMenu/config.js'
+import Config from '../mainMenu/config.js'
 import { Lightning } from 'wpe-lightning-sdk'
 
 export class ListItem extends Lightning.Component {
   static _template() {
     return {
       rect: true,
-      w: config.MAINMENU_ITEM_WIDTH,
-      h: config.MAINMENU_ITEM_HEIGHT,
-      color: config.MAINMENU_ITEM_COLOR,
+      w: Config.MAINMENU_ITEM_WIDTH,
+      h: Config.MAINMENU_ITEM_HEIGHT,
+      color: Config.MAINMENU_ITEM_COLOR,
       alpha: 0.8,
       Label: {
         x: 20,
@@ -30,9 +30,9 @@ export class ImageListItem extends ListItem {
   static _template() {
     return {
       rect: true,
-      w: config.MAINMENU_ITEM_WIDTH,
-      h: config.MAINMENU_ITEM_HEIGHT,
-      color: config.MAINMENU_ITEM_COLOR,
+      w: Config.MAINMENU_ITEM_WIDTH,
+      h: Config.MAINMENU_ITEM_HEIGHT,
+      color: Config.MAINMENU_ITEM_COLOR,
       alpha: 0.8,
       Img: {
         x: 0,
@@ -63,11 +63,11 @@ export class List extends Lightning.Component {
   }
 
   set items(items) {
-    let startX = config.MAINMENU_x,
+    let startX = Config.MAINMENU_x,
       startY = 0
-    let xspace = config.MAINMENU_ITEM_XSPACE,
-      yspace = config.MAINMENU_ITEM_YSPACE
-    let width = config.MAINMENU_ITEM_WIDTH
+    let xspace = Config.MAINMENU_ITEM_XSPACE,
+      yspace = Config.MAINMENU_ITEM_YSPACE
+    let width = Config.MAINMENU_ITEM_WIDTH
 
     this.children = items.map((item, index) => {
       return {
@@ -84,16 +84,14 @@ export class List extends Lightning.Component {
   _handleLeft() {
     if (this.index > 0) {
       this.index--
-      this.signal('select', { item: { item: this.children[this.index].item, ref: this.ref } })
     }
   }
   _handleRight() {
     if (this.index < this.children.length - 1) {
       this.index++
-      this.signal('select', { item: { item: this.children[this.index].item, ref: this.ref } })
     }
   }
   _handleEnter() {
-    console.log('List Item ' + this.ref)
+    this.signal('select', { item: this.children[this.index].item, ref: this.ref })
   }
 }

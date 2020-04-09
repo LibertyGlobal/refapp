@@ -2,7 +2,14 @@ import { List } from './../core/list.js'
 import Config from './config.js'
 
 export function getBackground() {
-  return { x: 0, y: 0, rect: true, color: 0xff000000, w: 1920, h: 1080 }
+  return {
+    x: 0,
+    y: 0,
+    rect: true,
+    color: 0xff000000,
+    w: Config.LIST_BACKGROUND_WIDTH,
+    h: Config.LIST_BACKGROUND_HEIGHT
+  }
 }
 
 export function getMainList() {
@@ -10,5 +17,5 @@ export function getMainList() {
 }
 
 export function getSubMenuList() {
-  return { y: 400, type: List, signals: { select: true } }
+  return { y: Config.SUBMENU_LIST_Y, type: List, signals: { select: true } }
 }

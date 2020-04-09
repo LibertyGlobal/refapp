@@ -38,29 +38,22 @@ export default class Menu extends Lightning.Component {
     this._setState('SubMenuList')
   }
 
+  _handleBack() {}
+
   static _states() {
     return [
       class SubMenuList extends this {
         _getFocused() {
           return this.tag('SubMenuList')
         }
-        select({ item }) {
-          console.log(item)
-        }
+        select({ item }) {}
       },
       class MainList extends this {
         _getFocused() {
           return this.tag('MainList')
         }
         select({ item }) {
-          let data = this.model.data
-          this.tag('SubMenuList').items = []
-          for (var index in data) {
-            if (item.item.label === data[index].title) {
-              this.tag('SubMenuList').items = data[index].submenu.map(i => ({ label: i }))
-              break
-            }
-          }
+          this.signal('select', { item: { label: 'menu', target: item.label } })
         }
       }
     ]
