@@ -3,20 +3,23 @@ import { Lightning } from 'wpe-lightning-sdk'
 
 export class ListItem extends Lightning.Component {
   static _template() {
-    return {
+    return {}
+  }
+
+  _init() {
+    console.log(this.argument.ListItem)
+    this.patch({
       rect: true,
-      w: Config.MAINMENU_ITEM_WIDTH,
-      h: Config.MAINMENU_ITEM_HEIGHT,
-      color: Config.MAINMENU_ITEM_COLOR,
+      w: this.argument.ListItem.width,
+      h: this.argument.ListItem.height,
+      color: this.argument.ListItem.height,
       alpha: 0.8,
       Label: {
         x: 20,
-        y: 0
+        y: 0,
+        text: { text: this.item.label, fontSize: 30 }
       }
-    }
-  }
-  _init() {
-    this.patch({ Label: { text: { text: this.item.label, fontSize: 30 } } })
+    })
   }
   _focus() {
     this.patch({ smooth: { alpha: 1, scale: 1.1 } })
@@ -28,7 +31,11 @@ export class ListItem extends Lightning.Component {
 
 export class ImageListItem extends ListItem {
   static _template() {
-    return {
+    return {}
+  }
+
+  _init() {
+    this.patch({
       rect: true,
       w: Config.MAINMENU_ITEM_WIDTH,
       h: Config.MAINMENU_ITEM_HEIGHT,
@@ -45,7 +52,7 @@ export class ImageListItem extends ListItem {
         x: 20,
         y: 0
       }
-    }
+    })
   }
 }
 
@@ -74,7 +81,8 @@ export class List extends Lightning.Component {
         ref: 'ListItem-' + index,
         type: this.ListItemsComponend,
         x: this.getPosition(startX, startY, xspace, yspace, index, width),
-        item //passing the item as an attribute
+        item, //passing the item as an attribute
+        argument: this.argument
       }
     })
   }

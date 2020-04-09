@@ -13,7 +13,22 @@ export function getBackground() {
 }
 
 export function getMainList() {
-  return { x: Config.MAINMENU_x, y: Config.MAINMENU_y, type: List, signals: { select: true } }
+  let argument = {
+    ListItem: {
+      width: Config.MAINMENU_ITEM_WIDTH,
+      height: Config.MAINMENU_ITEM_HEIGHT,
+      color: Config.MAINMENU_ITEM_COLOR,
+      Label_x: 20,
+      Label_y: 0
+    }
+  }
+  return {
+    x: Config.MAINMENU_x,
+    y: Config.MAINMENU_y,
+    type: List,
+    signals: { select: true },
+    argument: argument
+  }
 }
 
 export function getSubMenuList() {
