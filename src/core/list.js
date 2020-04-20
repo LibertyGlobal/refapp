@@ -46,7 +46,7 @@ export class ImageListItem extends ListItem {
         y: this.argument.ListItem.img_y,
         w: this.argument.ListItem.img_width,
         h: this.argument.ListItem.img_height,
-        texture: { type: Lightning.textures.ImageTexture, src: './static/img.jpg' }
+        texture: { type: Lightning.textures.ImageTexture, src: './img/default-poster.jpg' }
       },
       Label: {
         x: this.argument.ListItem.Label_x,

@@ -1,6 +1,6 @@
 export default class model {
   getMenu() {
-    return fetch('./static/menu.json')
+    return fetch('./cache/menu.json')
       .then(response => {
         return response.json()
       })
