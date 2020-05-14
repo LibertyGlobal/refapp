@@ -48,6 +48,7 @@ const appTypesMap = {
     html5: 'WebApp',
     spark: 'spark',
     native: 'native',
+    dac: 'dac',
 };
 
 const appStatuses = {
