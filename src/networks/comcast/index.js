@@ -56,6 +56,7 @@ module.exports = {
         switch (app.appType) {
             case 'native':
             case 'dac':
+            case 'browser':
                 launchParams = { cmd: app.cmd };
                 break;
             default:

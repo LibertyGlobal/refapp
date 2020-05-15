@@ -49,6 +49,7 @@ const appTypesMap = {
     spark: 'spark',
     native: 'native',
     dac: 'dac',
+    browser: 'browser',
 };
 
 const appStatuses = {
