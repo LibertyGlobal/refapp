@@ -53,9 +53,12 @@ module.exports = {
     configure(app) {
         appId += 1;
         let launchParams = {};
+        let displayName;
         switch (app.appType) {
-            case 'native':
             case 'dac':
+                displayName = "wayland-dac-0";
+                // fall through
+            case 'native':
             case 'browser':
                 launchParams = { cmd: app.cmd };
                 break;
@@ -67,6 +70,7 @@ module.exports = {
         return Promise.resolve(Object.assign(DEFAULT_APP_PROPS, {
             id: appId,
             launchParams,
+            displayName: displayName
         }));
     },
 
