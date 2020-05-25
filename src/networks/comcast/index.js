@@ -57,9 +57,13 @@ module.exports = {
         switch (app.appType) {
             case 'dac':
                 displayName = "wayland-dac-0";
-                // fall through
-            case 'native':
+                launchParams = { cmd: app.cmd };
+                break;
             case 'browser':
+                displayName = "wayland-wpe-0";
+                launchParams = { cmd: app.cmd };
+                break;
+            case 'native':
                 launchParams = { cmd: app.cmd };
                 break;
             default:
