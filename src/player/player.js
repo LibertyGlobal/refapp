@@ -1,4 +1,5 @@
 let currentPlaying = {}
+let ip = {}
 
 export function getMenu() {
   return fetch('./cache/demo/movies.json')
@@ -29,13 +30,13 @@ export function startPlayback(params) {
     }
   }
 
-  return fetch('http://localhost:8080/vldms/sessionmgr/open', requestOptions)
+  let url = ip + '/vldms/sessionmgr/open'
+  return fetch(url, requestOptions)
     .then(response => {
       return response.json()
     })
     .then(data => {
       currentPlaying.closeRequest.sessionId = data.openStatus.sessionId
-      console.log(currentPlaying)
       return data
     })
 }
@@ -50,7 +51,8 @@ export function stopCurrentPlayback() {
     body: JSON.stringify(currentPlaying)
   }
 
-  return fetch('http://localhost:8080/vldms/sessionmgr/close', requestOptions)
+  let url = ip + '/vldms/sessionmgr/close'
+  return fetch(url, requestOptions)
     .then(response => {
       return response.json()
     })
@@ -63,4 +65,6 @@ export function getPlaybackState() {}
 
 export function setPlaybackState() {}
 
-export function setPlayerEndpoint() {}
+export function setPlayerEndpoint(config) {
+  ip = config.endpoint
+}

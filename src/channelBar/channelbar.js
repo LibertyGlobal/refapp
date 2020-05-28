@@ -30,16 +30,21 @@ export default class channelbar extends Lightning.Component {
     this.patch({
       Txt: { x: 600, y: 520, text: { text: this.argument, fontSize: 30 } }
     })
-    startPlayback(this.model.previousChannel())
+
+    this.model.getChannel().then(() => {
+      startPlayback(this.model.defaultChennal())
+    })
   }
 
   _captureKey(evt) {
     if (evt.code === 'ArrowDown') {
-      startPlayback(this.model.previousChannel())
+      let metadata = this.model.previousChannel()
+      metadata != false ? startPlayback(metadata) : ''
       this.tag('Ch').text = this.model.currrentChannel
     }
     if (evt.code === 'ArrowUp') {
-      startPlayback(this.model.nextChannel())
+      let metadata = this.model.nextChannel()
+      metadata != false ? startPlayback(metadata) : ''
       this.tag('Ch').text = this.model.currrentChannel
     }
     if (evt.code === 'Enter') {
