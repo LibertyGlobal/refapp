@@ -2,7 +2,7 @@
   "name": "com.metrological.app.myawesomeapp",
   "description": "My Awesome App",
   "dependencies": {
-    "wpe-lightning-sdk": "github:rdkcentral/Lightning-SDK#77f390a88d21895e4ba7716d6e56d292b0f76c21"
+    "wpe-lightning-sdk": "WebPlatformForEmbedded/Lightning-SDK"
   },
   "lint-staged": {
     "*.js": [
