@@ -4,7 +4,7 @@ import OnDemand from './OnDemand/ondemand.js'
 
 export default class App extends Lightning.Component {
   static getFonts() {
-    return [{ family: 'pixel', url: Utils.asset('../fonts/DejaVuSerif.ttf'), descriptor: {} }]
+    return []
   }
 
   static _template() {
