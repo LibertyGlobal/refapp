@@ -4,10 +4,14 @@ The [operator reference appliation](https://github.com/LibertyGlobal/refapp) pro
 
 Setting up your environment:
 Start by installing the Lightning-CLI (Command-line interface) npm install -g WebPlatformForEmbedded/Lightning-CLI
+(This applies only for desktop based lightning app development)
 
 Build and run commands:
+
 cd refapp/
-lng build 
+
+lng build
+
 lng serve
 
 ## Table of contents
