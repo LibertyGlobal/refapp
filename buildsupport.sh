@@ -1,7 +1,3 @@
-mkdir dist/img
-mkdir dist/cache
-mkdir dist/fonts
 
-cp -avr ./src/img/. dist/img/.
-cp -avr ./src/cache/. dist/cache/.
-cp -avr ./src/fonts/. dist/fonts/.
+cp -fr ./src/img dist/
+cp -fr ./src/cache dist/
