@@ -5,8 +5,8 @@ export function getBackground() {
   return {
     x: 0,
     y: 0,
-    rect: true,
-    color: 0xff000000,
+    rect: false,
+    color: 0xffffffff,
     w: Config.LIST_BACKGROUND_WIDTH,
     h: Config.LIST_BACKGROUND_HEIGHT
   }
@@ -19,7 +19,9 @@ export function getMainList() {
       height: Config.MAINMENU_ITEM_HEIGHT,
       color: Config.MAINMENU_ITEM_COLOR,
       Label_x: Config.MAINMENU_LISTITEM_LABEL_X,
-      Label_y: Config.MAINMENU_LISTITEM_LABEL_Y
+      Label_y: Config.MAINMENU_LISTITEM_LABEL_Y,
+      xspace: 400,
+      yspace: 0
     }
   }
   return {
@@ -42,7 +44,9 @@ export function getSubMenuList() {
       img_x: Config.MAINMENU_LISTITEM_IMG_X,
       img_y: Config.MAINMENU_LISTITEM_IMG_Y,
       img_width: Config.MAINMENU_LISTITEM_IMG_HEIGHT,
-      img_height: Config.MAINMENU_LISTITEM_IMG_WIDTH
+      img_height: Config.MAINMENU_LISTITEM_IMG_WIDTH,
+      xspace: 20,
+      yspace: 0
     }
   }
   return {

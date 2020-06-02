@@ -1,6 +1,10 @@
 import { Lightning, Utils } from 'wpe-lightning-sdk'
 import Menu from './mainMenu/menu.js'
 import OnDemand from './OnDemand/ondemand.js'
+import ChannelBar_ from './channelBar/channelbar.js'
+import Movie from './movie/movie.js'
+import { setPlayerEndpoint, startPlayback } from './player/player.js'
+import Model from './AppModel.js'
 
 export default class App extends Lightning.Component {
   static getFonts() {
@@ -17,7 +21,7 @@ export default class App extends Lightning.Component {
         argument: 'App Page Under Construction. Please Press Enter key.'
       },
       Movie: {
-        type: OnDemand,
+        type: Movie,
         alpha: 0,
         signals: { select: true },
         argument: 'Movie Page Under Construction. Please Press Enter key.'
@@ -33,6 +37,34 @@ export default class App extends Lightning.Component {
 
   _setup() {
     this._setState('Menu')
+  }
+
+  _construct() {
+    this.model = new Model()
+    this.model.data = {}
+  }
+
+  _init() {
+    this.model.getAppModel().then(data => {
+      this.model.data = data
+      setPlayerEndpoint(data)
+      this.patch({
+        ChannelBar: {
+          type: ChannelBar_,
+          alpha: 0,
+          signals: { select: true },
+          argument:
+            'Please Press Up/Down arrow key for channel navigation.Press Enter ,The main menu will appear'
+        }
+      })
+    })
+  }
+
+  _captureKey(evt) {
+    if ((evt.code === 'ArrowDown' || evt.code === 'ArrowUp') && this._stateIndex === 1) {
+      this._setState('ChannelBar')
+    }
+    return false
   }
 
   static _states() {
@@ -92,6 +124,20 @@ export default class App extends Lightning.Component {
         }
         select({ item }) {
           console.log('Setting')
+          this._setState(item.target)
+        }
+      },
+      class ChannelBar extends this {
+        $enter() {
+          this.tag('ChannelBar').setSmooth('alpha', 1)
+        }
+        $exit() {
+          this.tag('ChannelBar').setSmooth('alpha', 0)
+        }
+        _getFocused() {
+          return this.tag('ChannelBar')
+        }
+        select({ item }) {
           this._setState(item.target)
         }
       }
