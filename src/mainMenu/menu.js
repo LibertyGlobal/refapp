@@ -1,7 +1,7 @@
 import { Lightning, Utils } from 'wpe-lightning-sdk'
 import { ListItem, ImageListItem } from './../core/list.js'
 import Model from './model.js'
-import { getBackground, getMainList, getSubMenuList } from './view.js'
+import { getBackground, getMainList } from './view.js'
 
 export default class Menu extends Lightning.Component {
   static _template() {
@@ -9,8 +9,7 @@ export default class Menu extends Lightning.Component {
       x: 0,
       y: 0,
       BackGround: getBackground(),
-      MainList: getMainList(),
-      SubMenuList: getSubMenuList()
+      MainList: getMainList()
     }
   }
 
@@ -23,9 +22,7 @@ export default class Menu extends Lightning.Component {
     this.model.getMenu().then(data => {
       this.model.data = data
       this.tag('MainList').ListItemsComponend = ListItem
-      this.tag('SubMenuList').ListItemsComponend = ImageListItem
       this.tag('MainList').items = data.map(i => ({ label: i.title }))
-      this.tag('SubMenuList').items = data[0].submenu.map(i => ({ label: i }))
       this._setState('MainList')
     })
   }
@@ -34,20 +31,12 @@ export default class Menu extends Lightning.Component {
     this._setState('MainList')
   }
 
-  _handleDown() {
-    this._setState('SubMenuList')
-  }
+  _handleDown() {}
 
   _handleBack() {}
 
   static _states() {
     return [
-      class SubMenuList extends this {
-        _getFocused() {
-          return this.tag('SubMenuList')
-        }
-        select({ item }) {}
-      },
       class MainList extends this {
         _getFocused() {
           return this.tag('MainList')
