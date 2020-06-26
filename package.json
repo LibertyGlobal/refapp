@@ -1,0 +1,37 @@
+{
+  "name": "com.epam.lgi",
+  "description": "LGI",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dashjs": "^3.1.1",
+    "hls.js": "^0.13.2",
+    "wpe-lightning-sdk": "rdkcentral/Lightning-SDK"
+  },
+  "scripts": {
+    "dev": "lng dev",
+    "build": "lng build",
+    "cleanup": "taskkill /F /IM node.exe"
+  },
+  "lint-staged": {
+    "*.js": [
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.4.3"
+  }
+}

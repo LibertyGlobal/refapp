@@ -1,0 +1,27 @@
+# NPM dependencises
+/node_modules
+
+# Build system output
+/dist
+/build
+
+/package-lock.json
+
+.idea
+
+.vercel
+
+dist
+releases
+.tmp
+build
+
+dist
+releases
+.tmp
+build
+
+dist
+releases
+.tmp
+build
