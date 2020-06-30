@@ -1,5 +1,5 @@
 import { Lightning } from 'wpe-lightning-sdk'
-import Config from './listconfig.js'
+import Config from './listConfig.js'
 
 export class ListItem extends Lightning.Component {
   static _template() {
