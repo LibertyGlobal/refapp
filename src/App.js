@@ -42,6 +42,13 @@ export default class App extends Lightning.Component {
   _construct() {
     this.model = new Model()
     this.model.data = {}
+    
+     //This fix will be removed once get acess body element through lighting framework.
+    //issue ticket will  raised to lightning framework development 
+     var style = document.createElement('style');
+     document.head.appendChild(style);
+     style.sheet.insertRule('@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }');
+  
   }
 
   _init() {
