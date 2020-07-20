@@ -1,13 +1,14 @@
 import { Lightning, Utils } from 'wpe-lightning-sdk'
-import Menu from './mainMenu/menu.js'
-import OnDemand from './OnDemand/ondemand.js'
-import ChannelBar_ from './channelBar/channelbar.js'
-import Movie from './movie/movie.js'
-import { setPlayerEndpoint, startPlayback } from './player/player.js'
-import Model from './AppModel.js'
-import TrickMode from './trickMode/trickmode.js'
+import Menu from '../mainMenu/menu.js'
+import OnDemand from '../OnDemand/ondemand.js'
+import Setting from '../setting/setting.js'
+import ChannelBar_ from '../channelBar/channelbar.js'
+import Movie from '../movie/movie.js'
+import { setPlayerEndpoint, startPlayback } from '../player/player.js'
+import Model from './model.js'
+import TrickMode from '../trickMode/trickmode.js'
 
-export default class App extends Lightning.Component {
+export default class Application extends Lightning.Component {
   static getFonts() {
     return []
   }
@@ -28,7 +29,7 @@ export default class App extends Lightning.Component {
         argument: 'Movie Page Under Construction. Please Press Back key.'
       },
       Setting: {
-        type: OnDemand,
+        type: Setting,
         alpha: 0,
         signals: { select: true },
         argument: 'Setting Under Construction. Please Press Back key.'
@@ -127,16 +128,20 @@ export default class App extends Lightning.Component {
       },
       class Setting extends this {
         $enter() {
-          this.tag('Setting').setSmooth('alpha', 1)
+          this.tag('Setting').enter()
         }
         $exit() {
-          this.tag('Setting').setSmooth('alpha', 0)
+          this.tag('Setting').exit()
         }
         _getFocused() {
           return this.tag('Setting')
         }
         select({ item }) {
-          this._setState(item.target)
+          if (item.type == 'Notification') {
+            this.signal('select', { item })
+          } else {
+            this._setState(item.target)
+          }
         }
       },
       class ChannelBar extends this {

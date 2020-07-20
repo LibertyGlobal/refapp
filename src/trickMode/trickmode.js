@@ -1,6 +1,6 @@
 import { Lightning } from 'wpe-lightning-sdk'
 
-export default class trickmode extends Lightning.Component {
+export default class Trickmode extends Lightning.Component {
   static _template() {
     return {}
   }

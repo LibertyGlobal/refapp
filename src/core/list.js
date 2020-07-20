@@ -16,7 +16,7 @@ export class ListItem extends Lightning.Component {
       Label: {
         x: this.argument.ListItem.Label_x,
         y: this.argument.ListItem.Label_y,
-        text: { text: this.item.label, fontSize: 30 }
+        text: { text: this.item.label, fontSize: this.argument.ListItem.fontSize || 30 }
       }
     })
   }
@@ -25,6 +25,44 @@ export class ListItem extends Lightning.Component {
   }
   _unfocus() {
     this.patch({ smooth: { alpha: 0.8, scale: 1 } })
+  }
+}
+
+export class TabListItem extends ListItem {
+  static _template() {
+    return {}
+  }
+
+  _init() {
+    let borderPostion = (this.argument.ListItem.border / 2) * -1
+    this.patch({
+      Border: {
+        rect: true,
+        x: borderPostion,
+        y: borderPostion,
+        w: this.argument.ListItem.width + this.argument.ListItem.border,
+        h: this.argument.ListItem.height + this.argument.ListItem.border,
+        color: 0xffffffff,
+        alpha: 0
+      },
+      Bg: {
+        rect: true,
+        w: this.argument.ListItem.width,
+        h: this.argument.ListItem.height,
+        color: 0xff0000ff
+      },
+      Label: {
+        x: this.argument.ListItem.Label_x,
+        y: this.argument.ListItem.Label_y,
+        text: { text: this.item.label, fontSize: this.argument.ListItem.fontSize || 30 }
+      }
+    })
+  }
+  _focus() {
+    this.tag('Border').alpha = 1
+  }
+  _unfocus() {
+    this.tag('Border').alpha = 0
   }
 }
 
