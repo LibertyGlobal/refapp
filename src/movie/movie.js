@@ -51,7 +51,9 @@ export default class Movie extends Lightning.Component {
   _handleDown() {
     this._setState('MainList')
   }
-  _handleBack() {}
+  _handleBack() {
+    this.signal('select', { item: { label: 'Movie', target: 'Menu' } })
+  }
 
   static _states() {
     return [
@@ -68,6 +70,7 @@ export default class Movie extends Lightning.Component {
             }
           }
           startPlayback(body)
+          this.signal('select', { item: { label: 'Movie', target: 'TrickMode' } })
         }
       },
       class RecommendedList extends this {
@@ -83,6 +86,7 @@ export default class Movie extends Lightning.Component {
             }
           }
           startPlayback(body)
+          this.signal('select', { item: { label: 'Movie', target: 'TrickMode' } })
         }
       }
     ]
