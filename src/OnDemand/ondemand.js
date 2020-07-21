@@ -14,8 +14,8 @@ export default class OnDemand extends Lightning.Component {
   }
 
   _handleUp() {}
-  _handleBack() {}
-  _handleEnter() {
+  _handleBack() {
     this.signal('select', { item: { label: 'OnDemand', target: 'Menu' } })
   }
+  _handleEnter() {}
 }

@@ -5,6 +5,7 @@ import ChannelBar_ from './channelBar/channelbar.js'
 import Movie from './movie/movie.js'
 import { setPlayerEndpoint, startPlayback } from './player/player.js'
 import Model from './AppModel.js'
+import TrickMode from './trickMode/trickmode.js'
 
 export default class App extends Lightning.Component {
   static getFonts() {
@@ -18,19 +19,25 @@ export default class App extends Lightning.Component {
         type: OnDemand,
         alpha: 0,
         signals: { select: true },
-        argument: 'App Page Under Construction. Please Press Enter key.'
+        argument: 'App Page Under Construction. Please Press Back key.'
       },
       Movie: {
         type: Movie,
         alpha: 0,
         signals: { select: true },
-        argument: 'Movie Page Under Construction. Please Press Enter key.'
+        argument: 'Movie Page Under Construction. Please Press Back key.'
       },
       Setting: {
         type: OnDemand,
         alpha: 0,
         signals: { select: true },
-        argument: 'Setting Under Construction. Please Press Enter key.'
+        argument: 'Setting Under Construction. Please Press Back key.'
+      },
+      TrickMode: {
+        type: TrickMode,
+        alpha: 0,
+        signals: { select: true },
+        argument: 'TrickMode Under Construction. Please Press Back key.'
       }
     }
   }
@@ -42,13 +49,14 @@ export default class App extends Lightning.Component {
   _construct() {
     this.model = new Model()
     this.model.data = {}
-    
-     //This fix will be removed once get acess body element through lighting framework.
-    //issue ticket will  raised to lightning framework development 
-     var style = document.createElement('style');
-     document.head.appendChild(style);
-     style.sheet.insertRule('@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }');
-  
+
+    //This fix will be removed once get acess body element through lighting framework.
+    //issue ticket will  raised to lightning framework development
+    var style = document.createElement('style')
+    document.head.appendChild(style)
+    style.sheet.insertRule(
+      '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
+    )
   }
 
   _init() {
@@ -60,8 +68,7 @@ export default class App extends Lightning.Component {
           type: ChannelBar_,
           alpha: 0,
           signals: { select: true },
-          argument:
-            'Please Press Up/Down arrow key for channel navigation.Press Enter ,The main menu will appear'
+          argument: ''
         }
       })
     })
@@ -141,6 +148,20 @@ export default class App extends Lightning.Component {
         }
         _getFocused() {
           return this.tag('ChannelBar')
+        }
+        select({ item }) {
+          this._setState(item.target)
+        }
+      },
+      class TrickMode extends this {
+        $enter() {
+          this.tag('TrickMode').setSmooth('alpha', 1)
+        }
+        $exit() {
+          this.tag('TrickMode').setSmooth('alpha', 0)
+        }
+        _getFocused() {
+          return this.tag('TrickMode')
         }
         select({ item }) {
           this._setState(item.target)
