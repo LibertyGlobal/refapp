@@ -21,7 +21,8 @@ export function getMainList() {
       Label_x: Config.MAINMENU_LISTITEM_LABEL_X,
       Label_y: Config.MAINMENU_LISTITEM_LABEL_Y,
       xspace: Config.MAINMENU_LIST_XSPACE,
-      yspace: Config.MAINMENU_LIST_YSPACE
+      yspace: Config.MAINMENU_LIST_YSPACE,
+      fontSize: Config.MAINMENU_ITEM_FONTSIZE
     }
   }
   return {
