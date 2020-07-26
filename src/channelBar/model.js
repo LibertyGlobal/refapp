@@ -1,3 +1,5 @@
+import { ChannelNumber } from './../channelNumber'
+
 export default class model {
   constructor() {
     this.init()
@@ -20,11 +22,11 @@ export default class model {
     let params = {
       openRequest: {
         type: 'main',
-        locator: this.data[this.channelIndex].locator,
-        refId: this.data[this.channelIndex].channelId
+        locator: this.data[ChannelNumber.currentIndex].locator,
+        refId: this.data[ChannelNumber.currentIndex].channelId
       }
     }
-    this.currrentChannel = this.data[this.channelIndex].channelId
+    this.currrentChannel = this.data[ChannelNumber.currentIndex].channelId
     return params
   }
 
@@ -38,29 +40,37 @@ export default class model {
       })
   }
 
+  channelTune() {
+    this.currrentChannel = this.data[ChannelNumber.currentIndex].channelId
+    return this.getMetaData()
+  }
+
   nextChannel() {
-    if (this.channelIndex < this.data.length - 1) {
-      this.channelIndex++
+    if (ChannelNumber.currentIndex < this.data.length - 1) {
+      ChannelNumber.currentIndex++
     } else {
       return false
     }
-
-    this.currrentChannel = this.data[this.channelIndex].channelId
+    this.currrentChannel = this.data[ChannelNumber.currentIndex].channelId
     return this.getMetaData()
   }
 
   defaultChennal() {
-    this.currrentChannel = this.data[this.channelIndex].channelId
+    this.currrentChannel = this.data[ChannelNumber.currentIndex].channelId
     return this.getMetaData()
   }
 
+  getCurrentChannel() {
+    return this.data[ChannelNumber.currentIndex]
+  }
+
   previousChannel() {
-    if (this.channelIndex >= 1) {
-      this.channelIndex--
+    if (ChannelNumber.currentIndex >= 1) {
+      ChannelNumber.currentIndex--
     } else {
       return false
     }
-    this.currrentChannel = this.data[this.channelIndex].channelId
+    this.currrentChannel = this.data[ChannelNumber.currentIndex].channelId
     return this.getMetaData()
   }
 }

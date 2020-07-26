@@ -12,7 +12,7 @@ let PopConfig = {
   POPUP_COLOR: 0xff000000,
   ERROR_TXT_X: 140,
   ERROR_TXT_Y: 140,
-  DISPLAY_TIME: 7000,
+  DISPLAY_TIME: 3000,
   LOGO_IMG: './img/default-poster.jpg'
 }
 

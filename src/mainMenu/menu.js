@@ -1,15 +1,18 @@
 import { Lightning, Utils } from 'wpe-lightning-sdk'
 import { ListItem, ImageListItem } from './../core/list.js'
 import Model from './model.js'
-import { getBackground, getMainList } from './view.js'
+import { getMainList } from './view.js'
+import MastHead from '../header/header.js'
 
 export default class Menu extends Lightning.Component {
   static _template() {
     return {
       x: 0,
       y: 0,
-      BackGround: getBackground(),
-      MainList: getMainList()
+      MainList: getMainList(),
+      MastHead: {
+        type: MastHead
+      }
     }
   }
 
@@ -25,6 +28,14 @@ export default class Menu extends Lightning.Component {
       this.tag('MainList').items = data.map(i => ({ label: i.title }))
       this._setState('MainList')
     })
+  }
+
+  _focus() {
+    this.tag('MastHead').headerShow('MainMenu')
+  }
+
+  _unfocus(newTarget) {
+    this.tag('MastHead').headerClear()
   }
 
   _handleUp() {

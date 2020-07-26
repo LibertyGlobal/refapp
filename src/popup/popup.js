@@ -3,16 +3,13 @@ import Config from './config.js'
 
 export default class Popup extends Lightning.Component {
   static _template() {
-    return {}
+    return {
+      PopupClosed: {}
+    }
   }
   _construct() {}
   _init() {
     this.patch({
-      //   Image: {
-      //     w: 100,
-      //     h: 100,
-      //     src: Config.LOGO_IMG
-      // }
       Border: {
         rect: true,
         x: Config.BORDER_X,

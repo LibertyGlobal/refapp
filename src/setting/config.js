@@ -14,7 +14,7 @@ let SettingConfig = {
   ERROR_TXT_Y: 140,
   ERROR_MSG: 'Settings Under Construction!',
   BACK_TARGET: 'Menu',
-  ERROR_DISPLAY_COMPONENT: 'Pop'
+  ERROR_DISPLAY_COMPONENT: 'Popup'
 }
 
 export default SettingConfig

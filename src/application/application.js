@@ -75,7 +75,26 @@ export default class Application extends Lightning.Component {
     })
   }
 
+  //This method validated the input value to channel tune.
+  numberInput(evt) {
+    if (evt.key >= 0 && evt.key <= 9) {
+      let item = {
+        label: 'NumberInput',
+        type: 'Notification',
+        event: {
+          returntarget: 'ChannelBar',
+          target: 'NumberInput',
+          value: evt.key
+        }
+      }
+      this.signal('select', { item })
+      return true
+    }
+  }
+
   _captureKey(evt) {
+    if (this.numberInput(evt)) return true
+
     if ((evt.code === 'ArrowDown' || evt.code === 'ArrowUp') && this._stateIndex === 1) {
       this._setState('ChannelBar')
     }
