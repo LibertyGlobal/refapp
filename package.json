@@ -2,7 +2,7 @@
   "name": "com.metrological.app.myawesomeapp",
   "description": "Refapp2",
   "dependencies": {
-   "wpe-lightning-sdk": "WebPlatformForEmbedded/Lightning-SDK"
+   "wpe-lightning-sdk": "WebPlatformForEmbedded/Lightning-SDK"  
   },
   "lint-staged": {
     "*.js": [
