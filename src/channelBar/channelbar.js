@@ -81,10 +81,18 @@ export default class channelbar extends Lightning.Component {
     this.tag('MastHead').headerClear()
   }
 
+  UpdateChannelBar() {
+    let channelInfo = this.model.getCurrentChannel()
+    this.tag('Ch').text = '' + channelInfo.channelId
+    this.tag('ChannelNumber').text = '' + channelInfo.channelNumber
+    this.tag('Image').src =
+      Config.CHANNELIMAGE_PATH + '/' + channelInfo.logo.split('/').reverse()[0]
+  }
+
   _focus() {
     this.tag('MastHead').headerShow('ChannelBar')
 
-    this.tag('Ch').text = '' + this.model.getCurrentChannel()
+    this.UpdateChannelBar()
     function timerevt(ref) {
       ref.signal('select', { item: { label: 'OnDemand', target: 'Menu' } })
     }
@@ -94,14 +102,6 @@ export default class channelbar extends Lightning.Component {
     }
 
     this.timer = setTimeout(timerevt, Config.TIMEOUT, this)
-  }
-
-  UpdateChannelBar() {
-    let channelInfo = this.model.getCurrentChannel()
-    this.tag('Ch').text = '' + channelInfo.channelId
-    this.tag('ChannelNumber').text = '' + channelInfo.channelNumber
-    this.tag('Image').src =
-      Config.CHANNELIMAGE_PATH + '/' + channelInfo.logo.split('/').reverse()[0]
   }
 
   _captureKey(evt) {
