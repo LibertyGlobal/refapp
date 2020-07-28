@@ -34,7 +34,7 @@ export default class ChannelBar extends Lightning.Component {
         ChannelNumber: {
           w: constants.CHANNELBAR_NUMBER_WIDTH,
           h: constants.CHANNELBAR_NUMBER_HEIGHT,
-          text: { fontFace: 'Regular', textColor: theme.colors.white, fontSize: constants.CHANNELBAR_NUMBER_FONTSIZE, textAlign: 'center' }
+          text: { textColor: theme.colors.white, fontSize: constants.CHANNELBAR_NUMBER_FONTSIZE, textAlign: 'center' }
         },
         Logo: {
           w: constants.CHANNELBAR_LOGO_WIDTH,
@@ -54,13 +54,13 @@ export default class ChannelBar extends Lightning.Component {
           y: constants.CHANNELBAR_TITLE_Y,
           w: constants.CHANNELBAR_TITLE_WIDTH,
           h: constants.CHANNELBAR_TITLE_HEIGHT,
-          text: { fontFace: 'Regular', textColor: theme.colors.white, fontSize: constants.CHANNELBAR_TITLE_FONTSIZE, textAlign: 'left' }
+          text: { textColor: theme.colors.white, fontSize: constants.CHANNELBAR_TITLE_FONTSIZE, textAlign: 'left' }
         },
         Time: {
           y: constants.CHANNELBAR_TIME_Y,
           w: constants.CHANNELBAR_TIME_WIDTH,
           h: constants.CHANNELBAR_TIME_HEIGHT,
-          text: { fontFace: 'Regular', textColor: theme.colors.white, fontSize: constants.CHANNELBAR_TIME_FONTSIZE, textAlign: 'left' }
+          text: { textColor: theme.colors.white, fontSize: constants.CHANNELBAR_TIME_FONTSIZE, textAlign: 'left' }
         },
         BottomLine: {
           rect: true,

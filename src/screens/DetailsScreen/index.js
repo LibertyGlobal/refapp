@@ -17,7 +17,6 @@ export default class DetailsScreen extends BaseScreen {
           y: constants.TITLE_Y,
           text: {
             fontSize: constants.TITLE_FONTSIZE,
-            fontFace: 'Regular',
             textColor: theme.colors.white
           }
         },
@@ -25,7 +24,6 @@ export default class DetailsScreen extends BaseScreen {
           y: constants.RATING_Y,
           text: {
             fontSize: constants.RATING_FONTSIZE,
-            fontFace: 'Regular',
             textColor: theme.colors.white
           }
         },
@@ -33,7 +31,6 @@ export default class DetailsScreen extends BaseScreen {
           y: constants.DESCRIPTION_Y,
           text: {
             fontSize: constants.DESCRIPTION_FONTSIZE,
-            fontFace: 'Regular',
             textColor: theme.colors.white
           }
         }

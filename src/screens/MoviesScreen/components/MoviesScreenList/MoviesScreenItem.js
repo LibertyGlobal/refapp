@@ -24,7 +24,6 @@ export default class MoviesScreenItem extends Item {
       Title: {
         mountX: constants.ITEM_TITLE_MOUNT_X,
         text: {
-          fontFace: 'Regular',
           maxLines: constants.ITEM_TITLE_MAXLINES,
           fontSize: constants.ITEM_TITLE_FONTSIZE
         }

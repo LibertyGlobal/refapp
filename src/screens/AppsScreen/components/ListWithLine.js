@@ -8,7 +8,7 @@ export default class ListWithLine extends List {
   static _template() {
     return {
       Label: {
-        text: { fontFace: 'Regular', fontSize: constants.LIST_LABEL_FONTSIZE },
+        text: { fontSize: constants.LIST_LABEL_FONTSIZE },
       },
       Line: {
         rect: true,

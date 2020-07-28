@@ -6,7 +6,7 @@ export default class List extends Lightning.Component {
   static _template() {
     return {
       Label: {
-        text: { fontFace: 'Regular', fontSize: 32 }
+        text: { fontSize: 32 }
       },
       Items: {
         y: 60

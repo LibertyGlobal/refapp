@@ -30,14 +30,14 @@ export default class WarningModal extends Lightning.Component {
           y: constants.DIALOG_HEADER_Y,
           w: constants.DIALOG_HEADER_WIDTH,
           h: constants.DIALOG_HEADER_HEIGHT,
-          text: { fontFace: 'Regular', fontSize: constants.DIALOG_HEADER_FONTSIZE, textAlign: "center"}
+          text: { fontSize: constants.DIALOG_HEADER_FONTSIZE, textAlign: "center"}
         },
         Body: {
           x: constants.DIALOG_BODY_X,
           y: constants.DIALOG_BODY_Y,
           w: constants.DIALOG_BODY_WIDTH,
           h: constants.DIALOG_BODY_HEIGHT,
-          text: { fontFace: 'Regular', maxLines: constants.DIALOG_BODY_MAXLINES, fontSize: constants.DIALOG_BODY_FONTSIZE, textAlign: "center"}
+          text: { maxLines: constants.DIALOG_BODY_MAXLINES, fontSize: constants.DIALOG_BODY_FONTSIZE, textAlign: "center"}
         }
       }
     }

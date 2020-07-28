@@ -8,7 +8,6 @@ export default class MoviesScreenList extends List {
     return {
       Label: {
         text: {
-          fontFace: 'Regular',
           fontSize: constants.LIST_LABEL_FONTSIZE
         }
       },

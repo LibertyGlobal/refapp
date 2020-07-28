@@ -37,7 +37,6 @@ export default class PlayerProgress extends Lightning.Component {
         x: constants.PLAYERPROGRESS_TITLE_X,
         text: {
           fontSize: constants.PLAYERPROGRESS_TITLE_FONTSIZE,
-          fontFace: 'Regular',
           textColor: theme.colors.white
         }
       },
@@ -46,7 +45,6 @@ export default class PlayerProgress extends Lightning.Component {
         mountX: 1,
         text: {
           fontSize: 32,
-          fontFace: 'Regular',
           textColor: theme.colors.white,
           textAlign: 'right'
         }

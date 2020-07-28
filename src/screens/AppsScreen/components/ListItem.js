@@ -23,7 +23,7 @@ export default class ListItem extends Item {
       Title: {
         y: constants.LIST_ITEM_TITLE_Y,
         w: constants.LIST_ITEM_TITLE_WIDTH,
-        text: { fontFace: 'Regular', maxLines: constants.LIST_ITEM_TITLE_MAXLINES, fontSize: constants.LIST_ITEM_TITLE_FONTSIZE, textAlign: 'center' }
+        text: { maxLines: constants.LIST_ITEM_TITLE_MAXLINES, fontSize: constants.LIST_ITEM_TITLE_FONTSIZE, textAlign: 'center' }
       }
     }
   }

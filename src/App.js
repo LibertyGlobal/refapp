@@ -24,10 +24,6 @@ import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
 
 export default class App extends Lightning.Component {
-  static getFonts() {
-    return [{ family: 'Regular', url: Utils.asset('fonts/Roboto-Regular.ttf') }]
-  }
-
   static _template() {
     return {
       Splash: {
@@ -60,11 +56,11 @@ export default class App extends Lightning.Component {
 
     })
     this._setState('Navbar')
-
+    let configFile = await fetch(Utils.asset("config.ssm.json"))
+    let configJson = await configFile.json()
     initPlayers({
-      ipPlayerMode: 'sessionManager',
-      // your raspberry ip
-      endpoint: 'http://192.168.1.102:8080'
+      ipPlayerMode: configJson.ipPlayerMode,
+      endpoint: configJson.endpoint
     })
   }
 

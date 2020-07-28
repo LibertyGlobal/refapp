@@ -34,7 +34,6 @@ export default class SplashScreen extends BaseScreen {
         y: constants.TEXT_Y,
         text: {
           text: 'Loading',
-          fontFace: 'Regular',
           fontSize: constants.TEXT_FONTSIZE,
           textColor: constants.TEXT_COLOR,
           textAlign: 'center'

@@ -8,7 +8,6 @@ export default class MenuItem extends NavigationItem {
       Caption: {
         text: {
           fontSize: constants.MENU_ITEM_FONTSIZE,
-          fontFace: 'Regular',
           textColor: theme.colors.white
         }
       }

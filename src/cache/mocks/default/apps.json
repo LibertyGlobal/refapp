@@ -10,31 +10,31 @@
           {
             "id": "SH0",
             "label": "Youtube",
-            "image": "images/apps-icons/default_app_collection.png",
+            "image": "appsLogos/default_app_collection.png",
             "details": {}
           },
           {
             "id": "SH1",
             "label": "Metrological",
-            "image": "images/apps-icons/metrological.png",
+            "image": "appsLogos/metrological.png",
             "details": {}
           },
           {
             "id": "SH2",
             "label": "Vimeo",
-            "image": "images/apps-icons/default_app_collection.png",
+            "image": "appsLogos/default_app_collection.png",
             "details": {}
           },
           {
             "id": "SH3",
             "label": "Deezer",
-            "image": "images/apps-icons/default_app_collection.png",
+            "image": "appsLogos/default_app_collection.png",
             "details": {}
           },
           {
             "id": "SH4",
             "label": "Google",
-            "image": "images/apps-icons/default_app_collection.png",
+            "image": "appsLogos/default_app_collection.png",
             "details": {}
           }
         ]
@@ -48,31 +48,31 @@
           {
             "id": "SH11",
             "label": "gallery",
-            "image": "images/apps-icons/spark.png",
+            "image": "appsLogos/spark.png",
             "details": {}
           },
           {
             "id": "SH12",
             "label": "fishtank",
-            "image": "images/apps-icons/spark.png",
+            "image": "appsLogos/spark.png",
             "details": {}
           },
           {
             "id": "SH13",
             "label": "playmask",
-            "image": "images/apps-icons/spark.png",
+            "image": "appsLogos/spark.png",
             "details": {}
           },
           {
             "id": "SH14",
             "label": "polaroid",
-            "image": "images/apps-icons/spark.png",
+            "image": "appsLogos/spark.png",
             "details": {}
           },
           {
             "id": "SH15",
             "label": "coverflow",
-            "image": "images/apps-icons/spark.png",
+            "image": "appsLogos/spark.png",
             "details": {}
           }
         ]
@@ -86,13 +86,13 @@
           {
             "id": "SH19",
             "label": "westeros",
-            "image": "images/apps-icons/default_app_collection.png",
+            "image": "appsLogos/default_app_collection.png",
             "details": {}
           },
           {
             "id": "SH21",
             "label": "netflix",
-            "image": "images/apps-icons/default_app_collection.png",
+            "image": "appsLogos/default_app_collection.png",
             "details": {}
           }
         ]

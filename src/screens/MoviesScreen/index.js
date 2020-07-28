@@ -17,7 +17,6 @@ export default class MoviesScreen extends BaseScreen {
         x: theme.layouts.generic.paddingLeft,
         text: {
           fontSize: constants.TITLE_FONTSIZE,
-          fontFace: 'Regular',
           textColor: theme.colors.white
         }
       },

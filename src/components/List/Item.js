@@ -16,7 +16,6 @@ export default class Item extends Lightning.Component {
       Image: {},
       Title: {
         text: {
-          fontFace: 'Regular',
           maxLines: 2,
           fontSize: 24
         }
