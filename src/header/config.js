@@ -12,7 +12,7 @@ let PopConfig = {
   POPUP_COLOR: 0xffff0000,
   TimeDisplay_X: 1700,
   TimeDisplay_Y: 20,
-  FeatureName_X: 20,
+  FeatureName_X: 50,
   FeatureName_Y: 20,
   UPDATE_TIME: 1000,
   LOGO_IMG: './img/rdk-logo.png',

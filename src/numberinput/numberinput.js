@@ -1,7 +1,7 @@
 import { Lightning } from 'wpe-lightning-sdk'
 import Config from './config.js'
 import { startPlayback, stopCurrentPlayback } from './../player/player.js'
-import { ChannelNumber } from './../channelNumber'
+import { ChannelNumber } from './../channelnumber'
 import Model from './../channelbar/model.js'
 
 export default class NumberInput extends Lightning.Component {

@@ -1,4 +1,4 @@
-import { ChannelNumber } from './../channelNumber'
+import { ChannelNumber } from './../channelnumber.js'
 
 export default class model {
   constructor() {
