@@ -5,6 +5,7 @@ import { getBackground, getMainList, getRecommendedList } from './view.js'
 import { startPlayback } from './../player/player.js'
 import Config from './config.js'
 import Info from '../info/info.js'
+import MastHead from '../header/header.js'
 
 export default class Movie extends Lightning.Component {
   static _template() {
@@ -30,6 +31,9 @@ export default class Movie extends Lightning.Component {
         alpha: 0,
         signals: { select: true },
         argument: { description: 'Info Page Under Construction.' }
+      },
+      MastHead: {
+        type: MastHead
       }
     }
   }
@@ -52,6 +56,14 @@ export default class Movie extends Lightning.Component {
       this.tag('MainList').items = this.model.data.map(i => ({ label: i.title, data: i }))
       this._setState('MainList')
     })
+  }
+
+  _focus() {
+    this.tag('MastHead').headerShow('VOD')
+  }
+
+  _unfocus(newTarget) {
+    this.tag('MastHead').headerClear()
   }
 
   _handleUp() {
