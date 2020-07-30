@@ -38,7 +38,7 @@ export default class Application extends Lightning.Component {
         type: TrickMode,
         alpha: 0,
         signals: { select: true },
-        argument: 'TrickMode Under Construction. Please Press Back key.'
+        argument: ''
       }
     }
   }
@@ -77,8 +77,8 @@ export default class Application extends Lightning.Component {
 
   //This method validated the input value to channel tune.
   numberInput(evt) {
-    let keyValue = parseInt(evt.key);
-    if (keyValue >= 0 && keyValue <= 9 ) {
+    let keyValue = parseInt(evt.key)
+    if (keyValue >= 0 && keyValue <= 9) {
       let item = {
         label: 'NumberInput',
         type: 'Notification',
