@@ -1,7 +1,12 @@
-.vscode
+# NPM dependencises
+/node_modules
+
+# Build system output
+/dist
+/build
+
+/package-lock.json
+
 .idea
-package-lock.json
-node_modules
-package.lock
-.DS_Store
-__snapshots__
+
+.vercel
