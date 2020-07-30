@@ -1,6 +1,6 @@
 {
   "name": "Refapp2",
   "identifier": "com.metrological.app.refapp2",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "icon": "./static/icon.png"
 }

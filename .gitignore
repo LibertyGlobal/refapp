@@ -7,3 +7,8 @@ node_modules
 package.lock
 .DS_Store
 __snapshots__
+
+dist
+releases
+.tmp
+build
