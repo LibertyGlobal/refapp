@@ -47,7 +47,7 @@ export default class Trickmode extends Lightning.Component {
         w: Config.PLAYERCONTROL_BG_WIDTH,
         h: Config.PLAYERCONTROL_BG_HEIGHT,
         alpha: 0,
-        color: Config.PLAYERCONTROL_BG_COLOR0xffff0000
+        color: Config.PLAYERCONTROL_BG_COLOR
       },
       Rewind: {
         rect: true,
