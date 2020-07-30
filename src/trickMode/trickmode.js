@@ -95,6 +95,9 @@ export default class Trickmode extends Lightning.Component {
     getPosition().then(data => {
       let position = data.sessionProperty
       let video_percentage = (position.position * 100) / position.duration
+      if (isNaN(video_percentage)) {
+        video_percentage = 1
+      }
       let x_pos = Math.floor((Config.PROGRESSBAR_WIDTH * video_percentage) / 100)
       ref.tag('SeekMark').setSmooth('x', x_pos)
       ref.currentVideoDuration = position.duration
@@ -120,6 +123,7 @@ export default class Trickmode extends Lightning.Component {
     this._setState('ProgressBar')
     this.PlayerControl_index = 1
     this.tag(this.PlayerControl_arr[this.PlayerControl_index]).color = '0xff0000ff'
+    this.tag('SeekMark').x = 0
   }
 
   setVideoCursor(seekpointer) {
