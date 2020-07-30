@@ -4,7 +4,7 @@ import { navigateBackward } from '@/lib/Router'
 import PlayerProgress from '@/components/PlayerProgress'
 import theme from '@/themes/default'
 import LoadingIndicator from '@/components/LoadingIndicator'
-import * as player  from '@/services/player/'
+import * as player from '@/services/player/'
 import constants from './constants'
 
 let intervalId = undefined
@@ -119,8 +119,8 @@ export default class VODScreen extends BaseScreen {
   }
 
   _handleEnter() {
-    player.getPlaybackState().then((sessionProperty)=>{
-      sessionProperty.speed == 0 ? player.play() : player.pause()
+    player.getPlaybackState().then((sessionProperty) => {
+      sessionProperty.speed === 0 ? player.play() : player.pause()
     })
   }
 

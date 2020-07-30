@@ -56,7 +56,7 @@ export default class HomeScreen extends BaseScreen {
       this.tag('ChannelBar').visible = true
     }
     this._playerSource = entry.locator
-    await player.playIP(entry)
+    await player.playQAM(entry)
     this.startPropertyRequestTimer()
 
     this.tag('Loading').visible = false
@@ -64,7 +64,7 @@ export default class HomeScreen extends BaseScreen {
   }
 
   _active() {
-    if(this._playerSource) {
+    if (this._playerSource) {
       player.play()
       this.startPropertyRequestTimer()
     }

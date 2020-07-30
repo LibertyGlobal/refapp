@@ -5,9 +5,9 @@ let schedule = {}
 let response = null
 
 export const channelsServiceInit = async() => {
-  response = await fetch(Utils.asset("mocks/default/channelsV2.json"))
+  response = await fetch(Utils.asset('mocks/default/channelsV2.json'))
   channels = await response.json()
-  response = await fetch(Utils.asset("eventsV2.json"))
+  response = await fetch(Utils.asset('eventsV2.json'))
   const rawPrograms = await response.json()
 
   rawPrograms.forEach(function(item, i) {
@@ -29,7 +29,7 @@ export const getCurrentProgram = (channelId, timestamp) => {
   let program = getSchedule(channelId).filter(function(item) {
     return item.startTime <= timestamp && item.endTime > timestamp
   })
-  if (program.length == 1) {
+  if (program.length === 1) {
     return program[0]
   }
   return {}

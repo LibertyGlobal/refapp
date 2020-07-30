@@ -24,9 +24,13 @@ function startPlayback(config) {
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/open`,
     method: 'PUT',
-    body: {
-      openRequest: config,
+    headers: {
+      'Content-Type': 'application/json',
+      Connection: 'keep-alive'
     },
+    body: {
+      openRequest: config
+    }
   })
     .then(data => {
       currentPlaybackState = Object.assign({}, config, { sessionId: data.openStatus.sessionId })
@@ -42,13 +46,17 @@ function stopCurrentPlayback() {
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/close`,
     method: 'PUT',
-    body: {
-      closeRequest: currentPlaybackState,
+    headers: {
+      'Content-Type': 'application/json',
+      Connection: 'keep-alive'
     },
+    body: {
+      closeRequest: currentPlaybackState
+    }
   })
     .then(data => {
       currentPlaybackState = Object.assign({}, currentPlaybackState, {
-        sessionId: data.openStatus.sessionId,
+        sessionId: data.openStatus.sessionId
       })
       logger.info(MODULE_NAME, 'stopCurrentPlayback', data)
       return data
@@ -83,9 +91,9 @@ function setPlaybackState(props) {
       setSessionPropertyRequest: {
         sessionId: currentPlaybackState.sessionId,
         refId: currentPlaybackState.refId,
-        setProperties: props,
-      },
-    },
+        setProperties: props
+      }
+    }
   }).then(data => {
     logger.info(MODULE_NAME, 'setPlaybackState', data)
     return data
