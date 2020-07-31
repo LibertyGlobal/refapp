@@ -61,7 +61,7 @@ export default class App extends Lightning.Component {
         mountX: 0.5,
         x: 960,
         y: 15,
-        src: Utils.asset('images/rdk-logo.png'),
+        src: Utils.asset('cache/images/rdk-logo.png'),
         zIndex: 11
       }
 

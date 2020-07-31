@@ -28,7 +28,7 @@ export default class MoviesScreen extends BaseScreen {
   }
 
   async _init() {
-    const response = await fetch(Utils.asset('mocks/default/movies.json'))
+    const response = await fetch(Utils.asset('cache/mocks/default/movies.json'))
     const { layout } = await response.json()
     this._categories = layout.body
     this.tag('Title').text.text = layout.header.title

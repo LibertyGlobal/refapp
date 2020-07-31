@@ -5,7 +5,7 @@ module.exports = {
   LOGO_Y: 40,
   LOGO_WIDTH: 160,
   LOGO_HEIGHT: 39,
-  LOGO_URL: 'images/rdk-logo.png',
+  LOGO_URL: 'cache/images/rdk-logo.png',
 
   INDICATOR_MOUNT_X: 0.5,
   INDICATOR_MOUNT_Y: 0.5,
