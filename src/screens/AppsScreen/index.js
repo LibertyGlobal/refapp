@@ -65,7 +65,7 @@ export default class AppsScreen extends BaseScreen {
   }
 
   async _init() {
-    const response = await fetch(Utils.asset(`mocks/${getDomain()}/apps.json`))
+    const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/apps.json`))
     const { layout } = await response.json()
     this._categories = layout.body
     this.rowsTopPositions = []

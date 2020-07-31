@@ -11,7 +11,7 @@ module.exports = {
   DIALOG_ICON_Y: 20,
   DIALOG_ICON_WIDTH: 70,
   DIALOG_ICON_HEIGHT: 55,
-  DIALOG_ICON_URL: 'images/warning-sign.png',
+  DIALOG_ICON_URL: 'cache/images/warning-sign.png',
 
   DIALOG_HEADER_X: 20,
   DIALOG_HEADER_Y: 20,

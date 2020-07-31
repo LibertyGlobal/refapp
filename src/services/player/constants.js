@@ -15,7 +15,7 @@
 
 const playerModes = {
   SSM: 'sessionManager',
-  RDK: 'rdkMediaPlayer',
+  RDK: 'rdkMediaPlayer'
 }
 
 export { playerModes }

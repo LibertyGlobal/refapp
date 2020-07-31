@@ -45,7 +45,7 @@ export default class DetailsScreen extends BaseScreen {
   }
 
   async update(params) {
-    const response = await fetch(Utils.asset('mocks/default/movies.json'))
+    const response = await fetch(Utils.asset('cache/mocks/default/movies.json'))
     const { layout } = await response.json()
     const item = this._getItem(layout, params)
     this.tag('Title').text.text = item.label + ` (${item.year})`

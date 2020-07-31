@@ -4,7 +4,7 @@ import { navigateBackward } from '@/lib/Router'
 import PlayerProgress from '@/components/PlayerProgress'
 import theme from '@/themes/default'
 import LoadingIndicator from '@/components/LoadingIndicator'
-import * as player  from '@/services/player/'
+import * as player from '@/services/player/'
 import constants from './constants'
 
 let intervalId = undefined
@@ -48,7 +48,7 @@ export default class VODScreen extends BaseScreen {
   }
 
   async update(params) {
-    const response = await fetch(Utils.asset('mocks/default/movies.json'))
+    const response = await fetch(Utils.asset('cache/mocks/default/movies.json'))
     const { layout } = await response.json()
     const item = this._getItem(layout, params)
     this._play(item)
@@ -119,8 +119,8 @@ export default class VODScreen extends BaseScreen {
   }
 
   _handleEnter() {
-    player.getPlaybackState().then((sessionProperty)=>{
-      sessionProperty.speed == 0 ? player.play() : player.pause()
+    player.getPlaybackState().then((sessionProperty) => {
+      sessionProperty.speed === 0 ? player.play() : player.pause()
     })
   }
 

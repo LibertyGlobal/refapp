@@ -1,6 +1,6 @@
 module.exports = {
   PLAYERPROGRESS_BACKGROUND_HEIGHT: 170,
-  PLAYERPROGRESS_BACKGROUND_URL: 'images/channel-bar-bottom-gradient.png',
+  PLAYERPROGRESS_BACKGROUND_URL: 'cache/images/channel-bar-bottom-gradient.png',
 
   PLAYERPROGRESS_CONTAINER_X: 100,
   PLAYERPROGRESS_CONTAINER_Y: 60,

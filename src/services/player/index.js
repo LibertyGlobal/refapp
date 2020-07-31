@@ -80,7 +80,7 @@ export {
   pause,
   play,
   jump,
-  stopPlayBack,
+  stopPlayBack
 }
 
 export default {}

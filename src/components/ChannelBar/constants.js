@@ -7,7 +7,7 @@ module.exports = {
   CHANNELBAR_HEIGHT: 240,
   CHANNELBAR_Y: 640,
 
-  CHANNELBAR_BACKGROUND_GRADIENT_URL: 'images/channel-bar-bottom-gradient.png',
+  CHANNELBAR_BACKGROUND_GRADIENT_URL: 'cache/images/channel-bar-bottom-gradient.png',
 
   CHANNELBAR_CONTAINER_WIDTH: 225,
   CHANNELBAR_CONTAINER_HEIGHT: 100,

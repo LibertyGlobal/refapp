@@ -56,15 +56,17 @@ export default class HomeScreen extends BaseScreen {
       this.tag('ChannelBar').visible = true
     }
     this._playerSource = entry.locator
-    await player.playIP(entry)
-    this.startPropertyRequestTimer()
+    await player.playQAM(entry)
 
-    this.tag('Loading').visible = false
+    // Temporary switch off progress
+    // this.startPropertyRequestTimer()
+
     this.tag('LoadingIndicator').stopAnimation()
+    this.tag('Loading').visible = false
   }
 
   _active() {
-    if(this._playerSource) {
+    if (this._playerSource) {
       player.play()
       this.startPropertyRequestTimer()
     }
@@ -79,7 +81,7 @@ export default class HomeScreen extends BaseScreen {
     this.stopPropertyRequestTimer()
     this.$mediaplayerProgress(0, 1)
     this.getPlaybackState()
-    intervalId = setInterval(this.getPlaybackState.bind(this), 3000);
+    intervalId = setInterval(this.getPlaybackState.bind(this), 3000)
   }
 
   stopPropertyRequestTimer() {
@@ -90,7 +92,7 @@ export default class HomeScreen extends BaseScreen {
   }
 
   getPlaybackState() {
-    player.getPlaybackState().then((sessionProperty)=>{
+    player.getPlaybackState().then((sessionProperty) => {
       this.$mediaplayerProgress(sessionProperty.position, sessionProperty.duration)
     })
   }

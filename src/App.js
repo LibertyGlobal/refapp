@@ -33,6 +33,17 @@ export default class App extends Lightning.Component {
     }
   }
 
+  _construct() {
+    // Taken from L&T version
+    // This fix will be removed once get acess body element through lighting framework.
+    // issue is addressed here https://github.com/rdkcentral/Lightning-CLI/pull/78/commits/6bc1cc3521b62d2fb19dae6b9020fe9677897ada
+    var style = document.createElement('style')
+    document.head.appendChild(style)
+    style.sheet.insertRule(
+      '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
+    )
+  }
+
   async _init() {
     this._setState('Splash')
 
@@ -50,14 +61,16 @@ export default class App extends Lightning.Component {
         mountX: 0.5,
         x: 960,
         y: 15,
-        src: Utils.asset('images/rdk-logo.png'),
+        src: Utils.asset('cache/images/rdk-logo.png'),
         zIndex: 11
       }
 
     })
     this._setState('Navbar')
-    let configFile = await fetch(Utils.asset("config.ssm.json"))
-    let configJson = await configFile.json()
+
+    const configFile = await fetch(Utils.asset('config.ssm.json'))
+    const configJson = await configFile.json()
+
     initPlayers({
       ipPlayerMode: configJson.ipPlayerMode,
       endpoint: configJson.endpoint
