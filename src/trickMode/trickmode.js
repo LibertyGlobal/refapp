@@ -203,6 +203,8 @@ export default class Trickmode extends Lightning.Component {
         if (this._getState() == 'PlayerControl') {
           if (this.PlayerControl_arr[this.PlayerControl_index] == 'Rewindbtn') {
             //  rewind(); //later this will enabled.
+            this.tag('SeekMark').x -= 20
+            this.setVideoCursor(this.tag('SeekMark').x)
           } else if (this.PlayerControl_arr[this.PlayerControl_index] == 'PlayPausebtn') {
             if (Playestate.state == 'PLAY' || Playestate.state == 'OPEN') {
               pause().then(() => {
@@ -221,6 +223,8 @@ export default class Trickmode extends Lightning.Component {
             }
           } else if (this.PlayerControl_arr[this.PlayerControl_index] == 'Forwardbtn') {
             // fastforward(); //later this will enabled.
+            this.tag('SeekMark').x += 20
+            this.setVideoCursor(this.tag('SeekMark').x)
           }
         }
         break
