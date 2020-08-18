@@ -37,11 +37,11 @@ export default class App extends Lightning.Component {
     // Taken from L&T version
     // This fix will be removed once get acess body element through lighting framework.
     // issue is addressed here https://github.com/rdkcentral/Lightning-CLI/pull/78/commits/6bc1cc3521b62d2fb19dae6b9020fe9677897ada
-    var style = document.createElement('style')
-    document.head.appendChild(style)
-    style.sheet.insertRule(
-      '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
-    )
+  //  var style = document.createElement('style')
+  //  document.head.appendChild(style)
+  //  style.sheet.insertRule(
+  //    '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
+  //  )
   }
 
   async _init() {
@@ -52,16 +52,27 @@ export default class App extends Lightning.Component {
     })
     await testIncreaseSplashVisibility
 
+    let date = new Date();
+    let time = date.getHours() + ":" + date.getMinutes();
+
     this.patch({
       Navbar: {
         type: Navbar,
         zIndex: 10
       },
+      
       Logo: {
         mountX: 0.5,
         x: 960,
         y: 15,
         src: Utils.asset('cache/images/rdk-logo.png'),
+        zIndex: 11
+      },
+      Time: {
+        mountX: 0.5,
+        x: 1750,
+        y: 15,
+        text: time,
         zIndex: 11
       }
 

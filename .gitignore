@@ -10,3 +10,8 @@
 .idea
 
 .vercel
+
+dist
+releases
+.tmp
+build
