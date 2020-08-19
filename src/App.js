@@ -22,6 +22,7 @@ import { getActiveScreen, navigateForward, navigateBackward, navigate } from './
 import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
+import NumberInput from './components/numberinput'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -29,6 +30,13 @@ export default class App extends Lightning.Component {
       Splash: {
         type: SplashScreen,
         visible: false
+      },
+	   NumberInput: {
+        type: NumberInput,
+        x: 200,
+        y: 700,
+        signals: { select: true },
+        alpha: 0
       }
     }
   }
@@ -118,6 +126,15 @@ export default class App extends Lightning.Component {
   }
 
   _handleKey(key) {
+	  
+	   let keyValue = parseInt(key.key)
+    if (keyValue >= 0 && keyValue <= 9) {      
+      this.tag('NumberInput').putNumber(keyValue);
+      this.tag('NumberInput').alpha =1;
+      navigate('home');
+      return true
+    }
+	
     if (key.code === 'KeyF') {
       return navigateForward()
     }
