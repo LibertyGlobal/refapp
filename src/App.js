@@ -31,7 +31,7 @@ export default class App extends Lightning.Component {
         type: SplashScreen,
         visible: false
       },
-	   NumberInput: {
+      NumberInput: {
         type: NumberInput,
         x: 200,
         y: 700,
@@ -113,6 +113,18 @@ export default class App extends Lightning.Component {
         _getFocused() {
           return getActiveScreen()
         }
+      },
+      class NumberInput extends this {
+        $enter() {
+        }
+        $exit() {
+        }
+        _getFocused() {
+          return this.tag('NumberInput')
+        }
+        select(item) {
+          this._setState('Screen')
+        }
       }
     ]
   }
@@ -126,15 +138,19 @@ export default class App extends Lightning.Component {
   }
 
   _handleKey(key) {
-	  
-	   let keyValue = parseInt(key.key)
-    if (keyValue >= 0 && keyValue <= 9) {      
-      this.tag('NumberInput').putNumber(keyValue);
-      this.tag('NumberInput').alpha =1;
-      navigate('home');
+
+    let keyValue = parseInt(key.key)
+    if (keyValue >= 0 && keyValue <= 9) {
+      let aScreen = getActiveScreen();
+      if (aScreen.ref == "HomeScreen" || aScreen.ref == "MoviesScreen") {
+        this._setState('NumberInput')
+        this.tag('NumberInput').putNumber(keyValue);
+        this.tag('NumberInput').alpha = 1;
+        navigate('home');
+      }
       return true
     }
-	
+
     if (key.code === 'KeyF') {
       return navigateForward()
     }

@@ -36,7 +36,6 @@ export default class NumberInput extends Lightning.Component {
     await player.playQAM(entry)
   }
 
-  //  This method called from notification
   putNumber(value) {
 
     if (this.tag('InputBox').childList._refs.Ch.text._text.length > 1) {
@@ -47,15 +46,18 @@ export default class NumberInput extends Lightning.Component {
     this.tag('InputBox').childList._refs.Ch.text = InputBoxValue + '' + value
 
     function timerevt(ref) {
-      let channelNum = Number(ref.tag('InputBox').childList._refs.Ch.text._text)
+      let channelNum = Number(ref.tag('InputBox').childList._refs.Ch.text._text)-1
+      if(channelNum>=0){
       ChannelNumber.currentIndex = channelNum
       if (channelNum <= 20) {
         let t = getChannel(channelNum);
         ref.tune(t);
       }
-      // ref.signal('select', { item: { label: 'NumberInput', evt: ref.argument.evt } })
+      }
       ref.alpha = 0;
       ref.tag('InputBox').childList._refs.Ch.text = ''
+      ref.signal('select', { item: "" })
+     
     }
 
     if (this.timer) {
@@ -64,9 +66,6 @@ export default class NumberInput extends Lightning.Component {
     this.timer = setTimeout(timerevt, Config.DISPLAY_TIME, this)
   }
 
-  _focus() {
-    // this.putNumber(this.argument.evt.event.value)
-  }
 
   _handleBack() {
     if (this.timer) {
