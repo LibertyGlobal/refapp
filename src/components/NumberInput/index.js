@@ -2,7 +2,7 @@ import { Lightning } from 'wpe-lightning-sdk'
 import Config from './config.js'
 import * as player from '@/services/player/'
 import { channelsServiceInit, getCurrentProgram, getChannel } from '@/services/ChannelsService'
-import { ChannelNumber } from './../../channelnumber.js'
+import { ChannelNumber } from './channelnumber.js'
 
 export default class NumberInput extends Lightning.Component {
 
@@ -38,15 +38,15 @@ export default class NumberInput extends Lightning.Component {
 
   putNumber(value) {
 
-    if (this.tag('InputBox').childList._refs.Ch.text._text.length > 1) {
+    if (ChannelNumber.displayNumber > 1) {
       return
     }
 
-    let InputBoxValue = this.tag('InputBox').childList._refs.Ch.text._text
-    this.tag('InputBox').childList._refs.Ch.text = InputBoxValue + '' + value
+    ChannelNumber.displayNumber = ChannelNumber.displayNumber+''+ value;
+    this.tag('InputBox').childList._refs.Ch.text = ChannelNumber.displayNumber
 
     function timerevt(ref) {
-      let channelNum = Number(ref.tag('InputBox').childList._refs.Ch.text._text)-1
+      let channelNum = Number(ChannelNumber.displayNumber)-1
       if(channelNum>=0){
       ChannelNumber.currentIndex = channelNum
       if (channelNum <= 20) {
@@ -56,6 +56,7 @@ export default class NumberInput extends Lightning.Component {
       }
       ref.alpha = 0;
       ref.tag('InputBox').childList._refs.Ch.text = ''
+      ChannelNumber.displayNumber =''
       ref.signal('select', { item: "" })
      
     }

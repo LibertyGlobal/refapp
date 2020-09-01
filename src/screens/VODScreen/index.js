@@ -131,14 +131,14 @@ export default class VODScreen extends BaseScreen {
   
 
   _handleLeftRelease(){
-    this.currentposition = this.currentposition-(1000*60*2);
+    this.currentposition = this.currentposition-(constants.MOVE_POSITION);
     player.jump(this.currentposition);
     this.$mediaplayerProgress(this.currentposition, this.movieduration)
   }
 
 
   _handleRightRelease(){
-    this.currentposition = this.currentposition+(1000*60*2);
+    this.currentposition = this.currentposition+(constants.MOVE_POSITION);
     player.jump(this.currentposition);
     this.$mediaplayerProgress(this.currentposition, this.movieduration)
   }

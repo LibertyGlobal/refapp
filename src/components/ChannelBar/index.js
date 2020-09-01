@@ -4,7 +4,7 @@ import { channelsServiceInit, getCurrentProgram, getChannel } from '@/services/C
 import theme from '@/themes/default'
 import commonConstants from '@/constants/default'
 import constants from './constants'
-import { ChannelNumber } from './../../channelnumber.js'
+import { ChannelNumber } from './../NumberInput/channelnumber.js'
 
 let channelsCount = 0
 let selectedChannel = null

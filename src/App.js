@@ -22,7 +22,7 @@ import { getActiveScreen, navigateForward, navigateBackward, navigate } from './
 import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
-import NumberInput from './components/numberinput'
+import NumberInput from './components/NumberInput'
 
 export default class App extends Lightning.Component {
   static _template() {
