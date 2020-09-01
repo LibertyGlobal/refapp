@@ -1,6 +1,6 @@
 export default class model {
   getAppModel() {
-    return fetch('./config.json')
+    return fetch('./config.ssm.json')
       .then(response => {
         return response.json()
       })
