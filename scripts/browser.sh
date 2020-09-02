@@ -3,7 +3,7 @@
 function stop_browser()
 {
   if [ -f /etc/WPEFramework/plugins/RDKShell.json ]; then
-    curl -v --header "Content-Type:application/json" --request POST http://127.0.0.1:9998/jsonrpc --data-raw "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"org.rdk.RDKShell.1.suspend\", \"params\":{ \"callsign\": \"WebKitBrowser\"} }"
+    curl -v --header "Content-Type:application/json" --request POST http://127.0.0.1:9998/jsonrpc --data-raw "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"org.rdk.RDKShell.1.destroy\", \"params\":{ \"callsign\": \"WebKitBrowser\"} }"
   else
     curl -X PUT http://127.0.0.1/Service/Controller/Deactivate/WebKitBrowser
   fi
