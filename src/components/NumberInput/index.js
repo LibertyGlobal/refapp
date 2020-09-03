@@ -3,6 +3,7 @@ import Config from './config.js'
 import * as player from '@/services/player/'
 import { channelsServiceInit, getCurrentProgram, getChannel } from '@/services/ChannelsService'
 import { ChannelNumber } from './channelnumber.js'
+import theme from '@/themes/default'
 
 export default class NumberInput extends Lightning.Component {
 
@@ -22,11 +23,11 @@ export default class NumberInput extends Lightning.Component {
         y: Config.POPUP_Y,
         w: Config.POPUP_WIDTH,
         h: Config.POPUP_HEIGHT,
-        color: Config.POPUP_COLOR,
+        color: theme.colors.accent,
         Ch: {
           x: Config.NUM_TXT_X,
           y: Config.NUM_TXT_Y,
-          text: { text: '', fontSize: Config.DEFAULT_FONT_SIZE }
+          text: { text: '', fontSize: Config.DEFAULT_FONT_SIZE ,textColor: theme.colors.white}
         }
       }
     })
@@ -36,29 +37,32 @@ export default class NumberInput extends Lightning.Component {
     await player.playQAM(entry)
   }
 
-  putNumber(value) {
+  getNumberInputX(Str) {
+    return (Config.POPUP_WIDTH / 2) - (Config.FONT_METRICS_WIDTH * Str.length)
+  }
 
-    if (ChannelNumber.displayNumber > 1) {
+  putNumber(value) {
+    if (ChannelNumber.displayNumber.length > 1) {
       return
     }
 
-    ChannelNumber.displayNumber = ChannelNumber.displayNumber+''+ value;
+    ChannelNumber.displayNumber = ChannelNumber.displayNumber + '' + value;
     this.tag('InputBox').childList._refs.Ch.text = ChannelNumber.displayNumber
-
+    this.tag('InputBox').childList._refs.Ch.x = this.getNumberInputX(ChannelNumber.displayNumber)
     function timerevt(ref) {
-      let channelNum = Number(ChannelNumber.displayNumber)-1
-      if(channelNum>=0){
-      ChannelNumber.currentIndex = channelNum
-      if (channelNum <= 20) {
-        let t = getChannel(channelNum);
-        ref.tune(t);
-      }
+      let channelNum = Number(ChannelNumber.displayNumber) - 1
+      if (channelNum >= 0) {
+        ChannelNumber.currentIndex = channelNum
+        if (channelNum <= 20) {
+          let t = getChannel(channelNum);
+          ref.tune(t);
+        }
       }
       ref.alpha = 0;
       ref.tag('InputBox').childList._refs.Ch.text = ''
-      ChannelNumber.displayNumber =''
+      ChannelNumber.displayNumber = ''
       ref.signal('select', { item: "" })
-     
+
     }
 
     if (this.timer) {
