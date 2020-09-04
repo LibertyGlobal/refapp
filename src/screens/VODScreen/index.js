@@ -45,6 +45,8 @@ export default class VODScreen extends BaseScreen {
   }
 
   _init() {
+    this.currentposition = null;
+    this.movieduration = null;
   }
 
   async update(params) {
@@ -114,6 +116,8 @@ export default class VODScreen extends BaseScreen {
 
   getPlaybackState() {
     player.getPlaybackState().then((sessionProperty)=>{
+      this.currentposition = sessionProperty.position;
+      this.movieduration = sessionProperty.duration;
       this.$mediaplayerProgress(sessionProperty.position, sessionProperty.duration)
     })
   }
@@ -123,6 +127,23 @@ export default class VODScreen extends BaseScreen {
       sessionProperty.speed === 0 ? player.play() : player.pause()
     })
   }
+
+  
+
+  _handleLeftRelease(){
+    this.currentposition = this.currentposition-(constants.MOVE_POSITION);
+    player.jump(this.currentposition);
+    this.$mediaplayerProgress(this.currentposition, this.movieduration)
+  }
+
+
+  _handleRightRelease(){
+    this.currentposition = this.currentposition+(constants.MOVE_POSITION);
+    player.jump(this.currentposition);
+    this.$mediaplayerProgress(this.currentposition, this.movieduration)
+  }
+
+
 
   _handleKey(key) {
     if (key.code === 'Backspace') {

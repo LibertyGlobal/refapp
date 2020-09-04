@@ -22,6 +22,7 @@ import { getActiveScreen, navigateForward, navigateBackward, navigate } from './
 import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
+import NumberInput from './components/NumberInput'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -29,6 +30,13 @@ export default class App extends Lightning.Component {
       Splash: {
         type: SplashScreen,
         visible: false
+      },
+      NumberInput: {
+        type: NumberInput,
+        x: 200,
+        y: 700,
+        signals: { select: true },
+        alpha: 0
       }
     }
   }
@@ -105,6 +113,18 @@ export default class App extends Lightning.Component {
         _getFocused() {
           return getActiveScreen()
         }
+      },
+      class NumberInput extends this {
+        $enter() {
+        }
+        $exit() {
+        }
+        _getFocused() {
+          return this.tag('NumberInput')
+        }
+        select(item) {
+          this._setState('Screen')
+        }
       }
     ]
   }
@@ -118,6 +138,19 @@ export default class App extends Lightning.Component {
   }
 
   _handleKey(key) {
+
+    let keyValue = parseInt(key.key)
+    if (keyValue >= 0 && keyValue <= 9) {
+      let aScreen = getActiveScreen();
+      if (aScreen.ref == "HomeScreen" || aScreen.ref == "MoviesScreen") {
+        this._setState('NumberInput')
+        this.tag('NumberInput').putNumber(keyValue);
+        this.tag('NumberInput').alpha = 1;
+        navigate('home');
+      }
+      return true
+    }
+
     if (key.code === 'KeyF') {
       return navigateForward()
     }

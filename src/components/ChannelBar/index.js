@@ -4,6 +4,7 @@ import { channelsServiceInit, getCurrentProgram, getChannel } from '@/services/C
 import theme from '@/themes/default'
 import commonConstants from '@/constants/default'
 import constants from './constants'
+import { ChannelNumber } from './../NumberInput/channelnumber.js'
 
 let channelsCount = 0
 let selectedChannel = null
@@ -88,23 +89,27 @@ export default class ChannelBar extends Lightning.Component {
   }
 
   _handleLeft() {
+	  channelNumber = ChannelNumber.currentIndex;
     if (channelsCount > 1) {
       if (channelNumber === 0) {
         channelNumber = channelsCount - 1
       } else {
         channelNumber--
       }
+	  ChannelNumber.currentIndex = channelNumber;
       this.updateView()
     }
   }
 
   _handleRight() {
+	      channelNumber = ChannelNumber.currentIndex;
     if (channelsCount > 1) {
       if (channelNumber === channelsCount - 1) {
         channelNumber = 0
       } else {
         channelNumber++
       }
+	  ChannelNumber.currentIndex = channelNumber;
       this.updateView()
     }
   }
@@ -113,6 +118,11 @@ export default class ChannelBar extends Lightning.Component {
     if (selectedChannel && selectedProgram) {
       this.signal('channelChanged', { selectedChannel, selectedProgram })
     }
+  }
+  
+  _focus() {
+    channelNumber = ChannelNumber.currentIndex;
+    this.updateView();
   }
 
   updateView() {
