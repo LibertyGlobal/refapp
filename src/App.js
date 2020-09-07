@@ -29,7 +29,12 @@ export default class App extends Lightning.Component {
       Splash: {
         type: SplashScreen,
         visible: false
-      }
+      },
+      Time:{
+        x: 1650,
+        y: 15,
+        zIndex: 11
+      } 
     }
   }
 
@@ -41,42 +46,53 @@ export default class App extends Lightning.Component {
         document.head.appendChild(style)
         style.sheet.insertRule(
           '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
-        )    
+        ) 
+          
   }
 
   async _init() {
     this._setState('Splash')
-
     const testIncreaseSplashVisibility = new Promise((resolve, reject) => {
       setTimeout(() => resolve(), 2000)
     })
-    await testIncreaseSplashVisibility
-
-    let date = new Date();
-    let time = date.getHours() + ":" + date.getMinutes();
+    await testIncreaseSplashVisibility 
 
     this.patch({
       Navbar: {
         type: Navbar,
         zIndex: 10
       },
-
       Logo: {
         mountX: 0.5,
         x: 960,
         y: 15,
         src: Utils.asset('cache/images/rdk-logo.png'),
         zIndex: 11
-      },
-      Time: {
-        mountX: 0.5,
-        x: 1750,
-        y: 15,
-        text: time,
-        zIndex: 11
       }
-
     })
+
+    // Added fix for auto time update in hh:mm:ss
+    let that = this
+  
+    const startTime = () => {
+      let today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      that.tag('Time').text = h + ":" + m + ":" + s;
+      let t = setTimeout(startTime, 500);
+    }
+    
+    const checkTime = (i) => {
+      console.log("checkTime time :: "+i)
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
+    startTime();
+    // end auto time update
+
     this._setState('Navbar')
 
     const configFile = await fetch(Utils.asset('config.ssm.json'))
