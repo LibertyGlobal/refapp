@@ -22,6 +22,7 @@ import { getActiveScreen, navigateForward, navigateBackward, navigate } from './
 import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
+import NumberInput from './components/NumberInput'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -29,6 +30,13 @@ export default class App extends Lightning.Component {
       Splash: {
         type: SplashScreen,
         visible: false
+      },
+      NumberInput: {
+        type: NumberInput,
+        x: 200,
+        y: 700,
+        signals: { select: true },
+        alpha: 0
       },
       Time:{
         x: 1650,
@@ -42,20 +50,20 @@ export default class App extends Lightning.Component {
     // Taken from L&T version
     // This fix will be removed once get acess body element through lighting framework.
     // issue is addressed here https://github.com/rdkcentral/Lightning-CLI/pull/78/commits/6bc1cc3521b62d2fb19dae6b9020fe9677897ada
-        var style = document.createElement('style')
-        document.head.appendChild(style)
-        style.sheet.insertRule(
-          '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
-        ) 
-          
+    var style = document.createElement('style')
+    document.head.appendChild(style)
+    style.sheet.insertRule(
+      '@media all { html {height: 100%; width: 100%;} *,body {margin:0; padding:0;} canvas { position: absolute; z-index: 2; } body {  background-color:transparent; width: 100%; height: 100%;} }'
+    )
   }
 
   async _init() {
     this._setState('Splash')
+
     const testIncreaseSplashVisibility = new Promise((resolve, reject) => {
       setTimeout(() => resolve(), 2000)
     })
-    await testIncreaseSplashVisibility 
+    await testIncreaseSplashVisibility
 
     this.patch({
       Navbar: {
@@ -69,11 +77,12 @@ export default class App extends Lightning.Component {
         src: Utils.asset('cache/images/rdk-logo.png'),
         zIndex: 11
       }
+
     })
 
-    // Added fix for auto time update in hh:mm:ss
+  // Added fix for auto time update in hh:mm:ss
     let that = this
-  
+
     const startTime = () => {
       let today = new Date();
       let h = today.getHours();
@@ -84,7 +93,7 @@ export default class App extends Lightning.Component {
       that.tag('Time').text = h + ":" + m + ":" + s;
       let t = setTimeout(startTime, 500);
     }
-    
+
     const checkTime = (i) => {
       console.log("checkTime time :: "+i)
       if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
@@ -132,6 +141,18 @@ export default class App extends Lightning.Component {
         _getFocused() {
           return getActiveScreen()
         }
+      },
+      class NumberInput extends this {
+        $enter() {
+        }
+        $exit() {
+        }
+        _getFocused() {
+          return this.tag('NumberInput')
+        }
+        select(item) {
+          this._setState('Screen')
+        }
       }
     ]
   }
@@ -145,20 +166,44 @@ export default class App extends Lightning.Component {
   }
 
   _handleKey(key) {
+
+    let keyValue = parseInt(key.key)
+    if (keyValue >= 0 && keyValue <= 9) {
+      let aScreen = getActiveScreen();
+      if (aScreen.ref == "HomeScreen" || aScreen.ref == "MoviesScreen") {
+        this._setState('NumberInput')
+        this.tag('NumberInput').putNumber(keyValue);
+        this.tag('NumberInput').alpha = 1;
+        navigate('home');
+      }
+      return true
+    }
+
     if (key.code === 'KeyF') {
       return navigateForward()
     }
     if (key.code === 'Backspace') {
       const activeScreen = getActiveScreen()
-      if (activeScreen.ref === 'HomeScreen') {
-        this._setState('Navbar')
-      } else {
-        this._setState('Navbar')
-        if (!navigateBackward()) {
-          navigate('home')
+      if (!activeScreen || activeScreen.ref === 'HomeScreen') {
+        if (this._getFocused().ref !== 'Navbar') {
+          this._setState('Navbar')
+          return true
         }
+        return false
+      } else {
+        if (this._getFocused().ref !== 'Navbar') {
+          this._setState('Navbar')
+        } else {
+          this._setState('Navbar')
+          if (!navigateBackward()) {
+            navigate('home')
+          }
+          return true
+        }
+        return true
       }
     }
+    return false
   }
 
   $hideMenu() {
