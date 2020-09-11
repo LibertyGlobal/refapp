@@ -37,7 +37,12 @@ export default class App extends Lightning.Component {
         y: 700,
         signals: { select: true },
         alpha: 0
-      }
+      },
+      Time:{
+        x: 1650,
+        y: 15,
+        zIndex: 11
+      } 
     }
   }
 
@@ -74,6 +79,29 @@ export default class App extends Lightning.Component {
       }
 
     })
+
+    // Added fix for auto time update in hh:mm:ss
+    let that = this
+
+    const startTime = () => {
+      let today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      that.tag('Time').text = h + ":" + m + ":" + s;
+      let t = setTimeout(startTime, 500);
+    }
+
+    const checkTime = (i) => {
+      console.log("checkTime time :: "+i)
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
+    startTime();
+    // end auto time update
+
     this._setState('Navbar')
 
     const configFile = await fetch(Utils.asset('config.ssm.json'))
