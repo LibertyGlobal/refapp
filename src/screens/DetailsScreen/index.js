@@ -11,6 +11,15 @@ export default class DetailsScreen extends BaseScreen {
       Background: {
         type: Background
       },
+      CTitle: {
+        y: theme.layouts.generic.paddingTop,
+        x: constants.TOP_TITLE_LEFT,
+        text: {
+          fontSize: constants.TOP_TITLE_FONTSIZE,
+          textColor: theme.colors.white,
+          zIndex: 11
+        }
+      },
       Container: {
         x: constants.CONTAINER_X,
         Title: {
@@ -48,6 +57,7 @@ export default class DetailsScreen extends BaseScreen {
     const response = await fetch(Utils.asset('cache/mocks/default/movies.json'))
     const { layout } = await response.json()
     const item = this._getItem(layout, params)
+    this.tag('CTitle').text.text = 'Details Page';
     this.tag('Title').text.text = item.label + ` (${item.year})`
     this.tag('Rating').text.text = `Rating: ${item.rating}`
     this.tag('Description').text.text = item.description

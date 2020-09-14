@@ -6,12 +6,22 @@ import ListWithLine from './components/ListWithLine'
 import WarningModal from '@/components/WarningModal'
 import commonConstants from '@/constants/default'
 import constants from './constants'
+import theme from '../../themes/default'
 
 export default class AppsScreen extends BaseScreen {
   static _template() {
     return {
       Background: {
         type: Background,
+      },
+      CTitle: {
+        y: theme.layouts.generic.paddingTop,
+        x: constants.TOP_TITLE_LEFT,
+        text: {
+          fontSize: constants.TOP_TITLE_FONTSIZE,
+          textColor: theme.colors.white,
+          zIndex: 11
+        }
       },
       Mask: {
         clipping: true,
@@ -65,6 +75,7 @@ export default class AppsScreen extends BaseScreen {
   }
 
   async _init() {
+    this.tag('CTitle').text.text = 'Apps';
     const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/apps.json`))
     const { layout } = await response.json()
     this._categories = layout.body
