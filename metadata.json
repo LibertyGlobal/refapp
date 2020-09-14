@@ -1,0 +1,6 @@
+{
+  "name": "LGI",
+  "identifier": "com.epam.lgi",
+  "version": "0.0.1",
+  "icon": "./static/cache/icon.png"
+}

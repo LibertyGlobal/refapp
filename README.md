@@ -1,309 +1,208 @@
-# Operator reference application
+# LGI
 
-The [operator reference appliation](https://github.com/LibertyGlobal/refapp) provides a basic GUI that allows for playback of QAM and IP video and startup of various types of applications in the [RDK](https://wiki.rdkcentral.com/display/RDK/RDK+Central+Wiki) environment. It is a JavaScript application that runs in the [Spark](http://www.sparkui.org/) Application Engine with [lgire](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/js-plugins/) as thin graphic abstraction layer on top.  For control of QAM, IP and applications the refapp uses the api offered by the RDK components sessionmanager, aamp and optimus.
-
-The refapp serves as example, starting point for how operators, integrators, community members can glue the various pieces of RDK together into a user experience. It works standalone without need for any Comcast or Liberty Global backend.
-
-The refapp is also useful for RDK integration testing as it exercises the various rdk components and requires them to work well together (vs standalone component testing). It is used in RDK Continuous Integration testing.
-
-There is an "[rdk-generic-hybrid-refapp](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/rdk-oe/meta-cmf-video-restricted/+/master/recipes-core/images/rdk-generic-hybrid-refapp-image.bb)" yocto image available that contains the refapp javascript application and the various native RDK components that it makes use of such as [spark](https://github.com/pxscene/pxCore/tree/master/examples/pxScene2d), [rmfstreamer](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/rdk-oe/meta-cmf-video-restricted/+/master/recipes-extended/rmfstreamer/rmfstreamer_git.bbappend) with [sessionmanager](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/sessionmgr), IP players ([aamp](https://github.com/rdkcmf/rdk-aamp) and [Liberty IPplayer](https://code.rdkcentral.com/r/plugins/gitiles/components/generic/websocket-ipplayer2)), [WPE browser](https://github.com/WebPlatformForEmbedded/WPEWebKit), [westeros](https://github.com/rdkcmf/westeros) and [optimus](https://github.com/pxscene/pxCore/blob/b8e0aa0e26e83d78cdb44cd55bd1e42e268171e9/examples/pxScene2d/src/rcvrcore/optimus.js) application manager.
-
-Wiki page on refapp with more information is available on https://wiki.rdkcentral.com/display/RDK/Operator+Reference+Application
-(you need to be registered RDK member to access it)
+## com.epam.lgi
 
 ## Table of contents
 
 - [Getting started](#getting-started)
-- [Refapp breakdown](#refapp-breakdown)
-	- [Components](#components)
-	    - [Apps](#apps)
-		- [Channel Bar](#channel-bar)
-		- [Detail Page](#detail-page)
-		- [Main Menu](#main-menu)
-		- [MastHead](#masthead)
-		- [OnDemand](#ondemand)
-		- [Numeric input popup](#num-input)
-		- [Warning popup](#warning)
-	- [Domain models](#domain-models)
-	    - [Channel](#channel)
-		- [OnDemand](#ondemand-domain)
-		- [Player](#player-domain)
-		- [System](#system)
-	- [Navigation](#navigation)
-	- [Renderer](#renderer)
-	    - [List](#list)
-	- [Shared](#shared)
-	    - [Animation](#animation)
-		- [View Model](#view-model)
-		- [Dynamic List](#dynamic-list)
-- [Contributing](#contributing)
+- [Running the App](#running-the-app)
+- [Developing the App](#developing-the-app)
+- [Components](#components)
+  - [Background](#background)
+  - [Channel Bar](#channel-bar)
+  - [List](#list)
+  - [Loading Indicator](#loading-indicator)
+  - [Main Menu](#main-menu)
+  - [Navbar](#navbar)
+  - [PlayerProgress](#player-progress)
+  - [Video](#video)
+  - [WarningModal](#warning-modal)
+- [Domain](#domain)
+- [Lib](#lib)
+- [Screens](#screens)
+  - [Apps Screen](#apps-screen)
+  - [Base Screen](#base-screen)
+  - [Details Screen](#details-screen)
+  - [Home Screen](#home-screen)
+  - [MoviesScreen](#movies-screen)
+  - [SettingsScreen](#settings-screen)
+  - [SplashScreen](#splash-screen)
+  - [VODScreen](#vod-screen)
+- [Services](#services)
+  - [Channels service](#channels-service)
+  - [Player](#player)
+- [Themes](#themes)
+- [Additional](#additional)
+  - [Animation](#animation)
 
-## <a name="getting-started"></a>Getting started
-see wiki on RDK 
-https://wiki.rdkcentral.com/display/RDK/Operator+Reference+Application
-(you need to be registered RDK member to access it)
-There you can also download prebuild image for Raspberry pi 
+### <a name="getting-started"></a>Getting started
 
-## <a name="refapp-breakdown"></a>Refapp breakdown
+> Before you follow the steps below, make sure you have the
+[Lightning-CLI](https://github.com/WebPlatformForEmbedded/Lightning-CLI) installed _globally_ on your system
 
+```
+npm install -g WebPlatformForEmbedded/Lightning-CLI
+```
+
+### <a name="running-the-app"></a>Running the App
+
+1. Install the NPM dependencies by running `npm install`
+
+2. Build the App using the _Lightning-CLI_ by running `lng build` inside the root of your project
+
+3. Fire up a local webserver and open the App in a browser by running `lng serve` inside the root of your project
+
+
+### <a name="developing-the-app"></a>Developing the App
+
+During development you can use the **watcher** functionality of the _Lightning-CLI_.
+
+>TLDR; The most suitable case for functionality check is to use the `lng dev` command
+
+- use `lng watch` to automatically _rebuild_ your App whenever you make a change in the `src` or  `static` folder
+- use `lng dev` to start the watcher and run a local webserver / open the App in a browser _at the same time_
+
+>**Windows users may experience issues with locking of the `dist` directory. In order to fix that issues please run `npm run cleanup` command**
+
+You may consider to use [VSCode IDE](https://code.visualstudio.com/)since the project contains configuration presets for running and debugging of the app. This approach also helps to reduce the directory lock issue mentioned above.
+
+
+### <a name="documentation"></a>Documentation
+
+Use `lng docs` to open up the Lightning-SDK documentation. Also check out https://github.com/rdkcentral/Lightning-SDK for more detailed information about Lightning SDK.
 
 ### <a name="components"></a>Components
 
-#### <a name="apps"></a>Apps
-Apps components is a collection of different applications and services that are integrated in our application.
+#### <a name="background"></a>Background
+Background is a component that allows to quickly add a common bottom layer to any screen.
 
 #### <a name="channel-bar"></a>Channel Bar
 Channel bar is a component which provides you possibility to navigate among channels while you are watching some event and player is top view.
 It also shows channel name and logo, start and end time of currently playing event on each channel.
 
-#### <a name="detail-page"></a>Detail Page
-Detail page component is used for showing information about movies in [OnDemand](#ondemand).
+#### <a name="list"></a>List
+List is a component which provides ability to organize similar items as a grid structure. This component uses Lightning's mechanism to create a grid from items that developer provides.
+
+#### <a name="loading-indicator"></a>Loading Indicator
+Component is used for show during time-consuming operations (such as requests to server or processing big data packs).
+
 
 #### <a name="main-menu"></a>Main Menu
-Main Menu component is used for navigating among main 'big' components  like [Apps](#apps), [OnDemand](#ondemand).
+Main Menu component is used for navigating among main 'big' components  like [AppsScreen](#apps-screen), [MoviesScreen](#movies-screen) and so on.
 
-#### <a name="masthead"></a>MastHead
-MastHead component is header which provides specific information about the top view. It also shows current time and
-the name of the event which is currently playing.
+#### <a name="navbar"></a>Navbar
+Navbar component is a container for all navigation bar components (background, bottom line, menu) and used for setting and updating of Menu items
 
-#### <a name="ondemand"></a>OnDemand
-OnDemand component is a collection of movies. It has Recommended section which shows you assets based on what you have seen recently,
-and section with all movies.
+#### <a name="player-progress"></a>PlayerProgress
 
-#### <a name="num-input"></a>Numeric Input popup
-Numeric input component is used for faster navigation in [Channel Bar](#channel-bar).
-RCU Manager handles key presses and provides key codes which are mapped to numbers in controller.
+PlayerProgress component shows title, progress and current time of the video which is currently playing.
 
-#### <a name="warning"></a>Warning popup
-Warning popup is a component which can be used for different purposes from showing errors to
-showing some information about system and other things
+#### <a name="video"></a>Video
 
-### <a name="domain-models"></a>Domain models
+Video component extends MediaPlayer component to fix positioning of the video
 
-#### <a name="channel"></a>Channel
+#### <a name="warning-modal"></a>WarningModal
 
-Channel domain model is used for retrieving channels with logos and info from cache.
+WarningModal is a component which can be used for different purposes from showing errors to showing some information about system and other things.
 
-Example:
+### <a name="domain"></a>Domain
+Used for store domain properties. It can be used for switch to custom domains if needs.
 
-```javascript
-const { go, paths } = require('navigation');
-const channelDomainModel = require('domainModels/channel');
-channelDomainModel.setCurrentChannel(channelDomainModel.getCurrentChannel())
-	 .then(() => go(paths.channelBar))
-	 .catch(err => console.error(err));
-```
-
-#### <a name="ondemand-domain"></a>OnDemand
-OnDemand domain model is used for retrieving movies from cache.
+### <a name="lib"></a>Lib
+Here is navigation functional. Navigation module is used for showing specific components in proper order.
+Router component is used for that. Router is configured from RoutingMap. Developer can describe desired behaviour using methods `navigate(urlFromRoutingMap)` for navigate to specified url, `navigateForward()` and `navigateBackward()` for navigate through screens stack.
 
 Example:
 
 ```javascript
-const { getMovies, getRecommendedMovies } = require('ondemand');
-   Promise.all([
-       getMovies(),
-       getRecommendedMovies(),
-   ]).then(([moviesData, recommendedData]) => {
-	//do what you need to
-   }).catch(err => console.error(err));
+setupRouter(app, document.location.hash)
+
+navigate('home')
+navigateForward()
+navigateBackward()
 ```
-####  <a name="player-domain"></a>Player
-Player domain model is used for retrieving entities to play.
+
+### <a name="screens"></a>Screens
+
+#### <a name="apps-screen"></a>AppsScreen
+Apps components is a collection of different applications and services that are integrated in our application.
+
+#### <a name="base-screen"></a>BaseScreen
+
+#### <a name="details-screen"></a>DetailsScreen
+Detail page component is used for showing information about movies in [VODScreen](#vod-screen).
+
+#### <a name="home-screen"></a>HomeScreen
+Screen which is used as initial screen after loading. Contains video player and channel bar.
+
+#### <a name="movies-screen"></a>MoviesScreen
+
+Movies screen is a collection of movies. It has Recommended section which shows you assets based on what you have seen recently, and section with all movies.
+
+#### <a name="settings-screen"></a>SettingsScreen
+
+Settings screen is used for displaying some app settings.
+
+#### <a name="splash-screen"></a>SplashScreen
+
+Splash screen shows loading animation while app is launching.
+
+#### <a name="vod-screen"></a>VODScreen
+
+VOD screen is used for playback of selected movie and updating of progress bar.
+
+### <a name="services"></a>Services
+#### <a name="channels-service"></a>Channels Service
+Service is used for getting and parsing list of channels and programs.
+
+#### <a name="player"></a>Player
+Provide players and common interface to use them.
+Initialization
 Example:
 
 ```javascript
-const player = require('domainModels/player');
-const entity = player.getCurrentPlayableEntity();
-// then prepare entity for showing
+import { init as initPlayers } from './services/player'
+
+initPlayers({
+  ipPlayerMode: 'sessionManager',
+  endpoint: // here has to be your raspberry ip like this 'http://192.168.1.102:8080'
+})
 ```
-
-#### <a name="system"></a>System
-System domain model is used to manage events execution without random delay when multiple events
-were emitted simultaneously. Also it has internal clock to count current time for different purposes.
-There are `setSystemInterval()` and `clearSystemInterval()` for setting updates each N seconds and clear them.
-`GetNow()` is used for retrieving current time.
-
-### <a name="navigation"></a>Navigation
-Navigation module is used for showing specific components in proper order.
-Navigator can work both with views and popups
-
-Example:
+Then you can use it
 
 ```javascript
-const { init: initNavigator, go, paths } = require('navigation');
-initNavigator();
-go(paths.mainMenu);
+import * as player  from '@/services/player/'
+//entry has to contain field locator, it would be video resource ip you want to play
+// entry = {
+//   locator: "ip_of_resource"
+// }
+await player.playIP(entry)
 ```
-
-In this example we init navigator by importing array with all possible routes.
-Then we navigate to main menu by calling `go()` method, which is calling methond `find()`.
-This method is traversing array with routes until it finds the path and then calls method `show()` for each
-component it met on the way.
-
-Navigator also handles the 'back' behavior. It adds components to the stack, so you can return to previous views.
-
-### <a name="renderer"></a> Renderer
-Renderer is a module for creating new or updating exisiting nodes.
-Node in essence is a square to which we add styles.
-Possible styles are stored in StyleProperties array, which is used for creating StylesExecutionList,
-so each style has it's own position in queue for applying.
-
-There are 2 ways of **creating nodes**:
-1.Creating only one node:
+Start/Pause player
 
 ```javascript
-const { createOrUpdateNode } = require('renderer');
-const styles = {
-	width: 100,
-	height: 100,
-	backgroundColor: '#000000',
-};
-let node = createOrUpdateNode('id-1', styles, 'parent of the node');
+player.play()
+player.pause()
 ```
-
-2.Creating the whole layout:
-
+To get metadata of current video, use
 ```javascript
-const { renderLayout } = require('renderer');
-const layout = {
-	id: 'id-1',
-	styles: {},
-	children: [
-		{
-		   id: 'id-2',
-		   styles: {},
-		},
-		{
-		   id: 'id-3',
-		   styles: {},
-		}
-	]
-};
-let viewNode = renderLayout(layout, 'parent (root node by default)');
+player.getPlaybackState() // returns promise with current position, duration and other
 ```
 
-You can also **remove nodes** by specific id for optimization if you don't need it anymore:
+### <a name="themes"></a>Themes
+Can be used for quick customization of application. Just describe new theme and set it as active.
 
-```javascript
-const { removeNode } = require('renderer');
-removeNode('id-1');
-```
-#### <a name="list"></a>List
-Layout helper which takes an array of elements, creates a wrapper and applies top or left position for passed elements, depending on the initial direction. List can include other list or any static layout structures as its elements. Also you can set margins between all elements by defining elemMargin props.
-```javascript
-const list = require('renderer/list');
-const { listDirections } = require('shared/constants');
-
-const staticVerticalList = list({
-    direction: listDirections.COLUMN,
-    elemMargin: 30,
-    id: 'wrapper-node-id',
-    styles: {
-        // any styles for wrapper node
-    }
-    elements: [
-        {
-            id: 'child-id-0',
-            styles: {}
-        },
-        list({
-            direction: listDirections.ROW,
-            elements: [/* some other layouts */],
-        })
-    ],
-});
-```
-
-### <a name="shared"></a> Shared
+### <a name="additional"></a>Additional
 #### <a name="animation"></a>Animation
+
+Here is used Lightning animations. More information can be found in Lightning manual.
 Example:
 
 ```javascript
-const Animation = require('shared/animation');
-//animate node
-Animation.animate('node instance', {
-    timingFunction: Animation.timingFunctions.LINEAR,
-    duration: 0.15,
-    xDistance: -240,
-});
-//cancel animation
-Animation.cancel('node instance');
+anim = this.animation({
+  duration: durationInSeconds, repeat: repeatCount, actions:[{t: animatedObjectName, p:propertyToAnimate, v:{0: startValue, 1: finishValue}}]
+})
+
+anim.start()
+anim.stop()
 ```
-
-#### <a name="view-model"></a>ViewModel
-View Model is used for creating models for different views to contain static and dynamic properties.
-You can use method `bindWatcher()` to create a handler which triggers when your value has been changed. `updateView()` method tells watchers to check their values if they was changed.
-Example:
-
-```javascript
-const ViewModel = require('shared/ViewModel');
-const model = new ViewModel({
-    //static data
-});
-model.set('key of the dynamic data', 'dynamic data');
-model.bindWatcher('key of the dynamic data', (oldValue, newValue) => {
-    //make your updates here
-});
-model.updateView();
-```
-
-#### <a name="dynamic-list"></a>Dynamic List
-Dynamic List is a helper which is used for creating lists (wrapper node) that can be dynamically extended and updated.
-Dynamic List can be used in two cases:
-1. Make a not movable vertical(column) or horizontal(row) list of items, which can dynamically change its capacity by setting new data.
-2. Make a movable vertical(column) or horizontal(row) list of items. In this case dynamic list deletes all previous items and fully renders new items.
-
-DynamicList includes five methods for manage state:
-1. `generateList()` method generates items from data and set movable or not movable mode of this list;
-2. If you make movable list, you can use `move()` method for moving list items. This method automatically generates new items before rendering if necessary. But previous items are never deleted from list;
-3. `updateItem()` method updates existing item by passing index and new layout;
-4. `restore()` method deletes current items and reset all initial props of dynamic list.
-5. Getter `items` return actual map of items with structure like `{ index => { styles: { actual item styles } } }`
-
-It's also necessary to create a function that will be called each time you create item. This function should accept two arguments: `itemData` - data for item and `prevItem` - previous items layout. Function should return layout object.
-
-**Notes:** It is necessary to set `root` prop to the DynamicList instance before calling `generateList()` method.
-```javascript
-const DynamicList = require('shared/DynamicList');
-const { listDirections } = require('shared/constants');
-
-// function-generator
-function listItemGenerator(itemData, prevItem) {
-    // return layout object without ids
-    return {
-        styles: {},
-        children: [
-            {
-                styles: {},
-                children: [/*...*/]
-            },
-            // ...
-        ]
-    };
-}
-
-const dynamicList = new DynamicList({
-        root: { id: 'nodeId', node: 'parent or root node instance'},
-        id: 'dynamicList-node-id',
-        styles: {
-            // any styles for wrapper node
-        }
-        listItemGenerator,
-        direction: listDirections.ROW
-    });
-
-dynamicList
-    .generateList({ elementsData: [/* array of item data */], movable: true })
-    .move({ size = -150, duration = 0.2, timingFunction = timingFunctions.LINEAR })
-    .updateItem(0, {
-        styles: { /* any styles for current item */}
-        children: [/* layouts of the children nodes */]
-    }
-    restore();
-
-console.log(dynamicList.items) // `{ 0 => { styles: {...} } }`
-```
-## <a name="contributing"></a>Contributing
-- [Bug reports](https://github.com/LibertyGlobal/refapp/issues)
-
