@@ -3,7 +3,7 @@ import BaseScreen from '../BaseScreen'
 import { getDomain } from '@/domain'
 import Background from '@/components/Background'
 import ListWithLine from './components/ListWithLine'
-import WarningModal from '@/components/WarningModal'
+import { navigate } from '../../lib/Router'
 import commonConstants from '@/constants/default'
 import constants from './constants'
 import theme from '../../themes/default'
@@ -33,25 +33,9 @@ export default class AppsScreen extends BaseScreen {
           Lists: {
             y: constants.CONTAINER_LIST_Y,
           },
-        },
-        Popup: {
-          type: WarningModal,
-          headerText: "Apps is not available",
-          bodyText: "Implementation is planned for future versions of the application",
-          x: constants.POPUP_X,
-          y: constants.POPUP_Y,
-          visible: false
         }
       },
     }
-  }
-
-  _handleEnter() {
-    this.tag("Popup").visible = true
-    setTimeout(() => {
-      this.tag("Popup").visible = false
-      this._refocus()
-    }, constants.POPUP_TIMEOUT)
   }
 
   setIndex(index) {
@@ -59,12 +43,8 @@ export default class AppsScreen extends BaseScreen {
   }
 
   _getFocused() {
-    if (this.tag("Popup").visible) {
-      return this.tag("Popup")
-    } else {
-      return this.activeList
-    }
-  }
+    return this.activeList
+  } 
 
   get lists() {
     return this.tag('Lists').children
@@ -75,22 +55,45 @@ export default class AppsScreen extends BaseScreen {
   }
 
   async _init() {
-    this.tag('CTitle').text.text = 'Apps';
-    const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/apps.json`))
-    const { layout } = await response.json()
-    this._categories = layout.body
+    
+  /*  
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("http://127.0.0.1:50050/apps", requestOptions)
+      .then(resp => resp.text())
+      .then(result => {
+        console.log(result)
+        this.tag('CTitle').text.text = 'Apps' +JSON.stringify(result);
+      })
+      .catch(error => console.log('error', error));
+
+  //  const response = await fetch('http://127.0.0.1:50050/apps')
+  //  const { applications } = await response.json()
+  */
+    this.tag('CTitle').text.text = 'Apps'
+  //  this.tag('CTitle').text.text = 'Apps' +JSON.stringify(response);
+
+    const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+    const { applications } = await response.json()
+
+    this._categories = applications
+
     this.rowsTopPositions = []
-    const children = layout.body.map(({ label, items, itemWidth, itemHeight }, index, lists) => {
+      const children = applications.map(({ category }, index, lists) => {
+    
       let yPosition = 0
       for (let i = 0; i < index; i++) {
         const element = lists[i]
-        yPosition += (element.itemHeight || 100) + 140
+        yPosition += (constants.ICON_HEIGHT || 100) + 140
       }
       return {
         type: ListWithLine,
-        itemSize: { w: itemWidth, h: itemHeight },
-        label: label,
-        items: items,
+        itemSize: { w: constants.ICON_WIDTH, h: constants.ICON_HEIGHT },
+        label: category,
+        items: applications,
         y: yPosition,
       }
     })
@@ -102,9 +105,9 @@ export default class AppsScreen extends BaseScreen {
   animate() {
     this.tag('Container').alpha = 0
     this.tag('Container').setSmooth('alpha', 1, { duration: 2 })
-
     for (let i = 0; i < this.lists.length; i++) {
       const list = this.lists[i]
+
       if (this.rowsTopPositions.length - 1 < i) {
         this.rowsTopPositions.push(list.y)
       }
@@ -112,6 +115,10 @@ export default class AppsScreen extends BaseScreen {
       list.y = y + 200
       list.setSmooth('y', y, { delay: 0.1 * i, duration: 1 })
     }
+  }
+
+  _handleEnter() {
+    navigate(`appdetails/${this._categories[this.activeList.index].id}`, true)
   }
 
   _handleUp() {
