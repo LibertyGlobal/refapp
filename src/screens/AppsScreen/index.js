@@ -69,10 +69,9 @@ export default class AppsScreen extends BaseScreen {
         this.tag('CTitle').text.text = 'Apps' +JSON.stringify(result);
       })
       .catch(error => console.log('error', error));
+*/
 
   //  const response = await fetch('http://127.0.0.1:50050/apps')
-  //  const { applications } = await response.json()
-  */
     this.tag('CTitle').text.text = 'Apps'
   //  this.tag('CTitle').text.text = 'Apps' +JSON.stringify(response);
 
