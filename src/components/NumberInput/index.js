@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 import Config from './config.js'
 import * as player from '@/services/player/'
 import { channelsServiceInit, getCurrentProgram, getChannel } from '@/services/ChannelsService'

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Launch } from 'wpe-lightning-sdk'
+import { Launch } from '@lightningjs/sdk'
 import App from './App.js'
 import { setDomain } from './domain'
 import { setupRouter } from './lib/Router'

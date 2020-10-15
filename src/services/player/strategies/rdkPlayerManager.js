@@ -21,7 +21,7 @@
 import * as logger from '@/shared/logger'
 
 // import { EventEmitter } from 'events'
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 import { playingVodStates } from './constants'
 
 const MODULE_NAME = 'domainModels/player/strategies'

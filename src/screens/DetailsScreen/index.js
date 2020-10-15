@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Utils } from 'wpe-lightning-sdk'
+import { Utils } from '@lightningjs/sdk'
 import { navigate, navigateBackward } from '../../lib/Router'
 import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Lightning, Utils } from 'wpe-lightning-sdk'
+import { Lightning, Utils } from '@lightningjs/sdk'
 import { getActiveScreen, navigateForward, navigateBackward, navigate } from './lib/Router'
 import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'

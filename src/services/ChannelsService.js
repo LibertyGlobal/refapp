@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Utils } from "wpe-lightning-sdk"
+import { Utils } from "@lightningjs/sdk"
 
 let channels = null
 let schedule = {}
