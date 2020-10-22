@@ -23,6 +23,7 @@ import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
 import NumberInput from './components/NumberInput'
+import CurrentTime from './components/CurrentTime'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -39,9 +40,8 @@ export default class App extends Lightning.Component {
         alpha: 0
       },
       Time:{
-        x: 1650,
-        y: 15,
-        zIndex: 11
+        type: CurrentTime,
+        visible: true
       } 
     }
   }
@@ -59,7 +59,6 @@ export default class App extends Lightning.Component {
 
   async _init() {
     this._setState('Splash')
-
     const testIncreaseSplashVisibility = new Promise((resolve, reject) => {
       setTimeout(() => resolve(), 2000)
     })
@@ -77,30 +76,7 @@ export default class App extends Lightning.Component {
         src: Utils.asset('cache/images/rdk-logo.png'),
         zIndex: 11
       }
-
     })
-
-    // Added fix for auto time update in hh:mm:ss
-    let that = this
-
-    const startTime = () => {
-      let today = new Date();
-      let h = today.getHours();
-      let m = today.getMinutes();
-      let s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      that.tag('Time').text = h + ":" + m + ":" + s;
-      let t = setTimeout(startTime, 500);
-    }
-
-    const checkTime = (i) => {
-      console.log("checkTime time :: "+i)
-      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-      return i;
-    }
-    startTime();
-    // end auto time update
 
     this._setState('Navbar')
 

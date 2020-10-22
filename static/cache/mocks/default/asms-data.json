@@ -1,7 +1,7 @@
 {
   "applications": [
       {
-      "icon": "/cache/appsLogos/default_app_collection.png",
+          "icon": "/cache/appsLogos/default_app_collection.png",
           "name": "you.i",
           "description": "Showcase application from the company youi.tv. The container package contains both the react native application and the You.i TV react native Gfx engine beneath.",
           "url": "https://us.icr.io/v2/appcontainerstagingrdk/you.i/manifests/latest",

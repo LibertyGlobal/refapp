@@ -55,31 +55,13 @@ export default class AppsScreen extends BaseScreen {
   }
 
   async _init() {
-    
-  /*  
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-    
-    fetch("http://127.0.0.1:50050/apps", requestOptions)
-      .then(resp => resp.text())
-      .then(result => {
-        console.log(result)
-        this.tag('CTitle').text.text = 'Apps' +JSON.stringify(result);
-      })
-      .catch(error => console.log('error', error));
-*/
-
-  //  const response = await fetch('http://127.0.0.1:50050/apps')
     this.tag('CTitle').text.text = 'Apps'
-  //  this.tag('CTitle').text.text = 'Apps' +JSON.stringify(response);
-
-    const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+    // Fetch data from asms server
+    const response = await fetch('http://127.0.0.1:50050/apps')
+    // Fetch data from static json
+    //const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
     const { applications } = await response.json()
-
     this._categories = applications
-
     this.rowsTopPositions = []
       const children = applications.map(({ category }, index, lists) => {
     

@@ -76,16 +76,6 @@ export default class AppDetailScreen extends BaseScreen {
         h: constants.ICON_HEIGHT
       }
     },
-    Launch:{
-      y: 890,
-      text: "Launch app"
-    },
-    Back:{
-      x: 400,
-      y: 890,
-      text: "Go back to apps",
-      alpha: .8
-    },
     Popup: {
       type: WarningModal,
       headerText: "Apps is not available",
@@ -97,25 +87,10 @@ export default class AppDetailScreen extends BaseScreen {
   }
   }
   async update(params) {
-    
-    /*  
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-    
-    fetch("http://127.0.0.1:50050/apps", requestOptions)
-      .then(resp => resp.text())
-      .then(result => {
-        console.log(result)
-        this.tag('CTitle').text.text = 'Apps' +JSON.stringify(result);
-      })
-      .catch(error => console.log('error', error));
-    */
-
-    // const response = await fetch(`http://127.0.0.1:50050/apps`)
-    //  this.tag('CTitle').text.text = 'Apps' +JSON.stringify(response);
-    const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+    // Fetch data from asms server
+    const response = await fetch(`http://127.0.0.1:50050/apps`)
+    // Fetch data from static json
+    //  const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
     const { applications } = await response.json()
     const item = this._getItem(applications, params)
   
@@ -134,8 +109,7 @@ export default class AppDetailScreen extends BaseScreen {
 }
 
   _init() {
-    this.tag('Launch');
-    this.tag('Back').setSmooth('alpha', .7);
+  // TODO
   }
 
   _getItem(applications, params) {
@@ -143,7 +117,6 @@ export default class AppDetailScreen extends BaseScreen {
     let result = {}
       applications.forEach((item, index) => {
         if (item.id === params) {
-          console.log("item.id :: "+item.id);
           result = item
         }
       })
@@ -151,8 +124,7 @@ export default class AppDetailScreen extends BaseScreen {
   }
 
   _getFocused() {
-    this.tag('Launch').setSmooth('alpha', 1)
-  //  this.tag('Back').setSmooth('alpha', .7)
+  // TODO
   }
 
   _handleEnter() {

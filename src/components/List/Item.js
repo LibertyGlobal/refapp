@@ -56,7 +56,7 @@ export default class Item extends Lightning.Component {
             h: this._size.h
           },
           type: Lightning.textures.ImageTexture,
-          src: Utils.asset(value.image || value.icon) 
+          src: Utils.asset( value.image || value.icon) 
         }
       },
       Title: {
