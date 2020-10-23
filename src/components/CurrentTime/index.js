@@ -17,7 +17,7 @@
   * limitations under the License.
   */
 
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 import constants from './constants'
 
 export default class Time extends Lightning.Component {
