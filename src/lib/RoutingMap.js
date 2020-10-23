@@ -21,6 +21,7 @@ import AppsScreen from '@/screens/AppsScreen'
 import SettingsScreen from '@/screens/SettingsScreen'
 import VODScreen from '@/screens/VODScreen'
 import DetailsScreen from '@/screens/DetailsScreen'
+import AppDetailScreen from '@/screens/AppDetailScreen'
 import HomeScreen from '@/screens/HomeScreen'
 import commonConstants from '@/constants/default'
 
@@ -83,6 +84,15 @@ export const routings = [
     settings: {
       type: VODScreen,
       ref: 'VODScreen',
+      ...screenGeometry
+    }
+  },
+  {
+    url: 'appdetails',
+    menuItem: -1,
+    settings: {
+      type: AppDetailScreen,
+      ref: 'AppDetailScreen',
       ...screenGeometry
     }
   }
