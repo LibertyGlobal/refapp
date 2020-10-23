@@ -73,6 +73,9 @@ function stopCurrentPlayback() {
 }
 
 function getPlaybackState() {
+  if (currentPlaybackState == null) {
+    return {}
+  }
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/getSessionProperty`,
     method: 'PUT',
@@ -90,6 +93,9 @@ function getPlaybackState() {
 }
 
 function setPlaybackState(props) {
+  if (currentPlaybackState == null) {
+    return {}
+  }
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/setSessionProperty`,
     method: 'PUT',

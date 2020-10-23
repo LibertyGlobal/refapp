@@ -60,9 +60,11 @@ export default class Item extends Lightning.Component {
       this.tag('Background').color = color
     }
   }
+// TODO: Image should get from asms server, hardcoded for testing purpose
 
   set item(value) {
     this._item = value
+
     this.patch({
       Image: {
         texture: {
@@ -72,11 +74,11 @@ export default class Item extends Lightning.Component {
             h: this._size.h
           },
           type: Lightning.textures.ImageTexture,
-          src: Utils.asset(value.image)
+          src: Utils.asset( value.image || value.icon) 
         }
       },
       Title: {
-        text: { text: value.label, wordWrapWidth: this._size.w }
+        text: { text: value.name || value.label, wordWrapWidth: this._size.w }
       }
     })
   }

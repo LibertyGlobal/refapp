@@ -23,6 +23,7 @@ import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
 import NumberInput from './components/NumberInput'
+import CurrentTime from './components/CurrentTime'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -37,7 +38,11 @@ export default class App extends Lightning.Component {
         y: 700,
         signals: { select: true },
         alpha: 0
-      }
+      },
+      Time:{
+        type: CurrentTime,
+        visible: true
+      } 
     }
   }
 
@@ -54,7 +59,6 @@ export default class App extends Lightning.Component {
 
   async _init() {
     this._setState('Splash')
-
     const testIncreaseSplashVisibility = new Promise((resolve, reject) => {
       setTimeout(() => resolve(), 2000)
     })
@@ -72,8 +76,8 @@ export default class App extends Lightning.Component {
         src: Utils.asset('cache/images/rdk-logo.png'),
         zIndex: 11
       }
-
     })
+
     this._setState('Navbar')
 
     const configFile = await fetch(Utils.asset('config.ssm.json'))
@@ -138,44 +142,20 @@ export default class App extends Lightning.Component {
   }
 
   _handleKey(key) {
-
-    let keyValue = parseInt(key.key)
-    if (keyValue >= 0 && keyValue <= 9) {
-      let aScreen = getActiveScreen();
-      if (aScreen.ref == "HomeScreen" || aScreen.ref == "MoviesScreen") {
-        this._setState('NumberInput')
-        this.tag('NumberInput').putNumber(keyValue);
-        this.tag('NumberInput').alpha = 1;
-        navigate('home');
-      }
-      return true
-    }
-
     if (key.code === 'KeyF') {
       return navigateForward()
     }
     if (key.code === 'Backspace') {
       const activeScreen = getActiveScreen()
-      if (!activeScreen || activeScreen.ref === 'HomeScreen') {
-        if (this._getFocused().ref !== 'Navbar') {
-          this._setState('Navbar')
-          return true
-        }
-        return false
+      if (activeScreen.ref === 'HomeScreen') {
+        this._setState('Navbar')
       } else {
-        if (this._getFocused().ref !== 'Navbar') {
-          this._setState('Navbar')
-        } else {
-          this._setState('Navbar')
-          if (!navigateBackward()) {
-            navigate('home')
-          }
-          return true
+        this._setState('Navbar')
+        if (!navigateBackward()) {
+          navigate('home')
         }
-        return true
       }
     }
-    return false
   }
 
   $hideMenu() {
