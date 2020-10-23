@@ -17,7 +17,7 @@
   * limitations under the License.
   */
 
-import { Utils } from 'wpe-lightning-sdk'
+import { Utils } from '@lightningjs/sdk'
 import { navigate, navigateBackward } from '../../lib/Router'
 import { getDomain } from '@/domain'
 import WarningModal from '@/components/WarningModal'

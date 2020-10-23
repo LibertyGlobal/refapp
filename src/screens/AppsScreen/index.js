@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Utils, Log } from 'wpe-lightning-sdk'
+import { Utils, Log } from '@lightningjs/sdk'
 import BaseScreen from '../BaseScreen'
 import { getDomain } from '@/domain'
 import Background from '@/components/Background'

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 
 export default class BaseScreen extends Lightning.Component {
   update(params) {}

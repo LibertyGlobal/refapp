@@ -18,7 +18,7 @@
  */
 
 import BaseScreen from '../BaseScreen'
-import { Utils } from 'wpe-lightning-sdk'
+import { Utils } from '@lightningjs/sdk'
 import { navigateBackward } from '@/lib/Router'
 import PlayerProgress from '@/components/PlayerProgress'
 import theme from '@/themes/default'

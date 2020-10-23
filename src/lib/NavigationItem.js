@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 import { navigate } from './Router'
 export default class NavigationItem extends Lightning.Component {
   _handleEnter() {

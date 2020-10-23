@@ -5,7 +5,7 @@
     "axios": "^0.19.2",
     "dashjs": "^3.1.1",
     "hls.js": "^0.13.2",
-    "wpe-lightning-sdk": "rdkcentral/Lightning-SDK"
+    "@lightningjs/sdk": "rdkcentral/Lightning-SDK"
   },
   "scripts": {
     "dev": "lng dev",

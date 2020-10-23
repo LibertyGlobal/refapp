@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Utils, Lightning, Log } from 'wpe-lightning-sdk'
+import { Utils, Lightning, Log } from '@lightningjs/sdk'
 import theme from '@/themes/default'
 import constants from './constants'
 

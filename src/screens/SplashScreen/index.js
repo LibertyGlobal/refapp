@@ -18,7 +18,7 @@
  */
 
 import BaseScreen from '../BaseScreen'
-import {Utils} from 'wpe-lightning-sdk'
+import {Utils} from '@lightningjs/sdk'
 import LoadingIndicator from '@/components/LoadingIndicator'
 import Background from '@/components/Background'
 import constants, { INDICATOR_HEIGHT } from './constants'

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { routings } from './RoutingMap'
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 
 const screenCache = {}
 let application = null

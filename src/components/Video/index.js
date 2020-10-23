@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Lightning, MediaPlayer, Settings, Metrics, Log } from 'wpe-lightning-sdk'
+import { Lightning, MediaPlayer, Settings, Metrics, Log } from '@lightningjs/sdk'
 import commonConstants from '@/constants/default'
 
 export default class Video extends MediaPlayer {

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Lightning, Utils } from 'wpe-lightning-sdk'
+import { Lightning, Utils } from '@lightningjs/sdk'
 import constants from './constants'
 
 export default class LoadingIndicator extends Lightning.Component {

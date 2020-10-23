@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Lightning } from 'wpe-lightning-sdk'
+import { Lightning } from '@lightningjs/sdk'
 import Item from '@/components/List/Item'
 import theme from '@/themes/default'
 import constants from '../../constants'
