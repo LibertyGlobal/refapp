@@ -76,7 +76,11 @@ export default class AppsScreen extends BaseScreen {
 
   async _init() {
     this.tag('CTitle').text.text = 'Apps'
+    this.rowsTopPositions = []
+    this._index = 0
+  }
 
+  async update(params) {
     const useMock = false
     let response = null
     if (useMock) {
@@ -97,7 +101,6 @@ export default class AppsScreen extends BaseScreen {
       }
     })
 
-    this.rowsTopPositions = []
     let categories = []
     let yPosition = 0
     applications.forEach((app) => {
@@ -118,7 +121,6 @@ export default class AppsScreen extends BaseScreen {
       cat.apps.push(app)
     })
 
-    this._index = 0
     this.tag('Lists').children = categories
     this.animate()
   }
