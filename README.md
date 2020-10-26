@@ -38,10 +38,10 @@
 ### <a name="getting-started"></a>Getting started
 
 > Before you follow the steps below, make sure you have the
-[Lightning-CLI](https://github.com/WebPlatformForEmbedded/Lightning-CLI) installed _globally_ on your system
+[Lightning-CLI](https://github.com/rdkcentral/Lightning-CLI) installed _globally_ on your system
 
 ```
-npm install -g WebPlatformForEmbedded/Lightning-CLI
+npm install -g @lightningjs/cli
 ```
 
 ### <a name="running-the-app"></a>Running the App
@@ -66,6 +66,28 @@ During development you can use the **watcher** functionality of the _Lightning-C
 
 You may consider to use [VSCode IDE](https://code.visualstudio.com/)since the project contains configuration presets for running and debugging of the app. This approach also helps to reduce the directory lock issue mentioned above.
 
+### Setup tunnel and proxy
+
+To easily access the different microservices the refapp connects to, it is best to setup an stunnel and proxy. The refapp code accesses these services on the same host and port where the javascript and HTML files are hosted, thereby avoiding any CORS issues.
+
+#### the proxy
+
+`lng serve` will automatically proxy all requests it cannot handle to http://127.0.0.1:50050. This is configured inside .env as such:
+```
+LNG_SERVE_PROXY="http://127.0.0.1:50050"
+```
+
+#### the stunnel
+Next is to setup your tunnel to your RPI or box. Run the following on your development station:
+```
+export BOXIP=192.168.1.250
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -L 50050:127.0.0.1:50050 root@$BOXIP
+```
+This makes sure that all local requests on port 50050 are routed through the stunnel to the RPI. There the request is forwarded to 127.0.0.1 port 50050. On usual reference images that is the port where the lighttpd service is running on. It is configured to route the appropriate requests to the relevant microservices (both running locally or remote).
+
+#### websockets through stunnel
+
+HTTP requests to microservices are routed through `lng serve` and then through the stunnel. Sadly, websocket connections are not supported by the `lng serve` proxy. Luckily, CORS does not apply on websockets. So websocket connections should go through the stunnel directly, in other words: connect to 127.0.0.1:50050. This is happening for ThunderJS which uses websocket connections to the rdkservices running on the RPI.
 
 ### <a name="documentation"></a>Documentation
 

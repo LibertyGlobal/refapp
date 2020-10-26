@@ -26,6 +26,7 @@ import { navigate } from '../../lib/Router'
 import commonConstants from '@/constants/default'
 import constants from './constants'
 import theme from '../../themes/default'
+import { getInstalledDACApps } from '@/services/RDKServices'
 
 export default class AppsScreen extends BaseScreen {
   static _template() {
@@ -76,29 +77,44 @@ export default class AppsScreen extends BaseScreen {
   async _init() {
     this.tag('CTitle').text.text = 'Apps'
     // Fetch data from asms server
-    const response = await fetch('http://127.0.0.1:50050/apps')
+    const response = await fetch('http://' + window.location.host + '/apps')
     // Fetch data from static json
     //const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
     const { applications } = await response.json()
-    this._categories = applications
-    this.rowsTopPositions = []
-      const children = applications.map(({ category }, index, lists) => {
-    
-      let yPosition = 0
-      for (let i = 0; i < index; i++) {
-        const element = lists[i]
-        yPosition += (constants.ICON_HEIGHT || 100) + 140
-      }
-      return {
-        type: ListWithLine,
-        itemSize: { w: constants.ICON_WIDTH, h: constants.ICON_HEIGHT },
-        label: category,
-        items: applications,
-        y: yPosition,
+    const installedApplications = await getInstalledDACApps()
+
+    applications.forEach((app) => {
+      app.isInstalled = false
+      let installedApp = installedApplications.find((a) => { return a.id === 'pkg-' + app.id })
+      if (installedApp) {
+        app.isInstalled = true
+        app.name = '(I) ' + app.name
       }
     })
+
+    this.rowsTopPositions = []
+    let categories = []
+    let yPosition = 0
+    applications.forEach((app) => {
+      let cat = categories.find((ch) => { return ch.label === app.category})
+      if (cat == null) {
+        cat = {
+          type: ListWithLine,
+          itemSize: { w: constants.ICON_WIDTH, h: constants.ICON_HEIGHT },
+          label: app.category,
+          items: [],
+          apps: [],
+          y: yPosition,
+        }
+        yPosition += (constants.ICON_HEIGHT || 100) + 140
+        categories.push(cat)
+      }
+      cat.items.push(app)
+      cat.apps.push(app)
+    })
+
     this._index = 0
-    this.tag('Lists').children = children
+    this.tag('Lists').children = categories
     this.animate()
   }
 
@@ -118,7 +134,7 @@ export default class AppsScreen extends BaseScreen {
   }
 
   _handleEnter() {
-    navigate(`appdetails/${this._categories[this.activeList.index].id}`, true)
+    navigate(`appdetails/${this.activeList.apps[this.activeList.index].id}`, true)  
   }
 
   _handleUp() {
