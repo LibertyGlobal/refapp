@@ -45,9 +45,9 @@ function getDacAppInstallUrl(id) {
   var dacRepoLFS = "https://media.githubusercontent.com/media/stagingrdkm/lntpub/master/bundle"
 
   if (isLfs(id)) {
-    return dacRepoLFS + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz";
+    return dacRepoLFS + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz"
   } else {
-    return dacRepo + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz";
+    return dacRepo + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz"
   }
 }
 
@@ -73,7 +73,7 @@ export const installDACApp = async (id) => {
     console.log('Error on installDACApp: ', error)
   }
 
-  return result == null ? false : result.success;
+  return result == null ? false : result.success
 }
 
 export const uninstallDACApp = async (id) => {
@@ -88,7 +88,7 @@ export const uninstallDACApp = async (id) => {
     console.log('Error on uninstallDACApp: ', error)
   }
 
-  return result == null ? false : result.success;
+  return result == null ? false : result.success
 }
 
 export const isInstalledDACApp = async (id) => {
@@ -103,7 +103,7 @@ export const isInstalledDACApp = async (id) => {
     console.log('Error on isInstalledDACApp: ', error)
   }
 
-  return result == null ? false : result.available;
+  return result == null ? false : result.available
 }
 
 export const getInstalledDACApps = async () => {
@@ -118,7 +118,7 @@ export const getInstalledDACApps = async () => {
     console.log('Error on getInstalledDACApps: ', error)
   }
 
-  return result == null ? [] : result.applications;
+  return result == null ? [] : result.applications
 }
 
 export const startDACApp = async (id) => {
@@ -133,7 +133,7 @@ export const startDACApp = async (id) => {
     console.log('Error on startDACApp: ', error)
   }
 
-  return result == null ? false : result.success;
+  return result == null ? false : result.success
 }
 
 export const stopDACApp = async (id) => {
@@ -148,5 +148,5 @@ export const stopDACApp = async (id) => {
     console.log('Error on stopDACApp: ', error)
   }
 
-  return result == null ? false : result.success;
+  return result == null ? false : result.success
 }

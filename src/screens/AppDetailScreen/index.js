@@ -107,9 +107,17 @@ export default class AppDetailScreen extends BaseScreen {
   }
   }
   async update(params) {
-    const response = await fetch('http://' + window.location.host + '/apps/' + params)
-    const { header } = await response.json()
-    let item = header
+    const useMock = false
+    let item = null
+    if (useMock) {
+      const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+      const { applications } = await response.json()
+      item = applications.find((a) => { return a.id === params })
+    } else {
+      const response = await fetch('http://' + window.location.host + '/apps/' + params)
+      const { header } = await response.json()
+      item = header
+    }
     item.isInstalled = await isInstalledDACApp(item.id)
   
     // Icon should fetch from asms server

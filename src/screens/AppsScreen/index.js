@@ -76,10 +76,15 @@ export default class AppsScreen extends BaseScreen {
 
   async _init() {
     this.tag('CTitle').text.text = 'Apps'
-    // Fetch data from asms server
-    const response = await fetch('http://' + window.location.host + '/apps')
-    // Fetch data from static json
-    //const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+
+    const useMock = false
+    let response = null
+    if (useMock) {
+      response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+    } else {
+      response = await fetch('http://' + window.location.host + '/apps')
+    }
+
     const { applications } = await response.json()
     const installedApplications = await getInstalledDACApps()
 
