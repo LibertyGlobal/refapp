@@ -4,6 +4,7 @@
       "clearColor": "0x00000000",
       "useImageWorker": true
     },
+    "rdkservicesPort": 50050,
     "debug": false
   },
   "platformSettings": {

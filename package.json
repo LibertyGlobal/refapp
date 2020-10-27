@@ -5,7 +5,8 @@
     "axios": "^0.19.2",
     "dashjs": "^3.1.1",
     "hls.js": "^0.13.2",
-    "@lightningjs/sdk": "rdkcentral/Lightning-SDK"
+    "@lightningjs/sdk": "rdkcentral/Lightning-SDK",
+    "ThunderJS": "rdkcentral/ThunderJS"
   },
   "scripts": {
     "dev": "lng dev",

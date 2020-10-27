@@ -25,6 +25,7 @@ import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
+import { isInstalledDACApp, installDACApp, uninstallDACApp, startDACApp, stopDACApp } from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
@@ -106,17 +107,26 @@ export default class AppDetailScreen extends BaseScreen {
   }
   }
   async update(params) {
-    // Fetch data from asms server
-    const response = await fetch(`http://127.0.0.1:50050/apps`)
-    // Fetch data from static json
-    //  const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
-    const { applications } = await response.json()
-    const item = this._getItem(applications, params)
+    const useMock = false
+    let item = null
+    if (useMock) {
+      const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+      const { applications } = await response.json()
+      item = applications.find((a) => { return a.id === params })
+    } else {
+      const response = await fetch('http://' + window.location.host + '/apps/' + params)
+      const { header } = await response.json()
+      item = header
+    }
+    item.isInstalled = await isInstalledDACApp(item.id)
   
     // Icon should fetch from asms server
     this.tag('CTitle').text.text = 'App Details Page';
     this.tag('Title').text.text = "Title: "+item.name
     this.tag('Id').text.text = "Id: "+item.id
+    if (item.isInstalled) {
+      this.tag('Id').text.text += ' (INSTALLED)'
+    }
     this.tag('Version').text.text = "Version: V-"+item.version
     this.tag('Type').text.text = "Type: "+item.type
     this.tag('Category').text.text = "Category: "+item.category
@@ -128,35 +138,40 @@ export default class AppDetailScreen extends BaseScreen {
 }
 
   _init() {
+    this._appRunning = false
   // TODO
-  }
-
-  _getItem(applications, params) {
-   
-    let result = {}
-      applications.forEach((item, index) => {
-        if (item.id === params) {
-          result = item
-        }
-      })
-    return result
   }
 
   _getFocused() {
   // TODO
   }
 
-  _handleEnter() {
-      this.tag("Popup").visible = true
-      setTimeout(() => {
-        this.tag("Popup").visible = false
-        this._refocus()
-      }, constants.POPUP_TIMEOUT)
+  async _handleEnter() {
+    if (this._appRunning) {
+      return
+    }
+
+    const isInstalled = await isInstalledDACApp(this._itemId)
+    if (!isInstalled) {
+      const success = await installDACApp(this._itemId)
+    } else {
+      this._appRunning = await startDACApp(this._itemId)
+    }
   }
 
-  _handleKey(key) {
+  async _handleKey(key) {
+    if (this._appRunning) {
+      if (key.code === 'Escape') {
+        this._appRunning = ! await stopDACApp(this._itemId)
+      }
+      return true
+    }
+
     if (key.code === 'Backspace') {
-      navigateBackward()
+        navigateBackward()
+      return true
+    } else if (key.code === 'KeyU' || key.code === 'KeyR') {
+      let success = await uninstallDACApp(this._itemId)
       return true
     }
     return false
