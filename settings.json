@@ -9,7 +9,7 @@
   },
   "platformSettings": {
     "path": "./static",
-    "esEnv": "es5",
+    "esEnv": "es6",
     "log": true,
     "inspector": true,
     "showVersion": true

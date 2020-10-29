@@ -39,10 +39,10 @@ export default class App extends Lightning.Component {
         signals: { select: true },
         alpha: 0
       },
-      Time:{
+      Time: {
         type: CurrentTime,
         visible: true
-      } 
+      }
     }
   }
 
