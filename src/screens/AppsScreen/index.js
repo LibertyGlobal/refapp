@@ -64,7 +64,7 @@ export default class AppsScreen extends BaseScreen {
 
   _getFocused() {
     return this.activeList
-  } 
+  }
 
   get lists() {
     return this.tag('Lists').children
@@ -104,7 +104,7 @@ export default class AppsScreen extends BaseScreen {
     let categories = []
     let yPosition = 0
     applications.forEach((app) => {
-      let cat = categories.find((ch) => { return ch.label === app.category})
+      let cat = categories.find((ch) => { return ch.label === app.category })
       if (cat == null) {
         cat = {
           type: ListWithLine,
@@ -141,7 +141,7 @@ export default class AppsScreen extends BaseScreen {
   }
 
   _handleEnter() {
-    navigate(`appdetails/${this.activeList.apps[this.activeList.index].id}`, true)  
+    navigate(`appdetails/${this.activeList.apps[this.activeList.index].id}`, true)
   }
 
   _handleUp() {

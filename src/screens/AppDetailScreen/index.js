@@ -25,8 +25,8 @@ import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
+import DownloadProgressBar from '../../components/DownloadProgressBar'
 import { isInstalledDACApp, installDACApp, uninstallDACApp, startDACApp, stopDACApp } from '@/services/RDKServices'
-
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
     return {
@@ -75,36 +75,32 @@ export default class AppDetailScreen extends BaseScreen {
             wordWrap: true
           }
         },
-      Type: {
-        y: constants.APPTYPE_Y,
-        text: {
-          fontSize: constants.APPTYPE_FONTSIZE,
-          textColor: theme.colors.white
+        Type: {
+          y: constants.APPTYPE_Y,
+          text: {
+            fontSize: constants.APPTYPE_FONTSIZE,
+            textColor: theme.colors.white
+          }
+        },
+        Category: {
+          y: constants.CATTYPE_Y,
+          text: {
+            fontSize: constants.CATTYPE_FONTSIZE,
+            textColor: theme.colors.white
+          }
+        },
+        Icon: {
+          x: constants.ICON_X,
+          y: constants.ICON_Y,
+          w: constants.ICON_WIDTH,
+          h: constants.ICON_HEIGHT
         }
       },
-      Category: {
-        y: constants.CATTYPE_Y,
-        text: {
-          fontSize: constants.CATTYPE_FONTSIZE,
-          textColor: theme.colors.white
-        }
-      },
-      Icon: {
-        x: constants.ICON_X,
-        y: constants.ICON_Y,
-        w: constants.ICON_WIDTH,
-        h: constants.ICON_HEIGHT
+      ProgressBar: {
+        type: DownloadProgressBar,
+        visible: false
       }
-    },
-    Popup: {
-      type: WarningModal,
-      headerText: "Apps is not available",
-      bodyText: "Implementation is planned for future versions of the application",
-      x: constants.POPUP_X,
-      y: constants.POPUP_Y,
-      visible: false
     }
-  }
   }
   async update(params) {
     const useMock = false
@@ -119,41 +115,44 @@ export default class AppDetailScreen extends BaseScreen {
       item = header
     }
     item.isInstalled = await isInstalledDACApp(item.id)
-  
+
     // Icon should fetch from asms server
     this.tag('CTitle').text.text = 'App Details Page';
-    this.tag('Title').text.text = "Title: "+item.name
-    this.tag('Id').text.text = "Id: "+item.id
+    this.tag('Title').text.text = "Title: " + item.name
+    this.tag('Id').text.text = "Id: " + item.id
     if (item.isInstalled) {
       this.tag('Id').text.text += ' (INSTALLED)'
     }
-    this.tag('Version').text.text = "Version: V-"+item.version
-    this.tag('Type').text.text = "Type: "+item.type
-    this.tag('Category').text.text = "Category: "+item.category
-    this.tag('Description').text.text = "Description: "+item.description
+    this.tag('Version').text.text = "Version: V-" + item.version
+    this.tag('Type').text.text = "Type: " + item.type
+    this.tag('Category').text.text = "Category: " + item.category
+    this.tag('Description').text.text = "Description: " + item.description
     this.tag('Icon').patch({
       src: Utils.asset(item.icon)
-    }) 
+    })
     this._itemId = item.id
-}
+  }
 
   _init() {
     this._appRunning = false
-  // TODO
+    // TODO
   }
 
   _getFocused() {
-  // TODO
+    // TODO
   }
 
   async _handleEnter() {
+    let that = this
     if (this._appRunning) {
       return
     }
-
     const isInstalled = await isInstalledDACApp(this._itemId)
     if (!isInstalled) {
+      console.log("app is not available, Downloading...")
+      that.tag('ProgressBar').visible = true
       const success = await installDACApp(this._itemId)
+      console.log("app downloaded successfully")
     } else {
       this._appRunning = await startDACApp(this._itemId)
     }
@@ -168,7 +167,7 @@ export default class AppDetailScreen extends BaseScreen {
     }
 
     if (key.code === 'Backspace') {
-        navigateBackward()
+      navigateBackward()
       return true
     } else if (key.code === 'KeyU' || key.code === 'KeyR') {
       let success = await uninstallDACApp(this._itemId)
