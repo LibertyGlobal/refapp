@@ -42,4 +42,8 @@ module.exports = {
   POPUP_X: 960,
   POPUP_Y: 540,
   POPUP_TIMEOUT: 2000,
+  DIALOG_WIDTH: 600,
+  DIALOG_HEIGHT: 180,
+  DIALOG_X: 1920/2,
+  DIALOG_Y: 400,
 }

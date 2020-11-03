@@ -74,7 +74,7 @@ function stopCurrentPlayback() {
 
 function getPlaybackState() {
   if (currentPlaybackState == null) {
-    return {}
+    return Promise.resolve({})
   }
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/getSessionProperty`,
@@ -94,7 +94,7 @@ function getPlaybackState() {
 
 function setPlaybackState(props) {
   if (currentPlaybackState == null) {
-    return {}
+    return Promise.resolve({})
   }
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/setSessionProperty`,

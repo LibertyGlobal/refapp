@@ -23,7 +23,9 @@ import theme from '@/themes/default'
 import constants from '../constants'
 
 export default class ListItem extends Item {
+
   static _template() {
+
     return {
       alpha: constants.LIST_ITEM_ALPHA_UNFOCUSED,
       Background: {
@@ -45,16 +47,24 @@ export default class ListItem extends Item {
       }
     }
   }
+  _init() {
+    let color = this._item.isInstalled ? theme.colors.installed : theme.colors.white
+    this.tag('Title').text.patch({ textColor: color})
+  }
 
   _focus() {
     this.tag('Focus').setSmooth('borderWidth', constants.LIST_ITEM_BORDER_FOCUSED)
-    this.tag('Title').text.patch({ textColor: theme.colors.accent })
+    let color = this._item.isInstalled? theme.colors.installed: theme.colors.accent
+    this.tag('Title').text.patch({ textColor: color })
+    this.tag('Focus').setSmooth('colorBorder', color)
     this.setSmooth('alpha', constants.LIST_ITEM_ALPHA_FOCUSED)
   }
 
   _unfocus() {
     this.tag('Focus').setSmooth('borderWidth', constants.LIST_ITEM_BORDER_UNFOCUSED)
-    this.tag('Title').text.patch({ textColor: theme.colors.white })
+    let color = this._item.isInstalled? theme.colors.installed: theme.colors.white
+    this.tag('Title').text.patch({ textColor: color})
+    this.tag('Focus').setSmooth('colorBorder', color)
     this.setSmooth('alpha', constants.LIST_ITEM_ALPHA_UNFOCUSED)
   }
 }

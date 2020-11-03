@@ -5,11 +5,11 @@
       "useImageWorker": true
     },
     "rdkservicesPort": 50050,
+    "asms-mock": false,
     "debug": false
   },
   "platformSettings": {
     "path": "./static",
-    "esEnv": "es5",
     "log": true,
     "inspector": true,
     "showVersion": true

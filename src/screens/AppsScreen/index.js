@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import { Utils, Log } from '@lightningjs/sdk'
+import { Utils, Log, Settings } from '@lightningjs/sdk'
 import BaseScreen from '../BaseScreen'
 import { getDomain } from '@/domain'
 import Background from '@/components/Background'
@@ -81,9 +81,8 @@ export default class AppsScreen extends BaseScreen {
   }
 
   async update(params) {
-    const useMock = false
     let response = null
-    if (useMock) {
+    if (Settings.get('app', 'asms-mock', false)) {
       response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
     } else {
       response = await fetch('http://' + window.location.host + '/apps')
@@ -97,7 +96,6 @@ export default class AppsScreen extends BaseScreen {
       let installedApp = installedApplications.find((a) => { return a.id === 'pkg-' + app.id })
       if (installedApp) {
         app.isInstalled = true
-        app.name = '(I) ' + app.name
       }
     })
 
