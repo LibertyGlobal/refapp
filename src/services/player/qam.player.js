@@ -51,7 +51,7 @@ function jump(position) {
 }
 
 function getPlaybackState() {
-  sessionManager.getPlaybackState()
+  return sessionManager.getPlaybackState()
 }
 
 function stop() {

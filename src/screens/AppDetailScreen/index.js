@@ -17,10 +17,11 @@
   * limitations under the License.
   */
 
-import { Utils } from '@lightningjs/sdk'
+import { Utils, Settings } from '@lightningjs/sdk'
 import { navigate, navigateBackward } from '../../lib/Router'
 import { getDomain } from '@/domain'
-import WarningModal from '@/components/WarningModal'
+import StatusProgress from './components/StatusProgress'
+import OkCancelDialog   from "@/components/OkCancelDialog";
 import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
@@ -75,41 +76,35 @@ export default class AppDetailScreen extends BaseScreen {
             wordWrap: true
           }
         },
-      Type: {
-        y: constants.APPTYPE_Y,
-        text: {
-          fontSize: constants.APPTYPE_FONTSIZE,
-          textColor: theme.colors.white
+        Type: {
+          y: constants.APPTYPE_Y,
+          text: {
+            fontSize: constants.APPTYPE_FONTSIZE,
+            textColor: theme.colors.white
+          }
+        },
+        Category: {
+          y: constants.CATTYPE_Y,
+          text: {
+            fontSize: constants.CATTYPE_FONTSIZE,
+            textColor: theme.colors.white
+          }
+        },
+        Icon: {
+          x: constants.ICON_X,
+          y: constants.ICON_Y,
+          w: constants.ICON_WIDTH,
+          h: constants.ICON_HEIGHT
         }
       },
-      Category: {
-        y: constants.CATTYPE_Y,
-        text: {
-          fontSize: constants.CATTYPE_FONTSIZE,
-          textColor: theme.colors.white
-        }
-      },
-      Icon: {
-        x: constants.ICON_X,
-        y: constants.ICON_Y,
-        w: constants.ICON_WIDTH,
-        h: constants.ICON_HEIGHT
-      }
-    },
-    Popup: {
-      type: WarningModal,
-      headerText: "Apps is not available",
-      bodyText: "Implementation is planned for future versions of the application",
-      x: constants.POPUP_X,
-      y: constants.POPUP_Y,
-      visible: false
+      OkCancel: { type: OkCancelDialog, x: constants.DIALOG_X, y: constants.DIALOG_Y, w: constants.DIALOG_WIDTH, h: constants.DIALOG_HEIGHT, alpha: 0.0 },
+      StatusProgress: { type: StatusProgress, x: constants.CONTAINER_X, y: constants.TITLE_Y - constants.TITLE_FONTSIZE - 20, w: 400, h: constants.TITLE_FONTSIZE },
     }
   }
-  }
+  
   async update(params) {
-    const useMock = false
     let item = null
-    if (useMock) {
+    if (Settings.get('app', 'asms-mock', false)) {
       const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
       const { applications } = await response.json()
       item = applications.find((a) => { return a.id === params })
@@ -119,14 +114,16 @@ export default class AppDetailScreen extends BaseScreen {
       item = header
     }
     item.isInstalled = await isInstalledDACApp(item.id)
+    if (item.isInstalled) {
+      this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+    } else {
+      this.tag('StatusProgress').reset()
+    }
   
     // Icon should fetch from asms server
     this.tag('CTitle').text.text = 'App Details Page';
     this.tag('Title').text.text = "Title: "+item.name
     this.tag('Id').text.text = "Id: "+item.id
-    if (item.isInstalled) {
-      this.tag('Id').text.text += ' (INSTALLED)'
-    }
     this.tag('Version').text.text = "Version: V-"+item.version
     this.tag('Type').text.text = "Type: "+item.type
     this.tag('Category').text.text = "Category: "+item.category
@@ -153,9 +150,12 @@ export default class AppDetailScreen extends BaseScreen {
 
     const isInstalled = await isInstalledDACApp(this._itemId)
     if (!isInstalled) {
-      const success = await installDACApp(this._itemId)
+      const success = await installDACApp(this._itemId, this.tag('StatusProgress'))
     } else {
       this._appRunning = await startDACApp(this._itemId)
+      if (this._appRunning) {
+        this.tag('StatusProgress').setProgress(1.0, 'Running!')
+      }
     }
   }
 
@@ -163,6 +163,9 @@ export default class AppDetailScreen extends BaseScreen {
     if (this._appRunning) {
       if (key.code === 'Escape') {
         this._appRunning = ! await stopDACApp(this._itemId)
+        if (!this._appRunning) {
+          this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+        }
       }
       return true
     }
@@ -171,13 +174,47 @@ export default class AppDetailScreen extends BaseScreen {
         navigateBackward()
       return true
     } else if (key.code === 'KeyU' || key.code === 'KeyR') {
-      let success = await uninstallDACApp(this._itemId)
+      this._setState('RemoveAppDialogEnter')
       return true
     }
     return false
   }
 
+  async $onRemoveOK() {
+    var dlg = this.tag('OkCancel');
+
+    let success = await uninstallDACApp(this._itemId)
+    if (success) {
+      this.tag('StatusProgress').reset()
+    }
+    dlg.hide()
+    this._setState('')
+  }
+
+  $onRemoveCANCEL() {
+    var dlg = this.tag('OkCancel');
+    dlg.hide()
+    this._setState('')
+  }
+
   _focus() {
     this.fireAncestors('$hideMenu')
+  }
+
+  static _states() {
+    return [
+      class RemoveAppDialogEnter extends this
+      {
+        $enter() {
+          var dlg = this.tag('OkCancel')
+          dlg.show('Remove this app?')
+        }
+
+        _getFocused() {
+          var dlg = this.tag('OkCancel')
+          return dlg;
+        }
+      }
+    ]
   }
 }

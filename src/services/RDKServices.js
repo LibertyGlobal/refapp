@@ -24,11 +24,11 @@ let thunderJS = null
 
 // can't use URL inside ASMS info yet
 function mapApp(id) {
-  if (id === 'com.libertyglobal.app.flutter') {
+  if (id.startsWith('com.libertyglobal.app.flutter')) {
     return 'flutter'
-  } else if (id === 'com.libertyglobal.app.waylandegltest') {
+  } else if (id.startsWith('com.libertyglobal.app.waylandegltest')) {
     return 'wayland-egl-test'
-  } else if (id === 'com.libertyglobal.app.youi') {
+  } else if (id.startsWith('com.libertyglobal.app.youi')) {
     return 'you.i'
   } else {
     return ''
@@ -61,9 +61,88 @@ function initThunderJS() {
   }
 }
 
-export const installDACApp = async (id) => {
+async function registerListener(plugin, eventname, cb) {
   initThunderJS()
 
+  return await thunderJS.on(plugin, eventname, (notification) => {
+    console.log("Received thunderJS event " + plugin + ":" + eventname, notification)
+    if (cb != null) {
+      cb(notification)
+    }
+  })
+}
+
+async function addEventHandler(eventHandlers, pluginname, eventname, cb) {
+  eventHandlers.push(await registerListener(pluginname, eventname, cb))
+}
+
+async function registerPackagerEvents(id, progress) {
+  let eventHandlers = []
+
+  progress.reset()
+
+  let handleFailure = (notification, str) => {
+    if (id == notification.pkgId) {
+      progress.setProgress(1.0, 'Error: '+ str)
+      eventHandlers.map(h => { h.dispose() })
+      eventHandlers = []
+    }
+  }
+
+  let handleFailureDownload = (notification) => { handleFailure(notification, 'Failure downloading') };
+  let handleFailureDecryption = (notification) => { handleFailure(notification, 'Failure decrypting') };
+  let handleFailureExtraction = (notification) => { handleFailure(notification, 'Failure extracting') };
+  let handleFailureVerification = (notification) => { handleFailure(notification, 'Failure verifying') };
+  let handleFailureInstall = (notification) => { handleFailure(notification, 'Failure installing') };
+
+  let handleProgress = (notification) => {
+    if (id == notification.pkgId) {
+      let pc = notification.status / 8.0;
+      progress.setProgress(pc, notification.what);
+      if (pc == 1.0) {
+        progress.setProgress(pc, 'Installed!')
+        eventHandlers.map(h => { h.dispose() })
+        eventHandlers = []
+      }
+    }
+  }
+
+  let handleProgressDownload = (notification) => {
+    notification.what = "Downloading..."
+    handleProgress.call(this, notification)
+  }
+
+  let handleProgressExtract = (notification) => {
+    notification.what = "Extracting..."
+    handleProgress.call(this, notification)
+  }
+
+  let handleProgressInstall = (notification) => {
+    notification.what = "Installing..."
+    handleProgress.call(this, notification)
+  }
+
+  addEventHandler( eventHandlers, 'Packager', 'onDownloadCommence', handleProgressDownload);
+  addEventHandler( eventHandlers, 'Packager', 'onDownloadComplete', handleProgressDownload);
+
+  addEventHandler( eventHandlers, 'Packager', 'onExtractCommence',  handleProgressExtract);
+  addEventHandler( eventHandlers, 'Packager', 'onExtractComplete',  handleProgressExtract);
+
+  addEventHandler( eventHandlers, 'Packager', 'onInstallCommence',  handleProgressInstall);
+  addEventHandler( eventHandlers, 'Packager', 'onInstallComplete',  handleProgressInstall);
+
+  addEventHandler( eventHandlers, 'Packager', 'onDownload_FAILED',     handleFailureDownload,) ;
+  addEventHandler( eventHandlers, 'Packager', 'onDecryption_FAILED',   handleFailureDecryption) ;
+  addEventHandler( eventHandlers, 'Packager', 'onExtraction_FAILED',   handleFailureExtraction) ;
+  addEventHandler( eventHandlers, 'Packager', 'onVerification_FAILED', handleFailureVerification);
+  addEventHandler( eventHandlers, 'Packager', 'onInstall_FAILED',      handleFailureInstall);
+}
+
+export const installDACApp = async (id, progress) => {
+  initThunderJS()
+
+  registerPackagerEvents('pkg-' +id, progress)
+  
   console.log('installDACApp ' + id)
 
   let result = null
@@ -127,12 +206,42 @@ export const startDACApp = async (id) => {
   console.log('startDACApp ' + id)
 
   let result = null
+
   try {
     result = await thunderJS['org.rdk.RDKShell'].launchApplication({ client: id, mimeType: 'application/dac.native', uri: 'pkg-' + id })
   } catch (error) {
-    console.log('Error on startDACApp: ', error)
+    console.log('Error on launchApplication: ', error)
+    return false
   }
 
+  if (result == null || !result.success) {
+    return false
+  }
+
+  /*
+  try {
+    result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
+      keyCode: 77, // HOME key
+      modifiers: ['ctrl'],
+      client: id
+    })
+  } catch (error) {
+    console.log('Error on addKeyIntercept: ', error)
+    return false
+  }
+
+  if (result == null || !result.success) {
+    return false
+  }
+
+  try {
+    result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: id})
+  } catch (error) {
+    console.log('Error on setFocus: ', error)
+    return false
+  }
+  */
+ 
   return result == null ? false : result.success
 }
 
@@ -142,6 +251,15 @@ export const stopDACApp = async (id) => {
   console.log('stopDACApp ' + id)
 
   let result = null
+  /*
+  try {
+    result = await thunderJS['org.rdk.RDKShell'].removeKeyIntercept({ client: id})
+  } catch (error) {
+    console.log('Error on removeKeyIntercept: ', error)
+    return false
+  }
+  */
+
   try {
     result = await thunderJS['org.rdk.RDKShell'].kill({ client: id })
   } catch (error) {
