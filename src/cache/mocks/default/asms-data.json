@@ -55,14 +55,87 @@
           ],
           "id": "com.libertyglobal.app.waylandegltest",
           "version": "3.2.1"
-      }
+      },
+      {
+        "icon": "/cache/appsLogos/default_app_collection.png",
+            "name": "medium app",
+            "description": "Showcase application from the company youi.tv. The container package contains both the react native application and the You.i TV react native Gfx engine beneath.",
+            "url": "https://us.icr.io/v2/appcontainerstagingrdk/you.i/manifests/latest",
+            "type": "application/vnd.rdk-app.dac.native",
+            "category": "other apps",
+            "localisations": [
+                {
+                    "languageCode": "nld",
+                    "name": "Jij.ik",
+                    "description": "Showcase-applicatie van het bedrijf youi.tv. Het containerpakket bevat zowel de native-toepassing reageren als de You.i TV reageren native Gfx-engine eronder."
+                },
+                {
+                    "languageCode": "pol",
+                    "name": "Ty.ja",
+                    "description": "Prezentacja aplikacji firmy youi.tv. Kontener zawiera zarówno natywną aplikację react, jak i znajdujący się poniżej natywny silnik Gfx."
+                }
+            ],
+            "id": "com.libertyglobal.app.youi.2",
+            "version": "1.2.3"
+        },
+        {
+            "icon": "/cache/appsLogos/default_app_collection.png",
+            "name": "big app",
+            "description": "Container contains both Flutter application and Flutter engine running on wayland-egl, developed by Liberty Global while evaluating Google Flutter UI toolkit.",
+            "url": "https://us.icr.io/v2/appcontainerstagingrdk/flutter/manifests/latest",
+            "type": "application/vnd.rdk-app.dac.native",
+            "category": "other apps",
+            "localisations": [
+                {
+                    "languageCode": "eng",
+                    "name": "Flutter",
+                    "description": "Container contains both Flutter application and Flutter engine running on wayland-egl, developed by Liberty Global while evaluating Google Flutter UI toolkit."
+                }
+            ],
+            "id": "com.libertyglobal.app.flutter.2",
+            "version": "0.0.1"
+        },
+        {
+            "icon": "/cache/appsLogos/default_app_collection.png",
+            "name": "small app",
+            "description": "Source code example of simple Wayland EGL application intended as tutorial for developers. Contains the few but necessary setup code for any direct to wayland-egl client application such as how to connect to wayland server, create/use EGL surface and draw on screen via opengles api. Application shows simple rectangle on screen. Applications based on this example should run on the various wayland compositors supporting the wayland-egl protocol out there.",
+            "url": "https://us.icr.io/v2/appcontainerstagingrdk/wayland-egl-test/manifests/latest",
+            "type": "application/vnd.rdk-app.dac.native",
+            "category": "other apps",
+            "localisations": [
+                {
+                    "languageCode": "eng",
+                    "name": "Wayland",
+                    "description": "Application shows simple rectangle on screen. Applications based on this example should run on the various wayland compositors supporting the wayland-egl protocol out there."
+                }
+            ],
+            "id": "com.libertyglobal.app.waylandegltest.2",
+            "version": "3.2.1"
+        },
+        {
+            "icon": "/cache/appsLogos/default_app_collection.png",
+            "name": "demo app",
+            "description": "Source code example of simple Wayland EGL application intended as tutorial for developers. Contains the few but necessary setup code for any direct to wayland-egl client application such as how to connect to wayland server, create/use EGL surface and draw on screen via opengles api. Application shows simple rectangle on screen. Applications based on this example should run on the various wayland compositors supporting the wayland-egl protocol out there.",
+            "url": "https://us.icr.io/v2/appcontainerstagingrdk/wayland-egl-test/manifests/latest",
+            "type": "application/vnd.rdk-app.dac.native",
+            "category": "third category",
+            "localisations": [
+                {
+                    "languageCode": "eng",
+                    "name": "Wayland",
+                    "description": "Application shows simple rectangle on screen. Applications based on this example should run on the various wayland compositors supporting the wayland-egl protocol out there."
+                }
+            ],
+            "id": "com.libertyglobal.app.waylandegltest.3",
+            "version": "3.2.1"
+        }
   ],
   "meta": {
       "resultSet": {
-          "count": 3,
+          "count": 7,
           "offset": 0,
           "limit": 10,
-          "total": 3
+          "total": 7
       }
   }
 }

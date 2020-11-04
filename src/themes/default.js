@@ -29,6 +29,7 @@ const theme = {
     ...palette,
     primary: 0xff0a2c5b,
     accent: 0xff0cb2dd,
+    installed: 0xFFedd340,
     backgroundTop: 0xFF282A33,
     backgroundBottom: 0xFF393939
   },
