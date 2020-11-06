@@ -22,11 +22,12 @@ import { navigate, navigateBackward } from '../../lib/Router'
 import { getDomain } from '@/domain'
 import StatusProgress from './components/StatusProgress'
 import OkCancelDialog   from "@/components/OkCancelDialog";
+import IconButton   from "@/components/IconButton";
 import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
-import { isInstalledDACApp, installDACApp, uninstallDACApp, startDACApp, stopDACApp } from '@/services/RDKServices'
+import { isInstalledDACApp, installDACApp, uninstallDACApp, startDACApp, stopDACApp, isDACAppRunning } from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
@@ -97,8 +98,22 @@ export default class AppDetailScreen extends BaseScreen {
           h: constants.ICON_HEIGHT
         }
       },
+      Buttons:
+      {
+        flex: {direction: 'row'},
+        alpha: 1.0,
+        x: constants.CONTAINER_X - 10,
+        y: constants.TITLE_Y - constants.TITLE_FONTSIZE - 20,
+
+        // images from https://material.io/resources/icons/?icon=get_app&style=baseline
+        // Apache License 2.0 https://github.com/google/material-design-icons/blob/master/LICENSE
+        ButtonInstall: { btnId: "INSTALL", flexItem: { margin: 30 }, type: IconButton, src1: Utils.asset('img/baseline_get_app_black_48dp.png') },
+        ButtonRun: { btnId: "RUN", flexItem: { margin: 30 }, type: IconButton, src1: Utils.asset('img/baseline_check_circle_black_48dp.png') },
+        ButtonKill: { btnId: "KILL", flexItem: { margin: 30 }, type: IconButton, src1: Utils.asset('img/baseline_highlight_off_black_48dp.png') },
+        ButtonRemove: { btnId: "REMOVE", flexItem: { margin: 30 }, type: IconButton, src1: Utils.asset('img/baseline_delete_black_48dp.png') },
+      },
+      StatusProgress: { type: StatusProgress, x: constants.CONTAINER_X + 240, y: constants.TITLE_Y - constants.TITLE_FONTSIZE - 20, w: 400, h: constants.TITLE_FONTSIZE },
       OkCancel: { type: OkCancelDialog, x: constants.DIALOG_X, y: constants.DIALOG_Y, w: constants.DIALOG_WIDTH, h: constants.DIALOG_HEIGHT, alpha: 0.0 },
-      StatusProgress: { type: StatusProgress, x: constants.CONTAINER_X, y: constants.TITLE_Y - constants.TITLE_FONTSIZE - 20, w: 400, h: constants.TITLE_FONTSIZE },
     }
   }
   
@@ -114,67 +129,50 @@ export default class AppDetailScreen extends BaseScreen {
       item = header
     }
     item.isInstalled = await isInstalledDACApp(item.id)
+    this._isInstalled = item.isInstalled
+    this._appRunning = await isDACAppRunning(item.id)
     if (item.isInstalled) {
-      this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+      if (this._appRunning) {
+        this.tag('StatusProgress').setProgress(1.0, 'Running!')
+      } else {
+        this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+      }
     } else {
       this.tag('StatusProgress').reset()
     }
-  
+
     // Icon should fetch from asms server
     this.tag('CTitle').text.text = 'App Details Page';
-    this.tag('Title').text.text = "Title: "+item.name
-    this.tag('Id').text.text = "Id: "+item.id
-    this.tag('Version').text.text = "Version: V-"+item.version
-    this.tag('Type').text.text = "Type: "+item.type
-    this.tag('Category').text.text = "Category: "+item.category
-    this.tag('Description').text.text = "Description: "+item.description
+    this.tag('Title').text.text = "Title: " + item.name
+    this.tag('Id').text.text = "Id: " + item.id
+    this.tag('Version').text.text = "Version: V-" + item.version
+    this.tag('Type').text.text = "Type: " + item.type
+    this.tag('Category').text.text = "Category: " + item.category
+    this.tag('Description').text.text = "Description: " + item.description
     this.tag('Icon').patch({
       src: Utils.asset(item.icon)
-    }) 
+    })
     this._itemId = item.id
-}
+
+    this.enableCorrectButtons()
+  }
 
   _init() {
     this._appRunning = false
-  // TODO
-  }
-
-  _getFocused() {
-  // TODO
-  }
-
-  async _handleEnter() {
-    if (this._appRunning) {
-      return
-    }
-
-    const isInstalled = await isInstalledDACApp(this._itemId)
-    if (!isInstalled) {
-      const success = await installDACApp(this._itemId, this.tag('StatusProgress'))
-    } else {
-      this._appRunning = await startDACApp(this._itemId)
-      if (this._appRunning) {
-        this.tag('StatusProgress').setProgress(1.0, 'Running!')
-      }
-    }
+    this._isInstalled = false
+    this._isInstalling = false
+    this._buttonIndex = 0;
+    this._setState('AppStateButtons')
   }
 
   async _handleKey(key) {
-    if (this._appRunning) {
-      if (key.code === 'Escape') {
-        this._appRunning = ! await stopDACApp(this._itemId)
-        if (!this._appRunning) {
-          this.tag('StatusProgress').setProgress(1.0, 'Installed!')
-        }
-      }
-      return true
-    }
-
     if (key.code === 'Backspace') {
         navigateBackward()
       return true
     } else if (key.code === 'KeyU' || key.code === 'KeyR') {
-      this._setState('RemoveAppDialogEnter')
+      if (this._isInstalled) {
+        this._setState('RemoveAppDialogEnter')
+      }
       return true
     }
     return false
@@ -185,24 +183,118 @@ export default class AppDetailScreen extends BaseScreen {
 
     let success = await uninstallDACApp(this._itemId)
     if (success) {
+      this._isInstalled = false
       this.tag('StatusProgress').reset()
+      this.enableCorrectButtons()
     }
     dlg.hide()
-    this._setState('')
+    this._setState('AppStateButtons')
   }
 
   $onRemoveCANCEL() {
     var dlg = this.tag('OkCancel');
     dlg.hide()
-    this._setState('')
+    this._setState('AppStateButtons')
   }
 
   _focus() {
     this.fireAncestors('$hideMenu')
   }
 
+  async $fireINSTALL() {
+    if (this._isInstalled) {
+      return
+    }
+    this._isInstalling = await installDACApp(this._itemId, this.tag('StatusProgress'))
+    this.enableCorrectButtons()
+  }
+
+  async $fireINSTALLFinished(success) {
+    this._isInstalled = success
+    this._isInstalling = false
+    this.enableCorrectButtons()
+  }
+
+  async $fireRUN() {
+    if (this._appRunning || !this._isInstalled) {
+      return
+    }
+
+    this._appRunning = await startDACApp(this._itemId)
+    if (this._appRunning) {
+      this.tag('StatusProgress').setProgress(1.0, 'Running!')
+      this.enableCorrectButtons()
+      this._setState('AppIsRunning')
+    }
+  }
+
+  async $fireKILL() {
+    if (this._appRunning) {
+      this._appRunning = ! await stopDACApp(this._itemId)
+      if (!this._appRunning) {
+        this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+        this.enableCorrectButtons()
+      }
+    }
+  }
+  
+  $fireREMOVE() {
+    if (!this._isInstalled) {
+      return
+    }
+    this._setState('RemoveAppDialogEnter')
+  }
+
+  enableCorrectButtons() {
+    this.tag('ButtonInstall')._enableButton(!this._isInstalled && !this._isInstalling)
+    this.tag('ButtonRun')._enableButton(!this._appRunning && this._isInstalled)
+    this.tag('ButtonKill')._enableButton(this._appRunning)
+    this.tag('ButtonRemove')._enableButton(!this._appRunning && this._isInstalled)
+  }
+
   static _states() {
     return [
+      class AppIsRunning extends this
+      {
+        async _handleKey(key) {
+          if (this._appRunning) {
+            if (key.code === 'Home' && key.ctrlKey) {
+              this._appRunning = ! await stopDACApp(this._itemId)
+              if (!this._appRunning) {
+                this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+                this.enableCorrectButtons()
+                this._setState('AppStateButtons')
+              }
+            }
+            return true
+          }
+        }
+      },
+      class AppStateButtons extends this
+      {
+        _handleLeft() {
+          if (--this._buttonIndex < 0) this._buttonIndex = 0;
+        }
+
+        _handleRight() {
+          var btns = this.tag("Buttons");
+          if (++this._buttonIndex >= btns.children.length) this._buttonIndex = btns.children.length - 1;
+        }
+
+        _handleEnter() {
+          var btns = this.tag("Buttons");
+          var button = btns.children[this._buttonIndex];
+          if (button._buttonIsEnabled) {
+            var fireThis = '$fire' + button.btnId;
+            button.fireAncestors(fireThis);
+          }
+        }
+
+        _getFocused() {
+          var btns = this.tag("Buttons");
+          return btns.children[this._buttonIndex]
+        }
+      },
       class RemoveAppDialogEnter extends this
       {
         $enter() {

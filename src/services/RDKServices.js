@@ -21,6 +21,7 @@ import { Settings } from '@lightningjs/sdk'
 import ThunderJS from 'ThunderJS'
 
 let thunderJS = null
+let platform = null
 
 // can't use URL inside ASMS info yet
 function mapApp(id) {
@@ -40,9 +41,8 @@ function isLfs(id) {
 }
 
 function getDacAppInstallUrl(id) {
-  var platform = "rpi"
-  var dacRepo = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
-  var dacRepoLFS = "https://media.githubusercontent.com/media/stagingrdkm/lntpub/master/bundle"
+  let dacRepo = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
+  let dacRepoLFS = "https://media.githubusercontent.com/media/stagingrdkm/lntpub/master/bundle"
 
   if (isLfs(id)) {
     return dacRepoLFS + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz"
@@ -84,6 +84,7 @@ async function registerPackagerEvents(id, progress) {
   let handleFailure = (notification, str) => {
     if (id == notification.pkgId) {
       progress.setProgress(1.0, 'Error: '+ str)
+      progress.fireAncestors('$fireINSTALLFinished', false);
       eventHandlers.map(h => { h.dispose() })
       eventHandlers = []
     }
@@ -101,6 +102,7 @@ async function registerPackagerEvents(id, progress) {
       progress.setProgress(pc, notification.what);
       if (pc == 1.0) {
         progress.setProgress(pc, 'Installed!')
+        progress.fireAncestors('$fireINSTALLFinished', true);
         eventHandlers.map(h => { h.dispose() })
         eventHandlers = []
       }
@@ -140,6 +142,7 @@ async function registerPackagerEvents(id, progress) {
 
 export const installDACApp = async (id, progress) => {
   initThunderJS()
+  await getPlatformName()
 
   registerPackagerEvents('pkg-' +id, progress)
   
@@ -200,6 +203,56 @@ export const getInstalledDACApps = async () => {
   return result == null ? [] : result.applications
 }
 
+export const getPlatformName = async () => {
+  if (platform == null) {
+    platform = await getDeviceName()
+    platform = platform.split('-')[0]
+
+    if (platform == 'raspberrypi') {
+      platform = 'rpi'
+    } else if (platform == 'brcm972180hbc') {
+      platform = '7218c'
+    }
+  }
+  return platform
+}
+
+export const getDeviceName = async () => {
+  initThunderJS()
+
+  console.log('getDeviceName')
+
+  let result = null
+  try {
+    result = await thunderJS.DeviceInfo.systeminfo()
+  } catch (error) {
+    console.log('Error on systeminfo: ', error)
+  }
+
+  return result == null ? "unknown" : result.devicename
+}
+
+export const getAllRunningApps = async () => {
+  initThunderJS()
+
+  console.log('getAllRunningApps')
+
+  let result = null
+  try {
+    result = await thunderJS['org.rdk.RDKShell'].getClients()
+  } catch (error) {
+    console.log('Error on getInstalledDACApps: ', error)
+  }
+
+  return result == null ? [] : result.clients
+}
+
+export const isDACAppRunning = async (id) => {
+  let clients = await getAllRunningApps()
+  let client = clients.find((a) => { return a == id })
+  return client != null
+}
+
 export const startDACApp = async (id) => {
   initThunderJS()
 
@@ -218,7 +271,6 @@ export const startDACApp = async (id) => {
     return false
   }
 
-  /*
   try {
     result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
       keyCode: 77, // HOME key
@@ -240,7 +292,6 @@ export const startDACApp = async (id) => {
     console.log('Error on setFocus: ', error)
     return false
   }
-  */
  
   return result == null ? false : result.success
 }
@@ -251,6 +302,7 @@ export const stopDACApp = async (id) => {
   console.log('stopDACApp ' + id)
 
   let result = null
+  
   /*
   try {
     result = await thunderJS['org.rdk.RDKShell'].removeKeyIntercept({ client: id})
