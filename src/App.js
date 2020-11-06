@@ -47,6 +47,11 @@ export default class App extends Lightning.Component {
   }
 
   _construct() {
+    // prevent browser from navigating backwards when pressing 'Backspace'
+    // Chrome and Safari did not do this. However, Firefox and WPE webkitbrowser
+    // did, which resulted in navigation problems on those browsers
+    document.onkeydown = function (e) { if (e.code === 'Backspace') { return false } }
+
     // Taken from L&T version
     // This fix will be removed once get acess body element through lighting framework.
     // issue is addressed here https://github.com/rdkcentral/Lightning-CLI/pull/78/commits/6bc1cc3521b62d2fb19dae6b9020fe9677897ada
