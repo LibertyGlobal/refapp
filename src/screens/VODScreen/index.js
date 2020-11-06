@@ -115,7 +115,7 @@ export default class VODScreen extends BaseScreen {
   }
 
   _inactive() {
-    player.pause()
+    player.stopPlayBack()
     this.stopPropertyRequestTimer()
   }
 
