@@ -22,6 +22,7 @@ import SettingsScreen from '@/screens/SettingsScreen'
 import VODScreen from '@/screens/VODScreen'
 import DetailsScreen from '@/screens/DetailsScreen'
 import AppDetailScreen from '@/screens/AppDetailScreen'
+import TVChannelScreen from '@/screens/TVChannelScreen'
 import HomeScreen from '@/screens/HomeScreen'
 import commonConstants from '@/constants/default'
 
@@ -43,8 +44,17 @@ export const routings = [
     }
   },
   {
-    url: 'movies',
+    url: 'tvchannels',
     menuItem: 0,
+    settings: {
+      type: TVChannelScreen,
+      ref: 'TVChannelScreen',
+      ...screenGeometry
+    }
+  },
+  {
+    url: 'movies',
+    menuItem: 1,
     settings: {
       type: MoviesScreen,
       ref: 'MoviesScreen',
@@ -53,7 +63,7 @@ export const routings = [
   },
   {
     url: 'apps',
-    menuItem: 1,
+    menuItem: 2,
     settings: {
       type: AppsScreen,
       ref: 'AppsScreen',
@@ -62,7 +72,7 @@ export const routings = [
   },
   {
     url: 'settings',
-    menuItem: 2,
+    menuItem: 3,
     settings: {
       type: SettingsScreen,
       ref: 'SettingsScreen',
