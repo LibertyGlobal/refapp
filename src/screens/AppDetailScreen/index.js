@@ -27,7 +27,7 @@ import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
-import { isInstalledDACApp, installDACApp, uninstallDACApp, startDACApp, stopDACApp, isDACAppRunning } from '@/services/RDKServices'
+import { isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning } from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
@@ -118,49 +118,40 @@ export default class AppDetailScreen extends BaseScreen {
   }
   
   async update(params) {
-    let item = null
     if (Settings.get('app', 'asms-mock', false)) {
       const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
       const { applications } = await response.json()
-      item = applications.find((a) => { return a.id === params })
+      this._app = applications.find((a) => { return a.id === params })
     } else {
       const response = await fetch('http://' + window.location.host + '/apps/' + params)
       const { header } = await response.json()
-      item = header
+      this._app = header
     }
-    item.isInstalled = await isInstalledDACApp(item.id)
-    this._isInstalled = item.isInstalled
-    this._appRunning = await isDACAppRunning(item.id)
-    if (item.isInstalled) {
-      if (this._appRunning) {
-        this.tag('StatusProgress').setProgress(1.0, 'Running!')
-      } else {
-        this.tag('StatusProgress').setProgress(1.0, 'Installed!')
-      }
-    } else {
-      this.tag('StatusProgress').reset()
-    }
+
+    this._app.isDACApp = (this._app.type === 'application/dac.native')
+    this._app.isInstalled = this._app.isDACApp ? await isInstalledDACApp(this._app.id) : false
+    this._app.isRunning = await isAppRunning(this._app.id)
 
     // Icon should fetch from asms server
     this.tag('CTitle').text.text = 'App Details Page';
-    this.tag('Title').text.text = "Title: " + item.name
-    this.tag('Id').text.text = "Id: " + item.id
-    this.tag('Version').text.text = "Version: V-" + item.version
-    this.tag('Type').text.text = "Type: " + item.type
-    this.tag('Category').text.text = "Category: " + item.category
-    this.tag('Description').text.text = "Description: " + item.description
+    this.tag('Title').text.text = "Title: " + this._app.name
+    this.tag('Id').text.text = "Id: " + this._app.id
+    this.tag('Version').text.text = "Version: V-" + this._app.version
+    this.tag('Type').text.text = "Type: " + this._app.type
+    this.tag('Category').text.text = "Category: " + this._app.category
+    this.tag('Description').text.text = "Description: " + this._app.description
     this.tag('Icon').patch({
-      src: Utils.asset(item.icon)
+      src: Utils.asset(this._app.icon)
     })
-    this._itemId = item.id
 
-    this.enableCorrectButtons()
+    this.updateButtonsAndStatus()
   }
 
   _init() {
-    this._appRunning = false
-    this._isInstalled = false
-    this._isInstalling = false
+    this._app = {}
+    this._app.isRunning = false
+    this._app.isInstalled = false
+    this._app.isInstalling = false
     this._buttonIndex = 0;
     this._setState('AppStateButtons')
   }
@@ -170,7 +161,7 @@ export default class AppDetailScreen extends BaseScreen {
         navigateBackward()
       return true
     } else if (key.code === 'KeyU' || key.code === 'KeyR') {
-      if (this._isInstalled) {
+      if (this._app.isInstalled) {
         this._setState('RemoveAppDialogEnter')
       }
       return true
@@ -181,11 +172,10 @@ export default class AppDetailScreen extends BaseScreen {
   async $onRemoveOK() {
     var dlg = this.tag('OkCancel');
 
-    let success = await uninstallDACApp(this._itemId)
+    let success = await uninstallDACApp(this._app.id)
     if (success) {
-      this._isInstalled = false
-      this.tag('StatusProgress').reset()
-      this.enableCorrectButtons()
+      this._app.isInstalled = false
+      this.updateButtonsAndStatus()
     }
     dlg.hide()
     this._setState('AppStateButtons')
@@ -202,54 +192,63 @@ export default class AppDetailScreen extends BaseScreen {
   }
 
   async $fireINSTALL() {
-    if (this._isInstalled) {
+    if (this._app.isInstalled) {
       return
     }
-    this._isInstalling = await installDACApp(this._itemId, this.tag('StatusProgress'))
-    this.enableCorrectButtons()
+    this._app.isInstalling = await installDACApp(this._app, this.tag('StatusProgress'))
+    this.updateButtonsAndStatus()
   }
 
-  async $fireINSTALLFinished(success) {
-    this._isInstalled = success
-    this._isInstalling = false
-    this.enableCorrectButtons()
+  async $fireINSTALLFinished(success, msg) {
+    this._app.isInstalled = success
+    this._app.isInstalling = false
+    this.updateButtonsAndStatus()
+    if (!success) {
+      this.tag('StatusProgress').setProgress(1.0, 'Error: '+ msg)
+    }
   }
 
   async $fireRUN() {
-    if (this._appRunning || !this._isInstalled) {
+    if (this._app.isRunning || (!this._app.isInstalled && this._app.isDACApp)) {
       return
     }
 
-    this._appRunning = await startDACApp(this._itemId)
-    if (this._appRunning) {
-      this.tag('StatusProgress').setProgress(1.0, 'Running!')
-      this.enableCorrectButtons()
+    this._app.isRunning = await startApp(this._app)
+    if (this._app.isRunning) {
+      this.updateButtonsAndStatus()
       this._setState('AppIsRunning')
     }
   }
 
   async $fireKILL() {
-    if (this._appRunning) {
-      this._appRunning = ! await stopDACApp(this._itemId)
-      if (!this._appRunning) {
-        this.tag('StatusProgress').setProgress(1.0, 'Installed!')
-        this.enableCorrectButtons()
-      }
+    if (this._app.isRunning) {
+      this._app.isRunning = ! await stopApp(this._app)
+      this.updateButtonsAndStatus()
     }
   }
   
   $fireREMOVE() {
-    if (!this._isInstalled) {
+    if (!this._app.isInstalled) {
       return
     }
     this._setState('RemoveAppDialogEnter')
   }
 
-  enableCorrectButtons() {
-    this.tag('ButtonInstall')._enableButton(!this._isInstalled && !this._isInstalling)
-    this.tag('ButtonRun')._enableButton(!this._appRunning && this._isInstalled)
-    this.tag('ButtonKill')._enableButton(this._appRunning)
-    this.tag('ButtonRemove')._enableButton(!this._appRunning && this._isInstalled)
+  updateButtonsAndStatus() {
+    if (this._app.isRunning) {
+      this.tag('StatusProgress').setProgress(1.0, 'Running!')
+    } else {
+      if (this._app.isInstalled) {
+        this.tag('StatusProgress').setProgress(1.0, 'Installed!')
+      } else {
+        this.tag('StatusProgress').reset()
+      }
+    }
+
+    this.tag('ButtonInstall')._enableButton(!this._app.isInstalled && !this._app.isInstalling && this._app.isDACApp)
+    this.tag('ButtonRun')._enableButton(!this._app.isRunning && (this._app.isInstalled || !this._app.isDACApp))
+    this.tag('ButtonKill')._enableButton(this._app.isRunning)
+    this.tag('ButtonRemove')._enableButton(!this._app.isRunning && this._app.isInstalled)
   }
 
   static _states() {
@@ -257,14 +256,11 @@ export default class AppDetailScreen extends BaseScreen {
       class AppIsRunning extends this
       {
         async _handleKey(key) {
-          if (this._appRunning) {
+          if (this._app.isRunning) {
             if (key.code === 'Home' && key.ctrlKey) {
-              this._appRunning = ! await stopDACApp(this._itemId)
-              if (!this._appRunning) {
-                this.tag('StatusProgress').setProgress(1.0, 'Installed!')
-                this.enableCorrectButtons()
-                this._setState('AppStateButtons')
-              }
+              this._app.isRunning = ! await stopApp(this._app)
+              this.updateButtonsAndStatus()
+              this._setState('AppStateButtons')
             }
             return true
           }
