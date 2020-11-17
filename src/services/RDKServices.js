@@ -23,32 +23,12 @@ import ThunderJS from 'ThunderJS'
 let thunderJS = null
 let platform = null
 
-// can't use URL inside ASMS info yet
-function mapApp(id) {
-  if (id.startsWith('com.libertyglobal.app.flutter')) {
-    return 'flutter'
-  } else if (id.startsWith('com.libertyglobal.app.waylandegltest')) {
-    return 'wayland-egl-test'
-  } else if (id.startsWith('com.libertyglobal.app.youi')) {
-    return 'you.i'
-  } else {
-    return ''
+function getDacAppInstallUrl(url) {
+  if (platform === '7218c') {
+    // TODO: temporary hack
+    url = url.replace(/rpi3/g, '7218c')
   }
-}
-
-function isLfs(id) {
-  return id === 'com.libertyglobal.app.flutter'
-}
-
-function getDacAppInstallUrl(id) {
-  let dacRepo = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
-  let dacRepoLFS = "https://media.githubusercontent.com/media/stagingrdkm/lntpub/master/bundle"
-
-  if (isLfs(id)) {
-    return dacRepoLFS + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz"
-  } else {
-    return dacRepo + "/" + platform + "/" + platform + "-" + mapApp(id) + ".tar.gz"
-  }
+  return url
 }
 
 function initThunderJS() {
@@ -83,8 +63,7 @@ async function registerPackagerEvents(id, progress) {
 
   let handleFailure = (notification, str) => {
     if (id == notification.pkgId) {
-      progress.setProgress(1.0, 'Error: '+ str)
-      progress.fireAncestors('$fireINSTALLFinished', false);
+      progress.fireAncestors('$fireINSTALLFinished', false, str);
       eventHandlers.map(h => { h.dispose() })
       eventHandlers = []
     }
@@ -101,7 +80,6 @@ async function registerPackagerEvents(id, progress) {
       let pc = notification.status / 8.0;
       progress.setProgress(pc, notification.what);
       if (pc == 1.0) {
-        progress.setProgress(pc, 'Installed!')
         progress.fireAncestors('$fireINSTALLFinished', true);
         eventHandlers.map(h => { h.dispose() })
         eventHandlers = []
@@ -140,17 +118,17 @@ async function registerPackagerEvents(id, progress) {
   addEventHandler( eventHandlers, 'Packager', 'onInstall_FAILED',      handleFailureInstall);
 }
 
-export const installDACApp = async (id, progress) => {
+export const installDACApp = async (app, progress) => {
   initThunderJS()
   await getPlatformName()
 
-  registerPackagerEvents('pkg-' +id, progress)
+  registerPackagerEvents('pkg-' + app.id, progress)
   
-  console.log('installDACApp ' + id)
+  console.log('installDACApp ' + app.id)
 
   let result = null
   try {
-    result = await thunderJS.Packager.install({ pkgId: 'pkg-' + id, type: 'DAC', url: getDacAppInstallUrl(id) })
+    result = await thunderJS.Packager.install({ pkgId: 'pkg-' + app.id, type: 'DAC', url: getDacAppInstallUrl(app.url) })
   } catch (error) {
     console.log('Error on installDACApp: ', error)
   }
@@ -247,21 +225,30 @@ export const getAllRunningApps = async () => {
   return result == null ? [] : result.clients
 }
 
-export const isDACAppRunning = async (id) => {
+export const isAppRunning = async (id) => {
   let clients = await getAllRunningApps()
   let client = clients.find((a) => { return a == id })
   return client != null
 }
 
-export const startDACApp = async (id) => {
+export const startApp = async (app) => {
   initThunderJS()
 
-  console.log('startDACApp ' + id)
+  console.log('startApp ' + app.id)
 
   let result = null
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].launchApplication({ client: id, mimeType: 'application/dac.native', uri: 'pkg-' + id })
+    if (app.type === 'application/dac.native') {
+      result = await thunderJS['org.rdk.RDKShell'].launchApplication({ client: app.id, mimeType: 'application/dac.native', uri: 'pkg-' + app.id })
+    } else if (app.type === 'application/html') {
+      result = await thunderJS['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'HtmlApp' })
+    } else if (app.type === 'application/lightning') {
+      result = await thunderJS['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'LightningApp' })
+    } else {
+      console.log('Unsupported app type: ' + app.type)
+      return false
+    }
   } catch (error) {
     console.log('Error on launchApplication: ', error)
     return false
@@ -275,7 +262,7 @@ export const startDACApp = async (id) => {
     result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
       keyCode: 77, // HOME key
       modifiers: ['ctrl'],
-      client: id
+      client: app.id
     })
   } catch (error) {
     console.log('Error on addKeyIntercept: ', error)
@@ -287,7 +274,7 @@ export const startDACApp = async (id) => {
   }
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: id})
+    result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: app.id})
   } catch (error) {
     console.log('Error on setFocus: ', error)
     return false
@@ -296,24 +283,26 @@ export const startDACApp = async (id) => {
   return result == null ? false : result.success
 }
 
-export const stopDACApp = async (id) => {
+export const stopApp = async (app) => {
   initThunderJS()
 
-  console.log('stopDACApp ' + id)
+  console.log('stopApp ' + app.id)
 
   let result = null
   
-  /*
   try {
-    result = await thunderJS['org.rdk.RDKShell'].removeKeyIntercept({ client: id})
-  } catch (error) {
-    console.log('Error on removeKeyIntercept: ', error)
-    return false
-  }
-  */
-
-  try {
-    result = await thunderJS['org.rdk.RDKShell'].kill({ client: id })
+    if (app.type === 'application/dac.native') {
+      result = await thunderJS['org.rdk.RDKShell'].kill({ client: app.id })
+    } else if (app.type === 'application/html') {
+      result = await thunderJS['org.rdk.RDKShell'].kill({ client: app.id })
+      result = await thunderJS['org.rdk.RDKShell'].destroy({ callsign: app.id })
+    } else if (app.type === 'application/lightning') {
+      result = await thunderJS['org.rdk.RDKShell'].kill({ client: app.id })
+      result = await thunderJS['org.rdk.RDKShell'].destroy({ callsign: app.id })
+    } else {
+      console.log('Unsupported app type: ' + app.type)
+      return false
+    }
   } catch (error) {
     console.log('Error on stopDACApp: ', error)
   }

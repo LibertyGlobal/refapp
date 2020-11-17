@@ -5,7 +5,7 @@
       "useImageWorker": true
     },
     "rdkservicesPort": 50050,
-    "asms-mock": false,
+    "asms-mock": true,
     "debug": false
   },
   "platformSettings": {
