@@ -166,6 +166,11 @@ export default class AppDetailScreen extends BaseScreen {
   }
 
   async _handleKey(key) {
+    if (this._app.isInstalling) {
+      // no keys processing when installing, certainly no backwards nav
+      return true
+    }
+
     if (key.code === 'Backspace') {
         navigateBackward()
       return true
