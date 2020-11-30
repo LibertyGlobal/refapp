@@ -41,7 +41,7 @@ async function initThunderJS() {
 
     try {
       let result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
-        keyCode: 77, // HOME key
+        keyCode: 36, // HOME key, Javascript keycodes: https://keycode.info
         modifiers: ['ctrl'],
         client: 'refapp2'
       })
