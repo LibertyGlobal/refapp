@@ -31,13 +31,26 @@ function getDacAppInstallUrl(url) {
   return url
 }
 
-function initThunderJS() {
+async function initThunderJS() {
   if (thunderJS == null) {
     thunderJS = ThunderJS({
       host: window.location.hostname,
       port: Settings.get('app', 'rdkservicesPort', window.location.port),
       debug: true
     })
+
+    try {
+      let result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
+        keyCode: 36, // HOME key, Javascript keycodes: https://keycode.info
+        modifiers: ['ctrl'],
+        client: 'refapp2'
+      })
+      if (result == null || !result.success) {
+        console.log('Error on addKeyIntercept')
+      }
+    } catch (error) {
+      console.log('Error on addKeyIntercept: ', error)
+    }
   }
 }
 
@@ -259,13 +272,9 @@ export const startApp = async (app) => {
   }
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
-      keyCode: 77, // HOME key
-      modifiers: ['ctrl'],
-      client: app.id
-    })
+    result = await thunderJS['org.rdk.RDKShell'].moveToFront({ client: app.id})
   } catch (error) {
-    console.log('Error on addKeyIntercept: ', error)
+    console.log('Error on moveToFront: ', error)
     return false
   }
 
