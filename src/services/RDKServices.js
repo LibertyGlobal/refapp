@@ -22,6 +22,7 @@ import ThunderJS from 'ThunderJS'
 
 let thunderJS = null
 let platform = null
+const REFAPP2_CLIENT_ID = 'refapp2'
 
 function getDacAppInstallUrl(url) {
   if (platform === '7218c') {
@@ -43,7 +44,7 @@ async function initThunderJS() {
       let result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
         keyCode: 36, // HOME key, Javascript keycodes: https://keycode.info
         modifiers: ['ctrl'],
-        client: 'refapp2'
+        client: REFAPP2_CLIENT_ID
       })
       if (result == null || !result.success) {
         console.log('Error on addKeyIntercept')
@@ -316,5 +317,17 @@ export const stopApp = async (app) => {
     console.log('Error on stopDACApp: ', error)
   }
 
-  return result == null ? false : result.success
+  try {
+    result = await thunderJS['org.rdk.RDKShell'].moveToFront({ client: REFAPP2_CLIENT_ID})
+  } catch (error) {
+    console.log('Error on moveToFront: ', error)
+  }
+
+  try {
+    result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: REFAPP2_CLIENT_ID})
+  } catch (error) {
+    console.log('Error on setFocus: ', error)
+  }
+
+  return true
 }
