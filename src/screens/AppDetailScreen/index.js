@@ -20,6 +20,7 @@
 import { Utils, Settings } from '@lightningjs/sdk'
 import { navigate, navigateBackward } from '../../lib/Router'
 import { getDomain } from '@/domain'
+import WarningModal from '@/components/WarningModal'
 import StatusProgress from './components/StatusProgress'
 import OkCancelDialog   from "@/components/OkCancelDialog";
 import IconButton   from "@/components/IconButton";
@@ -114,6 +115,14 @@ export default class AppDetailScreen extends BaseScreen {
       },
       StatusProgress: { type: StatusProgress, x: constants.CONTAINER_X + 240, y: constants.TITLE_Y - constants.TITLE_FONTSIZE - 20, w: 400, h: constants.TITLE_FONTSIZE },
       OkCancel: { type: OkCancelDialog, x: constants.DIALOG_X, y: constants.DIALOG_Y, w: constants.DIALOG_WIDTH, h: constants.DIALOG_HEIGHT, alpha: 0.0 },
+      StartingAppPopup: {
+        type: WarningModal,
+        headerText: "Starting app...",
+        bodyText: "Use CTRL+HOME to exit the app",
+        x: constants.POPUP_X,
+        y: constants.POPUP_Y,
+        visible: false
+      }
     }
   }
   
@@ -157,6 +166,11 @@ export default class AppDetailScreen extends BaseScreen {
   }
 
   async _handleKey(key) {
+    if (this._app.isInstalling) {
+      // no keys processing when installing, certainly no backwards nav
+      return true
+    }
+
     if (key.code === 'Backspace') {
         navigateBackward()
       return true
@@ -215,6 +229,11 @@ export default class AppDetailScreen extends BaseScreen {
 
     this._app.isRunning = await startApp(this._app)
     if (this._app.isRunning) {
+      this.tag("StartingAppPopup").visible = true
+      setTimeout(() => {
+        this.tag("StartingAppPopup").visible = false
+        this._refocus()
+      }, constants.POPUP_TIMEOUT)
       this.updateButtonsAndStatus()
       this._setState('AppIsRunning')
     }
@@ -249,6 +268,22 @@ export default class AppDetailScreen extends BaseScreen {
     this.tag('ButtonRun')._enableButton(!this._app.isRunning && (this._app.isInstalled || !this._app.isDACApp))
     this.tag('ButtonKill')._enableButton(this._app.isRunning)
     this.tag('ButtonRemove')._enableButton(!this._app.isRunning && this._app.isInstalled)
+
+    // focus first enabled button
+    let newIdx = 0
+    if (this.tag('ButtonInstall')._buttonIsEnabled) {
+      newIdx = 0
+    } else if (this.tag('ButtonRun')._buttonIsEnabled) {
+      newIdx = 1
+    } else if (this.tag('ButtonKill')._buttonIsEnabled) {
+      newIdx = 2
+    } else if (this.tag('ButtonRemove')._buttonIsEnabled) {
+      newIdx = 3
+    }
+    if (newIdx != this._buttonIndex) {
+      this._buttonIndex = newIdx
+      this._refocus()
+    }
   }
 
   static _states() {
