@@ -25,6 +25,7 @@ import theme from '@/themes/default'
 import LoadingIndicator from '@/components/LoadingIndicator'
 import * as player from '@/services/player/'
 import constants from './constants'
+import { isBackKey } from '@/shared/keys'
 
 let intervalId = undefined
 
@@ -165,7 +166,7 @@ export default class VODScreen extends BaseScreen {
 
 
   _handleKey(key) {
-    if (key.code === 'Backspace') {
+    if (isBackKey(key)) {
       navigateBackward()
       return true
     }

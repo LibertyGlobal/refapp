@@ -28,7 +28,8 @@ import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
-import { isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning } from '@/services/RDKServices'
+import { isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning, getExitAppButton } from '@/services/RDKServices'
+import { isBackKey, isExitAppKey } from '@/shared/keys'
 
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
@@ -118,7 +119,7 @@ export default class AppDetailScreen extends BaseScreen {
       StartingAppPopup: {
         type: WarningModal,
         headerText: "Starting app...",
-        bodyText: "Use CTRL+HOME to exit the app",
+        bodyText: "To exit the app: CTRL+HOME",
         x: constants.POPUP_X,
         y: constants.POPUP_Y,
         visible: false
@@ -171,10 +172,10 @@ export default class AppDetailScreen extends BaseScreen {
       return true
     }
 
-    if (key.code === 'Backspace') {
+    if (isBackKey(key)) {
         navigateBackward()
       return true
-    } else if (key.code === 'KeyU' || key.code === 'KeyR') {
+    } else if ((key.code === 'KeyU' || key.code === 'KeyR') && !key.ctrlKey) {
       if (this._app.isInstalled) {
         this._setState('RemoveAppDialogEnter')
       }
@@ -230,6 +231,7 @@ export default class AppDetailScreen extends BaseScreen {
     this._app.isRunning = await startApp(this._app)
     if (this._app.isRunning) {
       this.tag("StartingAppPopup").visible = true
+      this.tag("StartingAppPopup").bodyText = "To exit the app: " + await getExitAppButton()
       setTimeout(() => {
         this.tag("StartingAppPopup").visible = false
         this._refocus()
@@ -292,7 +294,7 @@ export default class AppDetailScreen extends BaseScreen {
       {
         async _handleKey(key) {
           if (this._app.isRunning) {
-            if (key.code === 'Home' && key.ctrlKey) {
+            if (isExitAppKey(key)) {
               this._app.isRunning = ! await stopApp(this._app)
               this.updateButtonsAndStatus()
               this._setState('AppStateButtons')

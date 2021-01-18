@@ -23,6 +23,7 @@ import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
+import { isBackKey } from '@/shared/keys'
 
 export default class DetailsScreen extends BaseScreen {
   static _template() {
@@ -103,7 +104,7 @@ export default class DetailsScreen extends BaseScreen {
   }
 
   _handleKey(key) {
-    if (key.code === 'Backspace') {
+    if (isBackKey(key)) {
       navigateBackward()
       return true
     }

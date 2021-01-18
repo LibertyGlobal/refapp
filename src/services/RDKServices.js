@@ -22,6 +22,7 @@ import ThunderJS from 'ThunderJS'
 
 let thunderJS = null
 let platform = null
+let t4hremote_supported = false
 const REFAPP2_CLIENT_ID = 'refapp2'
 
 function getDacAppInstallUrl(url) {
@@ -41,8 +42,17 @@ async function initThunderJS() {
     })
 
     try {
+      // !!! Keep in sync with isExitAppKey() in shared/keys.js
       let result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
         keyCode: 36, // HOME key, Javascript keycodes: https://keycode.info
+        modifiers: ['ctrl'],
+        client: REFAPP2_CLIENT_ID
+      })
+      if (result == null || !result.success) {
+        console.log('Error on addKeyIntercept')
+      }
+      result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
+        keyCode: 71, // KeyG, Javascript keycodes: https://keycode.info
         modifiers: ['ctrl'],
         client: REFAPP2_CLIENT_ID
       })
@@ -200,13 +210,25 @@ export const getPlatformName = async () => {
     platform = await getDeviceName()
     platform = platform.split('-')[0]
 
-    if (platform == 'raspberrypi') {
+    if (platform === 'raspberrypi') {
       platform = 'rpi'
-    } else if (platform == 'brcm972180hbc') {
+    } else if (platform === 'brcm972180hbc') {
       platform = '7218c'
+    } else if (platform === 'vip7802') {
+      platform = '7218c'
+      t4hremote_supported = true
     }
   }
   return platform
+}
+
+export const getExitAppButton = async () => {
+  await getPlatformName()
+  if (t4hremote_supported) {
+    return "Info button '...' on T4H"
+  } else {
+    return "CTRL+HOME"
+  }
 }
 
 export const getDeviceName = async () => {

@@ -24,6 +24,7 @@ import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
 import NumberInput from './components/NumberInput'
 import CurrentTime from './components/CurrentTime'
+import { isBackKey } from '@/shared/keys'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -150,7 +151,7 @@ export default class App extends Lightning.Component {
     if (key.code === 'KeyF') {
       return navigateForward()
     }
-    if (key.code === 'Backspace') {
+    if (isBackKey(key)) {
       const activeScreen = getActiveScreen()
       if (activeScreen.ref === 'HomeScreen') {
         this._setState('Navbar')
