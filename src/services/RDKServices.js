@@ -200,9 +200,14 @@ export const getPlatformName = async () => {
     platform = await getDeviceName()
     platform = platform.split('-')[0]
 
-    if (platform == 'raspberrypi') {
+    if (platform === 'raspberrypi') {
       platform = 'rpi'
-    } else if (platform == 'brcm972180hbc') {
+    } else if (platform === 'brcm972180hbc') {
+      platform = '7218c'
+    } else if (platform === 'vip7802') {
+      platform = '7218c'
+    } else {
+      // default
       platform = '7218c'
     }
   }
