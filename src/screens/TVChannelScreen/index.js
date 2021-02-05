@@ -2,7 +2,7 @@
  * If not stated otherwise in this file or this component's LICENSE file the
  * following copyright and licenses apply:
  *
- * Copyright 2020 Liberty Global B.V.
+ * Copyright 2021 Liberty Global B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,7 +119,6 @@ export default class TVChannelScreen extends BaseScreen {
 
   _handleEnter() {
     let selectedItem = this.tag('Lists').children[0].activeItem._item
-    console.log(selectedItem)
     this._play(selectedItem)
     this.tag('ChannelInfo').visible = true;
     this.tag('RefIdTxt').text = "channelId : " + selectedItem.channelId
