@@ -2,7 +2,7 @@
  * If not stated otherwise in this file or this component's LICENSE file the
  * following copyright and licenses apply:
  *
- * Copyright 2020 Liberty Global B.V.
+ * Copyright 2021 Liberty Global B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import { channelsServiceInit, getChannel } from '@/services/ChannelsService'
 import TVChannelScreenList from './components/TVChannelScreenList'
 import BaseScreen from '../BaseScreen'
 import { getActiveScreen, navigateForward, navigateBackward, navigate } from './../../lib/Router'
+import { ChannelNumber } from '../../components/NumberInput/channelnumber.js'
 
 export default class TVChannelScreen extends BaseScreen {
   static _template() {
@@ -76,7 +77,6 @@ export default class TVChannelScreen extends BaseScreen {
           w: constants.CHLIST_INFO_IMAGE_WIDTH,
           h: constants.CHLIST_INFO_IMAGE_HEIGHT,
           alpha: 0.5,
-
         },
         RefIdTxt: {
           x: constants.CHLIST_INFO_REF_ID_X,
@@ -94,10 +94,15 @@ export default class TVChannelScreen extends BaseScreen {
             wordWrap: true
           }
         },
-
-
       }
     }
+  }
+
+  show() {
+    if (this.tag('Lists').children[0]) {
+      this.tag('Lists').children[0].setIndex(ChannelNumber.currentIndex)
+    }
+    super.show();
   }
 
   _getFocused() {
@@ -114,7 +119,6 @@ export default class TVChannelScreen extends BaseScreen {
 
   _handleEnter() {
     let selectedItem = this.tag('Lists').children[0].activeItem._item
-    console.log(selectedItem)
     this._play(selectedItem)
     this.tag('ChannelInfo').visible = true;
     this.tag('RefIdTxt').text = "channelId : " + selectedItem.channelId
@@ -124,8 +128,8 @@ export default class TVChannelScreen extends BaseScreen {
       ref.tag('ChannelInfo').visible = false;
       clearTimeout(timer);
     }, 4000, this)
+    ChannelNumber.currentIndex = Number(selectedItem.channelNumber) - 1
   }
-
 
   async _play(entry) {
     await player.playQAM(entry)
@@ -140,7 +144,6 @@ export default class TVChannelScreen extends BaseScreen {
       channels[_index].label = channels[_index].channelId
     }
 
-
     let obj = {
       type: TVChannelScreenList,
       itemSize: { w: constants.LIST_ITEM_WIDTH, h: constants.LIST_ITEM_HEIGHT },
@@ -152,6 +155,7 @@ export default class TVChannelScreen extends BaseScreen {
     channelList.push(obj);
     this._index = 0
     this.tag('Lists').children = channelList;
+    this.tag('Lists').children[0].setIndex((ChannelNumber.currentIndex))
   }
 
   get lists() {

@@ -2,7 +2,7 @@
  * If not stated otherwise in this file or this component's LICENSE file the
  * following copyright and licenses apply:
  *
- * Copyright 2020 Liberty Global B.V.
+ * Copyright 2021 Liberty Global B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ export default class TVChannelScreenList extends List {
   }
 
   set items(value) {
-
     this._itemsData = value
     this._itemSize = this._itemSize ? this._itemSize : { w: constants.LIST_ITEM_DEFAULT_WIDTH, h: constants.LIST_ITEM_DEFAULT_HEIGHT }
     this.tag('Items').children = value.map((item, index) => {
@@ -68,10 +67,8 @@ export default class TVChannelScreenList extends List {
   }
 
   setIndex(index) {
-
     const prevIndex = this._index
     this._index = index;
-
     let itemCap = this._itemSize.h + constants.ITEMS_CAP;
     let displayArea = constants.LIST_VIEW_HEIGHT;
     let bottamFocusItem = Math.floor(displayArea / itemCap);
