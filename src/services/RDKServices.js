@@ -281,12 +281,14 @@ export const startApp = async (app) => {
     result = await thunderJS['org.rdk.RDKShell'].moveToFront({ client: app.id})
   } catch (error) {
     console.log('Error on moveToFront: ', error)
-    return false
+    // ignore
+    //return false
   }
 
-  if (result == null || !result.success) {
-    return false
-  }
+  // ignore any error on moveToFront
+  //if (result == null || !result.success) {
+  //  return false
+  //}
 
   try {
     result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: app.id})
