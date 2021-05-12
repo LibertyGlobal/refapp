@@ -105,13 +105,13 @@
         "channelId": "channel18",
         "logo": "../../img/tvchannels/18.png",
         "channelNumber": 18,
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/10sec/TearsOfSteel_10s_simple_2014_05_09.mpd"
+        "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)"
     },
     {
         "channelId": "channel19",
         "logo": "../../img/tvchannels/19.png",
         "channelNumber": 19,
-        "locator": "http://www-itec.uni-klu.ac.at/ftp/datasets/DASHDataset2014/TearsOfSteel/15sec/TearsOfSteel_15s_simple_2014_05_09.mpd"
+        "locator": "http://wowzaec2demo.streamlock.net/vod/_definst_/ElephantsDream/smil:ElephantsDream.smil/manifest_mvtime.mpd"
     },
     {
         "channelId": "channel20",
