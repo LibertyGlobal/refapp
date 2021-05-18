@@ -229,6 +229,29 @@ export const getDeviceName = async () => {
   return result == null ? "unknown" : result.devicename
 }
 
+export const getIpAddress = async () => {
+  initThunderJS()
+
+  console.log('getIpAddress')
+
+  let result = null
+  try {
+    result = await thunderJS.DeviceInfo.addresses()
+    if (result == null) {
+      return ""
+    } else {
+      let intf = result.find(el => el.name.startsWith('eth'))
+      if (intf == null || !('ip' in intf) || intf.ip.length == 0) {
+        intf = result.find(el => el.name.startsWith('wlan'))
+      }
+      return (intf == null || !('ip' in intf) || intf.ip.length == 0) ? "" : intf.ip[0]
+    }
+  } catch (error) {
+    console.log('Error on addresses: ', error)
+    return ""
+  }
+}
+
 export const getAllRunningApps = async () => {
   initThunderJS()
 
