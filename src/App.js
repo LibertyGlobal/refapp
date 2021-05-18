@@ -24,6 +24,7 @@ import SplashScreen from './screens/SplashScreen'
 import { init as initPlayers } from './services/player'
 import NumberInput from './components/NumberInput'
 import CurrentTime from './components/CurrentTime'
+import CurrentIP from './components/CurrentIP'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -41,6 +42,10 @@ export default class App extends Lightning.Component {
       },
       Time:{
         type: CurrentTime,
+        visible: true
+      },
+      CurrentIP:{
+        type: CurrentIP,
         visible: true
       } 
     }
