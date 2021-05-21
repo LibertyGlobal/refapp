@@ -101,8 +101,8 @@ export default class VODScreen extends BaseScreen {
     navigateBackward()
   }
 
-  $mediaplayerProgress(currentTime, duration) {
-    this.tag('Progress').setProgress(currentTime, duration)
+  $mediaplayerProgress(position, duration) {
+    this.tag('Progress').setProgress(position, duration)
   }
 
   _active() {
