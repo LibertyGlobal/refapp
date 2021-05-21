@@ -147,22 +147,20 @@ export default class VODScreen extends BaseScreen {
     })
   }
 
-  
-
-  _handleLeftRelease(){
-    this.currentposition = this.currentposition-(constants.MOVE_POSITION);
-    player.jump(this.currentposition);
-    this.$mediaplayerProgress(this.currentposition, this.movieduration)
+  _handleLeftRelease() {
+    if (this.movieduration > 1000) {
+      this.currentposition = Math.max(0, this.currentposition - (constants.MOVE_POSITION))
+      player.jump(this.currentposition)
+      this.$mediaplayerProgress(this.currentposition, this.movieduration)    }
   }
 
-
-  _handleRightRelease(){
-    this.currentposition = this.currentposition+(constants.MOVE_POSITION);
-    player.jump(this.currentposition);
-    this.$mediaplayerProgress(this.currentposition, this.movieduration)
+  _handleRightRelease() {
+    if (this.movieduration > 1000) {
+      this.currentposition = Math.min(this.movieduration - 1000, this.currentposition + (constants.MOVE_POSITION))
+      player.jump(this.currentposition)
+      this.$mediaplayerProgress(this.currentposition, this.movieduration)
+    }
   }
-
-
 
   _handleKey(key) {
     if (key.code === 'Backspace') {
