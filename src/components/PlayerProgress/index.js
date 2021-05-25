@@ -74,22 +74,21 @@ export default class PlayerProgress extends Lightning.Component {
     this.tag('Title').text.text = value
   }
 
-  setProgress(currentTime, duration) {
-    this._currentTime = currentTime
-    this._duration = duration
-    const p = currentTime / Math.max(duration, 1)
+  setProgress(position, duration) {
+    const p = position / Math.max(duration, 1)
     this.tag('Progress').w = p * constants.PLAYERPROGRESS_BAR_WIDTH
     this.tag('Thumb').x = p * constants.PLAYERPROGRESS_BAR_WIDTH
-    this.tag('CurrentTime').text.text = this._formatTime(currentTime)
+    this.tag('CurrentTime').text.text = this._formatTime(position)
   }
 
-  _formatTime(time) {
+  _formatTime(timeInMillis) {
     function pad(number) {
       return number < 10 ? '0' + number : number
     }
-    const hours = Math.floor(time / 3600)
-    const minutes = Math.floor(time / 60) % 60
-    const seconds = Math.floor(time % 60)
+    const timeInSecs = timeInMillis / 1000;
+    const hours = Math.floor(timeInSecs / 3600)
+    const minutes = Math.floor(timeInSecs / 60) % 60
+    const seconds = Math.floor(timeInSecs % 60)
     const minutesSeconds = pad(minutes) + ':' + pad(seconds)
     return hours ? pad(hours) + ':' + minutesSeconds : minutesSeconds
   }

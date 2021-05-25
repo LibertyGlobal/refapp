@@ -23,6 +23,7 @@ import { navigateBackward } from '@/lib/Router'
 import PlayerProgress from '@/components/PlayerProgress'
 import theme from '@/themes/default'
 import LoadingIndicator from '@/components/LoadingIndicator'
+import PausedIndicator from '@/components/PausedIndicator'
 import * as player from '@/services/player/'
 import constants from './constants'
 
@@ -59,6 +60,22 @@ export default class VODScreen extends BaseScreen {
           x: 960,
           y: 600
         }
+      },
+      Paused: {
+        rect: true,
+        w: 1920,
+        h: 1080,
+        color: theme.colors.transparent,
+        visible: false,
+        PausedIndicator: {
+          type: PausedIndicator,
+          mountX: 0.5,
+          mountY: 0.5,
+          w: 110,
+          h: 110,
+          x: 960,
+          y: 600
+        }
       }
     }
   }
@@ -88,12 +105,23 @@ export default class VODScreen extends BaseScreen {
     return result
   }
 
+  startStopPausedIndicator(start) {
+    if (start) {
+      this.tag('Paused').visible = true
+      this.tag('PausedIndicator').startAnimation()
+    } else {
+      this.tag('Paused').visible = false
+      this.tag('PausedIndicator').stopAnimation()
+    }
+  }
+
   async _play(entry) {
     this._playerSource = entry.locator
     await player.playIP(entry)
     this.startPropertyRequestTimer()
     this.tag('Loading').visible = false
     this.tag('LoadingIndicator').stopAnimation()
+    this.startStopPausedIndicator(false)
     this.tag('Progress').visible = true
   }
 
@@ -101,13 +129,14 @@ export default class VODScreen extends BaseScreen {
     navigateBackward()
   }
 
-  $mediaplayerProgress(currentTime, duration) {
-    this.tag('Progress').setProgress(currentTime, duration)
+  $mediaplayerProgress(position, duration) {
+    this.tag('Progress').setProgress(position, duration)
   }
 
   _active() {
     this.tag('Loading').visible = true
     this.tag('LoadingIndicator').startAnimation()
+    this.startStopPausedIndicator(false)
     if(this._playerSource) {
       player.play()
       this.startPropertyRequestTimer()
@@ -137,32 +166,51 @@ export default class VODScreen extends BaseScreen {
     player.getPlaybackState().then((sessionProperty)=>{
       this.currentposition = sessionProperty.position;
       this.movieduration = sessionProperty.duration;
-      this.$mediaplayerProgress(sessionProperty.position, sessionProperty.duration)
+
+      if (sessionProperty.speed === 0) {
+        this.startStopPausedIndicator(true)
+      } else {
+        this.startStopPausedIndicator(false)
+      }
+
+      // auto-loop when less than one second video left
+      if (this.movieduration - this.currentposition <= 1000) {
+        this.currentposition = 0
+        player.jump(this.currentposition)
+        this.$mediaplayerProgress(this.currentposition, this.movieduration)
+      } else {
+        this.$mediaplayerProgress(sessionProperty.position, sessionProperty.duration)
+      }
     })
   }
 
   _handleEnter() {
     player.getPlaybackState().then((sessionProperty) => {
-      sessionProperty.speed === 0 ? player.play() : player.pause()
+      if (sessionProperty.speed === 0) {
+        player.play()
+        this.startStopPausedIndicator(false)
+      } else {
+        player.pause()
+        this.startStopPausedIndicator(true)
+      }
     })
   }
 
-  
-
-  _handleLeftRelease(){
-    this.currentposition = this.currentposition-(constants.MOVE_POSITION);
-    player.jump(this.currentposition);
-    this.$mediaplayerProgress(this.currentposition, this.movieduration)
+  _handleLeftRelease() {
+    if (this.movieduration > 1000) {
+      this.currentposition = Math.max(0, this.currentposition - (constants.MOVE_POSITION))
+      player.jump(this.currentposition)
+      this.$mediaplayerProgress(this.currentposition, this.movieduration)
+    }
   }
 
-
-  _handleRightRelease(){
-    this.currentposition = this.currentposition+(constants.MOVE_POSITION);
-    player.jump(this.currentposition);
-    this.$mediaplayerProgress(this.currentposition, this.movieduration)
+  _handleRightRelease() {
+    if (this.movieduration > 1000) {
+      this.currentposition = Math.min(this.movieduration - 1000, this.currentposition + (constants.MOVE_POSITION))
+      player.jump(this.currentposition)
+      this.$mediaplayerProgress(this.currentposition, this.movieduration)
+    }
   }
-
-
 
   _handleKey(key) {
     if (key.code === 'Backspace') {
