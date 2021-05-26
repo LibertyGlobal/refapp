@@ -27,6 +27,10 @@ let currentPlaybackState
 let playerEndpoint
 
 function startPlayback(config) {
+  const request = {
+    openRequest: config
+  }
+  logger.info(MODULE_NAME, 'startPlayback REQ', request)
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/open`,
     method: 'PUT',
@@ -34,21 +38,26 @@ function startPlayback(config) {
       'Content-Type': 'application/json',
       Connection: 'keep-alive'
     },
-    body: {
-      openRequest: config
-    }
+    body: request
+  }).then(data => {
+    currentPlaybackState = Object.assign({}, config, { sessionId: data.openStatus.sessionId })
+    logger.info(MODULE_NAME, 'startPlayback RES', data)
+    return data
+  }).catch((err) => {
+    logger.warn("can't connect to sessionmgr", err)
   })
-    .then(data => {
-      currentPlaybackState = Object.assign({}, config, { sessionId: data.openStatus.sessionId })
-      logger.info(MODULE_NAME, 'startPlayback', data)
-      return data
-    })
-    .catch((err) => {
-      logger.warn("can't connect to sessionmgr")
-    })
 }
 
 function stopCurrentPlayback() {
+  if (currentPlaybackState == null) {
+    return Promise.resolve({})
+  }
+  const request = {
+    closeRequest: {
+      sessionId: currentPlaybackState.sessionId
+    }
+  }
+  logger.info(MODULE_NAME, 'stopCurrentPlayback REQ', request)
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/close`,
     method: 'PUT',
@@ -56,38 +65,33 @@ function stopCurrentPlayback() {
       'Content-Type': 'application/json',
       Connection: 'keep-alive'
     },
-    body: {
-      closeRequest: currentPlaybackState
-    }
+    body: request
+  }).then(data => {
+    logger.info(MODULE_NAME, 'stopCurrentPlayback RES', data)
+    return data
+  }).catch((err) => {
+    logger.warn("can't connect to sessionmgr", err)
   })
-    .then(data => {
-      currentPlaybackState = Object.assign({}, currentPlaybackState, {
-        sessionId: data.openStatus.sessionId
-      })
-      logger.info(MODULE_NAME, 'stopCurrentPlayback', data)
-      return data
-    })
-    .catch(() => {
-      logger.warn("can't connect to sessionmgr")
-    })
 }
 
 function getPlaybackState() {
   if (currentPlaybackState == null) {
     return Promise.resolve({})
   }
+  const request = {
+    getSessionPropertyRequest: {
+      sessionId: currentPlaybackState.sessionId,
+      refId: currentPlaybackState.refId,
+      properties: ['duration', 'position', 'speed'],
+    }
+  }
+  logger.info(MODULE_NAME, 'getPlaybackState REQ', request)
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/getSessionProperty`,
     method: 'PUT',
-    body: {
-      getSessionPropertyRequest: {
-        sessionId: currentPlaybackState.sessionId,
-        refId: currentPlaybackState.refId,
-        properties: ['duration', 'position', 'speed'],
-      },
-    },
+    body: request
   }).then(data => {
-    logger.info(MODULE_NAME, 'getPlaybackState', data)
+    logger.info(MODULE_NAME, 'getPlaybackState RES', data)
     return data.sessionProperty || {}
   })
 }
@@ -96,18 +100,20 @@ function setPlaybackState(props) {
   if (currentPlaybackState == null) {
     return Promise.resolve({})
   }
+  const request = {
+    setSessionPropertyRequest: {
+      sessionId: currentPlaybackState.sessionId,
+      refId: currentPlaybackState.refId,
+      setProperties: props
+    }
+  }
+  logger.info(MODULE_NAME, 'setPlaybackState REQ', request)
   return requestJson({
     href: `${playerEndpoint}/vldms/sessionmgr/setSessionProperty`,
     method: 'PUT',
-    body: {
-      setSessionPropertyRequest: {
-        sessionId: currentPlaybackState.sessionId,
-        refId: currentPlaybackState.refId,
-        setProperties: props
-      }
-    }
+    body: request
   }).then(data => {
-    logger.info(MODULE_NAME, 'setPlaybackState', data)
+    logger.info(MODULE_NAME, 'setPlaybackState RES', data)
     return data
   })
 }

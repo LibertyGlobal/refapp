@@ -22,11 +22,9 @@
 import * as IPPlayer from './ip.player'
 import * as QAMPlayer from './qam.player'
 
-// const IPPlayer = require('./ip.player')
-// const QAMPlayer = require('./qam.player')
-
 let currentPlayer
 let needToStopCurrentPlayer = false
+let lastActiveQAMChannel
 
 function init(config) {
   config.endpoint = 'http://' + window.location.host;
@@ -45,9 +43,21 @@ function stopPlayBack() {
   if (needToStopCurrentPlayer) {
     return currentPlayer.stop().then(() => {
       needToStopCurrentPlayer = false
+      if (currentPlayer == IPPlayer && lastActiveQAMChannel) {
+        return playQAM(lastActiveQAMChannel)
+      }
     })
   }
   return Promise.resolve()
+}
+
+function playLastQamChannel() {
+  if (lastActiveQAMChannel) {
+    return playQAM(lastActiveQAMChannel)
+  }
+  else {
+    return Promise.resolve()
+  }
 }
 
 function playIP(entity) {
@@ -62,6 +72,7 @@ function playQAM(entity) {
   return stopPlayBack().then(() => {
     currentPlayer = QAMPlayer
     needToStopCurrentPlayer = true
+    lastActiveQAMChannel = entity
     return currentPlayer.playQAM(entity)
   })
 }
@@ -87,7 +98,8 @@ export {
   pause,
   play,
   jump,
-  stopPlayBack
+  stopPlayBack,
+  playLastQamChannel
 }
 
 export default {}

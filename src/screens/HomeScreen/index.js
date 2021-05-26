@@ -25,8 +25,6 @@ import * as player  from '@/services/player/'
 import constants from './constants'
 import commonConstants from '@/constants/default'
 
-let intervalId = undefined
-
 export default class HomeScreen extends BaseScreen {
   static _template() {
     return {
@@ -74,50 +72,10 @@ export default class HomeScreen extends BaseScreen {
     if (this._focused) {
       this.tag('ChannelBar').visible = true
     }
-    this._playerSource = entry.locator
     await player.playQAM(entry)
-
-    // Temporary switch off progress
-    // this.startPropertyRequestTimer()
 
     this.tag('LoadingIndicator').stopAnimation()
     this.tag('Loading').visible = false
-  }
-
-  _active() {
-    if (this._playerSource) {
-      player.play()
-      this.startPropertyRequestTimer()
-    }
-  }
-
-  _inactive() {
-    player.pause()
-    this.stopPropertyRequestTimer()
-  }
-
-  startPropertyRequestTimer() {
-    this.stopPropertyRequestTimer()
-    this.$mediaplayerProgress(0, 1)
-    this.getPlaybackState()
-    intervalId = setInterval(this.getPlaybackState.bind(this), 3000)
-  }
-
-  stopPropertyRequestTimer() {
-    if (intervalId !== undefined) {
-      clearInterval(intervalId)
-      intervalId = undefined
-    }
-  }
-
-  getPlaybackState() {
-    player.getPlaybackState().then((sessionProperty) => {
-      this.$mediaplayerProgress(sessionProperty.position, sessionProperty.duration)
-    })
-  }
-
-  $mediaplayerProgress(currentTime, duration) {
-    this.tag('ChannelBar').updateProgress(100 * currentTime / duration)
   }
 
   _getFocused() {
