@@ -28,6 +28,7 @@ import BaseScreen from '../BaseScreen'
 import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
+import * as player  from '@/services/player/'
 import { isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning } from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
@@ -229,6 +230,7 @@ export default class AppDetailScreen extends BaseScreen {
 
     this._app.isRunning = await startApp(this._app)
     if (this._app.isRunning) {
+      await player.stopPlayBack()
       this.tag("StartingAppPopup").visible = true
       setTimeout(() => {
         this.tag("StartingAppPopup").visible = false
@@ -242,6 +244,7 @@ export default class AppDetailScreen extends BaseScreen {
   async $fireKILL() {
     if (this._app.isRunning) {
       this._app.isRunning = ! await stopApp(this._app)
+      await player.playLastQamChannel()
       this.updateButtonsAndStatus()
     }
   }
@@ -294,6 +297,7 @@ export default class AppDetailScreen extends BaseScreen {
           if (this._app.isRunning) {
             if (key.code === 'Home' && key.ctrlKey) {
               this._app.isRunning = ! await stopApp(this._app)
+              await player.playLastQamChannel()
               this.updateButtonsAndStatus()
               this._setState('AppStateButtons')
             }
