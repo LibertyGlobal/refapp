@@ -152,7 +152,7 @@ export default class VODScreen extends BaseScreen {
     this.stopPropertyRequestTimer()
     this.$mediaplayerProgress(0, 1)
     this.getPlaybackState()
-    intervalId = setInterval(this.getPlaybackState.bind(this), 3000);
+    intervalId = setInterval(this.getPlaybackState.bind(this), 1000);
   }
 
   stopPropertyRequestTimer() {
@@ -200,7 +200,6 @@ export default class VODScreen extends BaseScreen {
     if (this.movieduration > 1000) {
       this.currentposition = Math.max(0, this.currentposition - (constants.MOVE_POSITION))
       player.jump(this.currentposition)
-      this.$mediaplayerProgress(this.currentposition, this.movieduration)
     }
   }
 
@@ -208,7 +207,6 @@ export default class VODScreen extends BaseScreen {
     if (this.movieduration > 1000) {
       this.currentposition = Math.min(this.movieduration - 1000, this.currentposition + (constants.MOVE_POSITION))
       player.jump(this.currentposition)
-      this.$mediaplayerProgress(this.currentposition, this.movieduration)
     }
   }
 
