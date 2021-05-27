@@ -61,7 +61,7 @@ async function registerListener(plugin, eventname, cb) {
   return await thunderJS.on(plugin, eventname, (notification) => {
     console.log("Received thunderJS event " + plugin + ":" + eventname, notification)
     if (cb != null) {
-      cb(notification)
+      cb(notification, eventname, plugin)
     }
   })
 }
@@ -75,7 +75,12 @@ async function registerPackagerEvents(id, progress) {
 
   progress.reset()
 
-  let handleFailure = (notification, str) => {
+  let handleFailure = (notification, eventname, plugin, str) => {
+    //console.log('handleFailure: ' + plugin + ' ' + eventname)
+
+    if (plugin !== 'Packager') {
+      return
+    }
     if (id == notification.pkgId) {
       progress.fireAncestors('$fireINSTALLFinished', false, str);
       eventHandlers.map(h => { h.dispose() })
@@ -83,13 +88,18 @@ async function registerPackagerEvents(id, progress) {
     }
   }
 
-  let handleFailureDownload = (notification) => { handleFailure(notification, 'Failure downloading') };
-  let handleFailureDecryption = (notification) => { handleFailure(notification, 'Failure decrypting') };
-  let handleFailureExtraction = (notification) => { handleFailure(notification, 'Failure extracting') };
-  let handleFailureVerification = (notification) => { handleFailure(notification, 'Failure verifying') };
-  let handleFailureInstall = (notification) => { handleFailure(notification, 'Failure installing') };
+  let handleFailureDownload = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure downloading') };
+  let handleFailureDecryption = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure decrypting') };
+  let handleFailureExtraction = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure extracting') };
+  let handleFailureVerification = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure verifying') };
+  let handleFailureInstall = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure installing') };
 
-  let handleProgress = (notification) => {
+  let handleProgress = (notification, eventname, plugin) => {
+    //console.log('handleProgress: ' + plugin + ' ' + eventname)
+
+    if (plugin !== 'Packager') {
+      return
+    }
     if (id == notification.pkgId) {
       let pc = notification.status / 8.0;
       progress.setProgress(pc, notification.what);
@@ -101,19 +111,19 @@ async function registerPackagerEvents(id, progress) {
     }
   }
 
-  let handleProgressDownload = (notification) => {
+  let handleProgressDownload = (notification, eventname, plugin) => {
     notification.what = "Downloading..."
-    handleProgress.call(this, notification)
+    handleProgress.call(this, notification, eventname, plugin)
   }
 
-  let handleProgressExtract = (notification) => {
+  let handleProgressExtract = (notification, eventname, plugin) => {
     notification.what = "Extracting..."
-    handleProgress.call(this, notification)
+    handleProgress.call(this, notification, eventname, plugin)
   }
 
-  let handleProgressInstall = (notification) => {
+  let handleProgressInstall = (notification, eventname, plugin) => {
     notification.what = "Installing..."
-    handleProgress.call(this, notification)
+    handleProgress.call(this, notification, eventname, plugin)
   }
 
   addEventHandler( eventHandlers, 'Packager', 'onDownloadCommence', handleProgressDownload);
@@ -125,7 +135,7 @@ async function registerPackagerEvents(id, progress) {
   addEventHandler( eventHandlers, 'Packager', 'onInstallCommence',  handleProgressInstall);
   addEventHandler( eventHandlers, 'Packager', 'onInstallComplete',  handleProgressInstall);
 
-  addEventHandler( eventHandlers, 'Packager', 'onDownload_FAILED',     handleFailureDownload,) ;
+  addEventHandler( eventHandlers, 'Packager', 'onDownload_FAILED',     handleFailureDownload) ;
   addEventHandler( eventHandlers, 'Packager', 'onDecryption_FAILED',   handleFailureDecryption) ;
   addEventHandler( eventHandlers, 'Packager', 'onExtraction_FAILED',   handleFailureExtraction) ;
   addEventHandler( eventHandlers, 'Packager', 'onVerification_FAILED', handleFailureVerification);
@@ -360,4 +370,144 @@ export const stopApp = async (app) => {
   }
 
   return true
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// FireBoltMediaPlayer usage
+//////////////////////////////////////////////////////////////////////////////////////
+let playBackStatus
+let playBackEventHandlers = []
+
+async function unregisterPlayerEvents() {
+  playBackEventHandlers.map(h => { h.dispose() })
+  playBackEventHandlers = []
+}
+
+async function registerPlayerEvents() {
+  await unregisterPlayerEvents()
+
+  let handleMediaEvent = (notification, eventname, plugin) => {
+    if (plugin !== 'org.rdk.FireboltMediaPlayer') {
+      return
+    }
+    //console.log('MEDIAEVENT', notification, eventname, plugin)
+    if (eventname === 'playbackProgressUpdate') {
+      playBackStatus = notification
+    }
+  }
+
+  //addEventHandler( playBackEventHandlers, 'org.rdk.FireboltMediaPlayer', 'playbackStarted', handleMediaEvent)
+  //addEventHandler( playBackEventHandlers, 'org.rdk.FireboltMediaPlayer', 'playbackStateChanged', handleMediaEvent)
+  addEventHandler( playBackEventHandlers, 'org.rdk.FireboltMediaPlayer', 'playbackProgressUpdate', handleMediaEvent)
+  //addEventHandler( playBackEventHandlers, 'org.rdk.FireboltMediaPlayer', 'bufferingChanged', handleMediaEvent)
+  //addEventHandler( playBackEventHandlers, 'org.rdk.FireboltMediaPlayer', 'playbackSpeedChanged', handleMediaEvent)
+  //addEventHandler( playBackEventHandlers, 'org.rdk.FireboltMediaPlayer', 'playbackFailed', handleMediaEvent)
+}
+export const getVideoPlaybackState = async () => {
+  return playBackStatus
+}
+
+export const startVideo = async (id, url) => {
+  initThunderJS()
+  console.log('startVideo', id, url)
+  let result = null
+
+  await registerPlayerEvents()
+
+  try {
+    result = await thunderJS['org.rdk.FireboltMediaPlayer'].create(
+        { id: id })
+  } catch (error) {
+    console.log('Error on startVideo: ', error)
+    return false
+  }
+  if (result == null || !result.success) {
+    return false
+  }
+
+  try {
+    result = await thunderJS['org.rdk.FireboltMediaPlayer'].load(
+      {
+        id: id,
+        url: url
+      })
+  } catch (error) {
+    console.log('Error on playVideo: ', error)
+    return false
+  }
+
+  return result == null ? false : result.success
+}
+
+export const stopVideo = async (id) => {
+  initThunderJS()
+  console.log('stopVideo')
+  let result = null
+  try {
+    result = await thunderJS['org.rdk.FireboltMediaPlayer'].stop(
+      {
+        id: id
+      })
+  } catch (error) {
+    console.log('Error on stopVideo: ', error)
+    return false
+  }
+
+  await unregisterPlayerEvents()
+
+  return result == null ? false : result.success
+}
+
+export const pauseVideo = async (id) => {
+  initThunderJS()
+  console.log('pauseVideo')
+  let result = null
+  try {
+    result = await thunderJS['org.rdk.FireboltMediaPlayer'].pause(
+      {
+        id: id
+      })
+  } catch (error) {
+    console.log('Error on pauseVideo: ', error)
+    return false
+  }
+
+  return result == null ? false : result.success
+}
+
+export const playVideo = async (id) => {
+  initThunderJS()
+  console.log('playVideo')
+  let result = null
+
+  try {
+    result = await thunderJS['org.rdk.FireboltMediaPlayer'].play(
+      {
+        id: id
+      })
+  } catch (error) {
+    console.log('Error on playVideo: ', error)
+    return false
+  }
+
+  return result == null ? false : result.success
+}
+
+export const seekToVideo = async (id, positionSec) => {
+  initThunderJS()
+  console.log('seekToVideo')
+  let result = null
+
+  try {
+    result = await thunderJS['org.rdk.FireboltMediaPlayer'].seekTo(
+      {
+        id: id,
+        positionSec: positionSec
+      })
+  } catch (error) {
+    console.log('Error on seekToVideo: ', error)
+    return false
+  }
+
+  return result == null ? false : result.success
 }

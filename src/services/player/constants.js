@@ -21,7 +21,7 @@
 
 const playerModes = {
   SSM: 'sessionManager',
-  RDK: 'rdkMediaPlayer'
+  FIREBOLT: 'fireBoltMediaPlayer'
 }
 
 export { playerModes }

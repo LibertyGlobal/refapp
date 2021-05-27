@@ -23,7 +23,7 @@ import * as logger from '@/shared/logger'
 
 import { playerModes } from './constants'
 import * as sessionManager from './strategies/sessionManager'
-import * as rdkPlayerManager from './strategies/rdkPlayerManager'
+import * as fireBoltMediaPlayerManager from './strategies/fireBoltMediaPlayerManager'
 
 const MODULE_NAME = 'domainModels/player/ip.player'
 
@@ -36,8 +36,8 @@ function getCurrentPlayableEntity() {
 
 function playIP(vod) {
   currentPlayableEntity = vod
-  if (isRdkMode()) {
-    return rdkPlayerManager.startIP(vod.locator)
+  if (useFireBoltMediaPlayer()) {
+    return fireBoltMediaPlayerManager.start(vod.locator)
   }
   const config = {
     type: 'main',
@@ -49,52 +49,63 @@ function playIP(vod) {
 }
 
 function pause() {
-  if (isRdkMode()) {
-    return rdkPlayerManager.pause()
+  if (useFireBoltMediaPlayer()) {
+    return fireBoltMediaPlayerManager.pause()
   }
   return sessionManager.setPlaybackState({ speed: 0 })
 }
 
 function play() {
-  if (isRdkMode()) {
-    return rdkPlayerManager.play()
+  if (useFireBoltMediaPlayer()) {
+    return fireBoltMediaPlayerManager.play()
   }
   return sessionManager.setPlaybackState({ speed: 1 })
 }
 
 function jump(position) {
-  if (isRdkMode()) {
-    return rdkPlayerManager.setPosition(position)
+  if (useFireBoltMediaPlayer()) {
+    return fireBoltMediaPlayerManager.setPosition(position)
   }
   return sessionManager.setPlaybackState({ position })
 }
 
-function isRdkMode() {
-  return false
-  // return mode === playerModes.RDK
+function useFireBoltMediaPlayer() {
+  return mode === playerModes.FIREBOLT
 }
 
 function getPlaybackState() {
-  return isRdkMode() ? rdkPlayerManager.getPlaybackState() : sessionManager.getPlaybackState()
+  return useFireBoltMediaPlayer() ? fireBoltMediaPlayerManager.getPlaybackState() : sessionManager.getPlaybackState()
 }
 
 function stop() {
-  if (isRdkMode()) {
-    return rdkPlayerManager.stopIP()
+  if (useFireBoltMediaPlayer()) {
+    return fireBoltMediaPlayerManager.stop()
   }
   return sessionManager.stopCurrentPlayback()
 }
 
 function setUpPlayer({ ipPlayerMode, endpoint }) {
   mode = ipPlayerMode
-  if (isRdkMode()) {
-    return rdkPlayerManager.initPlayer()
+  if (useFireBoltMediaPlayer()) {
+    return Promise.resolve()
   }
 
   sessionManager.setPlayerEndpoint(endpoint)
   return Promise.resolve()
 }
 
-export { getCurrentPlayableEntity, getPlaybackState, playIP, stop, pause, play, jump, setUpPlayer }
+function switchToFireBoltMediaPlayer() {
+  logger.info(MODULE_NAME, 'switchToFireBoltMediaPlayer')
+  mode = playerModes.FIREBOLT
+  return Promise.resolve()
+}
+
+function switchToSessionManagerPlayer() {
+  logger.info(MODULE_NAME, 'switchToSessionManagerPlayer')
+  mode = playerModes.SSM
+  return Promise.resolve()
+}
+
+export { getCurrentPlayableEntity, getPlaybackState, playIP, stop, pause, play, jump, setUpPlayer, switchToFireBoltMediaPlayer, switchToSessionManagerPlayer }
 
 export default {}
