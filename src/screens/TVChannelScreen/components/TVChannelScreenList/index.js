@@ -71,16 +71,18 @@ export default class TVChannelScreenList extends List {
     this._index = index;
     let itemCap = this._itemSize.h + constants.ITEMS_CAP;
     let displayArea = constants.LIST_VIEW_HEIGHT;
-    let bottamFocusItem = Math.floor(displayArea / itemCap);
+    let bottomFocusItem = Math.floor(displayArea / itemCap);
 
     if (index > prevIndex) {
       if (((index * itemCap) + this.tag('Items').y) > displayArea) {
-        this.tag('Items').setSmooth('y', (itemCap - ((index - bottamFocusItem) * itemCap)));
+        this.tag('Items').setSmooth('y', (itemCap - ((index - bottomFocusItem) * itemCap)));
       }
     } else if (index < prevIndex) {
       if (((index * itemCap) + this.tag('Items').y) <= 0) {
         this.tag('Items').setSmooth('y', (itemCap - ((index + 1) * itemCap)));
       }
     }
+
+    this.fireAncestors('$onTVChannelListItemSelected');
   }
 }

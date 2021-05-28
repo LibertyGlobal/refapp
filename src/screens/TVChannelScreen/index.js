@@ -27,6 +27,8 @@ import BaseScreen from '../BaseScreen'
 import { getActiveScreen, navigateForward, navigateBackward, navigate } from './../../lib/Router'
 import { ChannelNumber } from '../../components/NumberInput/channelnumber.js'
 
+let channelInfoTimer = undefined;
+
 export default class TVChannelScreen extends BaseScreen {
   static _template() {
     return {
@@ -73,6 +75,13 @@ export default class TVChannelScreen extends BaseScreen {
         x: constants.CHLIST_INFO_X,
         y: constants.CHLIST_INFO_Y,
         visible: false,
+        ChannelInfoBorder: {
+          w: constants.CHLIST_INFO_WIDTH,
+          h: constants.CHLIST_INFO_HEIGHT,
+          type: Lightning.components.BorderComponent,
+          colorBorder: theme.colors.accent,
+          borderWidth: 0
+        },
         ImageIcon: {
           w: constants.CHLIST_INFO_IMAGE_WIDTH,
           h: constants.CHLIST_INFO_IMAGE_HEIGHT,
@@ -98,6 +107,21 @@ export default class TVChannelScreen extends BaseScreen {
     }
   }
 
+  static _states() {
+    return [
+        class ChannelInfo extends this {
+            _getFocused() {
+                return undefined;
+            }
+        },
+        class Lists extends this {
+            _getFocused() {
+                return this.activeList;
+            }
+        }
+    ]
+  }
+
   show() {
     if (this.tag('Lists').children[0]) {
       this.tag('Lists').children[0].setIndex(ChannelNumber.currentIndex)
@@ -109,6 +133,19 @@ export default class TVChannelScreen extends BaseScreen {
     return this.activeList
   }
 
+  _captureLeft() {
+    this.tag('ChannelInfo').visible = false;
+    this.tag('ChannelInfoBorder').setSmooth('borderWidth', 0);
+    this._setState('Lists');
+  }
+
+  _captureRight() {
+    this.clearChannelInfoTimer();
+    this.tag('ChannelInfo').visible = true;
+    this.tag('ChannelInfoBorder').setSmooth('borderWidth', 8);
+    this._setState('ChannelInfo');
+  }
+
   _handleKey(key) {
     if (key.code === 'Backspace') {
       navigateBackward()
@@ -118,17 +155,36 @@ export default class TVChannelScreen extends BaseScreen {
   }
 
   _handleEnter() {
-    let selectedItem = this.tag('Lists').children[0].activeItem._item
-    this._play(selectedItem)
+    let selectedItem = this.tag('Lists').children[0].activeItem._item;
+    this._play(selectedItem);
+    this.showChannelInfo(selectedItem);
+    ChannelNumber.currentIndex = Number(selectedItem.channelNumber) - 1;
+    navigate('home');
+  }
+
+  clearChannelInfoTimer() {
+    if (channelInfoTimer !== undefined) {
+      clearTimeout(channelInfoTimer);
+      channelInfoTimer = undefined;
+    }
+  }
+
+  showChannelInfo(selectedItem) {
+    this.tag('ChannelInfoBorder').setSmooth('borderWidth', 0);
+    this.tag('RefIdTxt').text = "channelId : " + selectedItem.channelId;
+    this.tag('LocatorTxt').text = "locator : " + selectedItem.locator;
+    this.tag('ImageIcon').patch({ src: Utils.asset(selectedItem.logo), x: constants.CHLIST_INFO_IMAGE_X, y: constants.CHLIST_INFO_IMAGE_Y });
     this.tag('ChannelInfo').visible = true;
-    this.tag('RefIdTxt').text = "channelId : " + selectedItem.channelId
-    this.tag('LocatorTxt').text = "locator : " + selectedItem.locator
-    this.tag("ImageIcon").patch({ src: Utils.asset(selectedItem.logo), x: constants.CHLIST_INFO_IMAGE_X, y: constants.CHLIST_INFO_IMAGE_Y });
-    let timer = setTimeout(function (ref) {
+    this.clearChannelInfoTimer();
+    channelInfoTimer = setTimeout(function (ref) {
       ref.tag('ChannelInfo').visible = false;
-      clearTimeout(timer);
-    }, 4000, this)
-    ChannelNumber.currentIndex = Number(selectedItem.channelNumber) - 1
+      ref.clearChannelInfoTimer();
+    }, 4000, this);
+  }
+
+  $onTVChannelListItemSelected() {
+    let selectedItem = this.tag('Lists').children[0].activeItem._item;
+    this.showChannelInfo(selectedItem);
   }
 
   async _play(entry) {
@@ -136,7 +192,6 @@ export default class TVChannelScreen extends BaseScreen {
   }
 
   async _init() {
-
     const channels = await channelsServiceInit();
     let channelList = [];
 

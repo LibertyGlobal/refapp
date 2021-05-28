@@ -106,7 +106,20 @@ export default class ChannelBar extends Lightning.Component {
     this.tag('ProgressBar').update(percent, true)
   }
 
-  _handleLeft() {
+  switchToNextChannel() {
+    channelNumber = ChannelNumber.currentIndex;
+    if (channelsCount > 1) {
+      if (channelNumber === channelsCount - 1) {
+        channelNumber = 0
+      } else {
+        channelNumber++
+      }
+	  ChannelNumber.currentIndex = channelNumber;
+      this.updateView()
+    }
+  }
+
+  switchToPrevChannel() {
 	  channelNumber = ChannelNumber.currentIndex;
     if (channelsCount > 1) {
       if (channelNumber === 0) {
@@ -119,25 +132,38 @@ export default class ChannelBar extends Lightning.Component {
     }
   }
 
-  _handleRight() {
-	      channelNumber = ChannelNumber.currentIndex;
-    if (channelsCount > 1) {
-      if (channelNumber === channelsCount - 1) {
-        channelNumber = 0
-      } else {
-        channelNumber++
-      }
-	  ChannelNumber.currentIndex = channelNumber;
-      this.updateView()
-    }
-  }
-
-  _handleEnter() {
+  changeChannel() {
     if (selectedChannel && selectedProgram) {
       this.signal('channelChanged', { selectedChannel, selectedProgram })
     }
   }
-  
+
+  _handleLeft() {
+    this.switchToPrevChannel();
+  }
+
+  _handleRight() {
+    this.switchToNextChannel();
+  }
+
+  _handleEnter() {
+    this.changeChannel();
+  }
+
+  _handleKey(key) {
+    if (key.code === 'PageUp') {
+      this.switchToNextChannel();
+      this.changeChannel();
+      return true;
+    }
+    if (key.code === 'PageDown') {
+      this.switchToPrevChannel();
+      this.changeChannel();
+      return true;
+    }
+    return false;
+  }
+
   _focus() {
     channelNumber = ChannelNumber.currentIndex;
     this.updateView();
