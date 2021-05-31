@@ -16,10 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-if [ -d "static" ]
-then
-  rm -r "static"
-fi
-mkdir static
-cp -r "./src/cache/." "./static/cache"
-cp -r "./src/img/." "./static/img"
+
+## deprecated, will be removed soon
+true
