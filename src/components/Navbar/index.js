@@ -65,7 +65,7 @@ export default class Navbar extends Lightning.Component {
   _init() {
     this.tag('Menu').items = [
       { text: 'TV CHANNELS', route: 'tvchannels' },
-      { text: 'MOVIES', route: 'movies' },
+      { text: 'MOVIES', route: 'player' },
       { text: 'APPS', route: 'apps' },
       { text: 'SETTINGS', route: 'settings' }
     ]

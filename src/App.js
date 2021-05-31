@@ -21,7 +21,6 @@ import { Lightning, Utils } from '@lightningjs/sdk'
 import { getActiveScreen, navigateForward, navigateBackward, navigate } from './lib/Router'
 import Navbar from './components/Navbar'
 import SplashScreen from './screens/SplashScreen'
-import { init as initPlayers } from './services/player'
 import NumberInput from './components/NumberInput'
 import CurrentTime from './components/CurrentTime'
 import CurrentIP from './components/CurrentIP'
@@ -89,14 +88,6 @@ export default class App extends Lightning.Component {
     })
 
     this._setState('Navbar')
-
-    const configFile = await fetch(Utils.asset('config.ssm.json'))
-    const configJson = await configFile.json()
-
-    initPlayers({
-      ipPlayerMode: configJson.ipPlayerMode,
-      endpoint: configJson.endpoint
-    })
   }
 
   static _states() {

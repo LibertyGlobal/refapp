@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import MoviesScreen from '@/screens/MoviesScreen'
+import PlayerSelectionScreen from '@/screens/PlayerSelectionScreen'
 import AppsScreen from '@/screens/AppsScreen'
 import SettingsScreen from '@/screens/SettingsScreen'
 import VODScreen from '@/screens/VODScreen'
@@ -54,10 +55,19 @@ export const routings = [
   },
   {
     url: 'movies',
-    menuItem: 1,
+    menuItem: -1,
     settings: {
       type: MoviesScreen,
       ref: 'MoviesScreen',
+      ...screenGeometry
+    }
+  },
+  {
+    url: 'player',
+    menuItem: 1,
+    settings: {
+      type: PlayerSelectionScreen,
+      ref: 'PlayerSelectionScreen',
       ...screenGeometry
     }
   },

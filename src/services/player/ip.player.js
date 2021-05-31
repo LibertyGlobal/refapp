@@ -84,16 +84,6 @@ function stop() {
   return sessionManager.stopCurrentPlayback()
 }
 
-function setUpPlayer({ ipPlayerMode, endpoint }) {
-  mode = ipPlayerMode
-  if (useFireBoltMediaPlayer()) {
-    return Promise.resolve()
-  }
-
-  sessionManager.setPlayerEndpoint(endpoint)
-  return Promise.resolve()
-}
-
 function switchToFireBoltMediaPlayer() {
   logger.info(MODULE_NAME, 'switchToFireBoltMediaPlayer')
   mode = playerModes.FIREBOLT
@@ -106,6 +96,6 @@ function switchToSessionManagerPlayer() {
   return Promise.resolve()
 }
 
-export { getCurrentPlayableEntity, getPlaybackState, playIP, stop, pause, play, jump, setUpPlayer, switchToFireBoltMediaPlayer, switchToSessionManagerPlayer }
+export { getCurrentPlayableEntity, getPlaybackState, playIP, stop, pause, play, jump, switchToFireBoltMediaPlayer, switchToSessionManagerPlayer }
 
 export default {}
