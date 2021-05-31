@@ -24,7 +24,7 @@ import { requestJson } from '@/shared/request'
 const MODULE_NAME = 'domainModels/player/strategies'
 
 let currentPlaybackState
-let playerEndpoint
+let playerEndpoint = 'http://' + window.location.host
 
 function startPlayback(config) {
   const request = {
@@ -118,9 +118,5 @@ function setPlaybackState(props) {
   })
 }
 
-function setPlayerEndpoint(endpoint) {
-  playerEndpoint = endpoint
-}
-
-export { getPlaybackState, setPlaybackState, setPlayerEndpoint, startPlayback, stopCurrentPlayback }
+export { getPlaybackState, setPlaybackState, startPlayback, stopCurrentPlayback }
 export default {}

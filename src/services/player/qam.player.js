@@ -58,11 +58,6 @@ function stop() {
   return sessionManager.stopCurrentPlayback()
 }
 
-function setUpPlayer({ endpoint }) {
-  sessionManager.setPlayerEndpoint(endpoint)
-  return Promise.resolve()
-}
-
-export { getCurrentPlayableEntity, getPlaybackState, playQAM, stop, pause, play, jump, setUpPlayer }
+export { getCurrentPlayableEntity, getPlaybackState, playQAM, stop, pause, play, jump }
 
 export default {}

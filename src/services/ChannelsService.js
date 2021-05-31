@@ -24,9 +24,9 @@ let schedule = {}
 let response = null
 
 export const channelsServiceInit = async() => {
-  response = await fetch(Utils.asset('cache/demo-ssm/channelsV2.json'))
+  response = await fetch(Utils.asset('cache/mocks/default/channelsV2.json'))
   channels = await response.json()
-  response = await fetch(Utils.asset('cache/eventsV2.json'))
+  response = await fetch(Utils.asset('cache/mocks/default/eventsV2.json'))
   const rawPrograms = await response.json()
 
   rawPrograms.forEach(function(item, i) {

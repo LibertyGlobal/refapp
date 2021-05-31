@@ -21,12 +21,12 @@
             "year": 2012
           },
           {
-            "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
+            "locator": "http://amssamples.streaming.mediaservices.windows.net/bf657309-71d9-4436-b94b-8ac0d2ca222b/SintelTrailer.ism/manifest(format=mpd-time-csf)",
             "id": "SH3",
-            "label": "Movie 4",
+            "label": "Movie 4 (Playready/OCDM)",
             "image": "img/movies/movie_04.png",
             "poster": "img/posters/poster_04.png",
-            "description": "Movie 4 description",
+            "description": "Movie 4 description - Playready/OCDM",
             "rating": 4,
             "year": 2014
           },
@@ -79,12 +79,12 @@
             "year": 2013
           },
           {
-            "locator": "http://amssamples.streaming.mediaservices.windows.net/f1ee994f-fcb8-455f-a15d-07f6f2081a60/SintelMultiAudio.ism/manifest(format=mpd-time-csf)",
+            "locator": "http://amssamples.streaming.mediaservices.windows.net/bf657309-71d9-4436-b94b-8ac0d2ca222b/SintelTrailer.ism/manifest(format=mpd-time-csf)",
             "id": "SH3",
-            "label": "Movie 4",
+            "label": "Movie 4 (Playready/OCDM)",
             "image": "img/movies/movie_04.png",
             "poster": "img/posters/poster_04.png",
-            "description": "Movie 4 description",
+            "description": "Movie 4 description (Playready/OCDM)",
             "rating": 4,
             "year": 2014
           },
