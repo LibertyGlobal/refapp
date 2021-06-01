@@ -124,7 +124,8 @@ export default class TVChannelScreen extends BaseScreen {
 
   show() {
     if (this.tag('Lists').children[0]) {
-      this.tag('Lists').children[0].setIndex(ChannelNumber.currentIndex)
+      this.tag('Lists').children[0].setIndex(ChannelNumber.currentIndex);
+      this._setState('Lists');
     }
     super.show();
   }
@@ -157,7 +158,6 @@ export default class TVChannelScreen extends BaseScreen {
   _handleEnter() {
     let selectedItem = this.tag('Lists').children[0].activeItem._item;
     this._play(selectedItem);
-    this.showChannelInfo(selectedItem);
     ChannelNumber.currentIndex = Number(selectedItem.channelNumber) - 1;
     navigate('home');
   }
