@@ -156,9 +156,9 @@ export default class TVChannelScreen extends BaseScreen {
   }
 
   _handleEnter() {
+    ChannelNumber.currentIndex = this.tag('Lists').children[0]._index;
     let selectedItem = this.tag('Lists').children[0].activeItem._item;
     this._play(selectedItem);
-    ChannelNumber.currentIndex = Number(selectedItem.channelNumber) - 1;
     navigate('home');
   }
 
