@@ -5,6 +5,7 @@
       "useImageWorker": true
     },
     "rdkservicesPort": 50050,
+    "sessionMgrWsRpcPort": 50050,
     "asms-mock": true,
     "debug": false
   },

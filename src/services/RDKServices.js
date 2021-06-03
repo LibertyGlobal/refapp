@@ -20,7 +20,7 @@
 import { Settings } from '@lightningjs/sdk'
 import ThunderJS from 'ThunderJS'
 
-let thunderJS = null
+let rdkservices_initialized = false
 let platform = null
 const REFAPP2_CLIENT_ID = 'refapp2'
 
@@ -32,16 +32,27 @@ function getDacAppInstallUrl(url) {
   return url
 }
 
-async function initThunderJS() {
-  if (thunderJS == null) {
-    thunderJS = ThunderJS({
-      host: window.location.hostname,
-      port: Settings.get('app', 'rdkservicesPort', window.location.port),
-      debug: true
-    })
+let _thunderjs = null
+function thunderJS() {
+  if (_thunderjs)
+    return _thunderjs
 
+  console.log('INIT thunderJS')
+  _thunderjs = ThunderJS({
+    host: window.location.hostname,
+    port: Settings.get('app', 'rdkservicesPort', window.location.port),
+    debug: true
+  })
+  return _thunderjs
+}
+
+async function initDACAppsKeyIntercept() {
+  console.log('initDACAppsKeyIntercept')
+
+  if (!rdkservices_initialized) {
+    rdkservices_initialized = true
     try {
-      let result = await thunderJS['org.rdk.RDKShell'].addKeyIntercept({
+      let result = await thunderJS()['org.rdk.RDKShell'].addKeyIntercept({
         keyCode: 36, // HOME key, Javascript keycodes: https://keycode.info
         modifiers: ['ctrl'],
         client: REFAPP2_CLIENT_ID
@@ -56,9 +67,7 @@ async function initThunderJS() {
 }
 
 async function registerListener(plugin, eventname, cb) {
-  initThunderJS()
-
-  return await thunderJS.on(plugin, eventname, (notification) => {
+  return await thunderJS().on(plugin, eventname, (notification) => {
     console.log("Received thunderJS event " + plugin + ":" + eventname, notification)
     if (cb != null) {
       cb(notification, eventname, plugin)
@@ -143,7 +152,6 @@ async function registerPackagerEvents(id, progress) {
 }
 
 export const installDACApp = async (app, progress) => {
-  initThunderJS()
   await getPlatformName()
 
   registerPackagerEvents('pkg-' + app.id, progress)
@@ -152,7 +160,7 @@ export const installDACApp = async (app, progress) => {
 
   let result = null
   try {
-    result = await thunderJS.Packager.install({ pkgId: 'pkg-' + app.id, type: 'DAC', url: getDacAppInstallUrl(app.url) })
+    result = await thunderJS().Packager.install({ pkgId: 'pkg-' + app.id, type: 'DAC', url: getDacAppInstallUrl(app.url) })
   } catch (error) {
     console.log('Error on installDACApp: ', error)
   }
@@ -161,13 +169,11 @@ export const installDACApp = async (app, progress) => {
 }
 
 export const uninstallDACApp = async (id) => {
-  initThunderJS()
-
   console.log('uninstallDACApp ' + id)
 
   let result = null
   try {
-    result = await thunderJS.Packager.remove({ pkgId: 'pkg-' + id })
+    result = await thunderJS().Packager.remove({ pkgId: 'pkg-' + id })
   } catch (error) {
     console.log('Error on uninstallDACApp: ', error)
   }
@@ -176,13 +182,11 @@ export const uninstallDACApp = async (id) => {
 }
 
 export const isInstalledDACApp = async (id) => {
-  initThunderJS()
-
   console.log('isInstalled ' + id)
 
   let result = null
   try {
-    result = await thunderJS.Packager.isInstalled({ pkgId: 'pkg-' + id })
+    result = await thunderJS().Packager.isInstalled({ pkgId: 'pkg-' + id })
   } catch (error) {
     console.log('Error on isInstalledDACApp: ', error)
   }
@@ -191,13 +195,11 @@ export const isInstalledDACApp = async (id) => {
 }
 
 export const getInstalledDACApps = async () => {
-  initThunderJS()
-
   console.log('getInstalledDACApps')
 
   let result = null
   try {
-    result = await thunderJS.Packager.getInstalled()
+    result = await thunderJS().Packager.getInstalled()
   } catch (error) {
     console.log('Error on getInstalledDACApps: ', error)
   }
@@ -225,13 +227,11 @@ export const getPlatformName = async () => {
 }
 
 export const getDeviceName = async () => {
-  initThunderJS()
-
   console.log('getDeviceName')
 
   let result = null
   try {
-    result = await thunderJS.DeviceInfo.systeminfo()
+    result = await thunderJS().DeviceInfo.systeminfo()
   } catch (error) {
     console.log('Error on systeminfo: ', error)
   }
@@ -240,13 +240,11 @@ export const getDeviceName = async () => {
 }
 
 export const getIpAddress = async () => {
-  initThunderJS()
-
   console.log('getIpAddress')
 
   let result = null
   try {
-    result = await thunderJS.DeviceInfo.addresses()
+    result = await thunderJS().DeviceInfo.addresses()
     if (result == null) {
       return ""
     } else {
@@ -263,13 +261,11 @@ export const getIpAddress = async () => {
 }
 
 export const getAllRunningApps = async () => {
-  initThunderJS()
-
   console.log('getAllRunningApps')
 
   let result = null
   try {
-    result = await thunderJS['org.rdk.RDKShell'].getClients()
+    result = await thunderJS()['org.rdk.RDKShell'].getClients()
   } catch (error) {
     console.log('Error on getInstalledDACApps: ', error)
   }
@@ -284,7 +280,7 @@ export const isAppRunning = async (id) => {
 }
 
 export const startApp = async (app) => {
-  initThunderJS()
+  initDACAppsKeyIntercept()
 
   console.log('startApp ' + app.id)
 
@@ -292,11 +288,11 @@ export const startApp = async (app) => {
 
   try {
     if (app.type === 'application/dac.native') {
-      result = await thunderJS['org.rdk.RDKShell'].launchApplication({ client: app.id, mimeType: 'application/dac.native', uri: 'pkg-' + app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].launchApplication({ client: app.id, mimeType: 'application/dac.native', uri: 'pkg-' + app.id })
     } else if (app.type === 'application/html') {
-      result = await thunderJS['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'HtmlApp' })
+      result = await thunderJS()['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'HtmlApp' })
     } else if (app.type === 'application/lightning') {
-      result = await thunderJS['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'LightningApp' })
+      result = await thunderJS()['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'LightningApp' })
     } else {
       console.log('Unsupported app type: ' + app.type)
       return false
@@ -311,7 +307,7 @@ export const startApp = async (app) => {
   }
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].moveToFront({ client: app.id})
+    result = await thunderJS()['org.rdk.RDKShell'].moveToFront({ client: app.id})
   } catch (error) {
     console.log('Error on moveToFront: ', error)
     // ignore error
@@ -324,7 +320,7 @@ export const startApp = async (app) => {
   //}
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: app.id})
+    result = await thunderJS()['org.rdk.RDKShell'].setFocus({ client: app.id})
   } catch (error) {
     console.log('Error on setFocus: ', error)
     return false
@@ -334,21 +330,19 @@ export const startApp = async (app) => {
 }
 
 export const stopApp = async (app) => {
-  initThunderJS()
-
   console.log('stopApp ' + app.id)
 
   let result = null
   
   try {
     if (app.type === 'application/dac.native') {
-      result = await thunderJS['org.rdk.RDKShell'].kill({ client: app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].kill({ client: app.id })
     } else if (app.type === 'application/html') {
-      result = await thunderJS['org.rdk.RDKShell'].kill({ client: app.id })
-      result = await thunderJS['org.rdk.RDKShell'].destroy({ callsign: app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].kill({ client: app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].destroy({ callsign: app.id })
     } else if (app.type === 'application/lightning') {
-      result = await thunderJS['org.rdk.RDKShell'].kill({ client: app.id })
-      result = await thunderJS['org.rdk.RDKShell'].destroy({ callsign: app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].kill({ client: app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].destroy({ callsign: app.id })
     } else {
       console.log('Unsupported app type: ' + app.type)
       return false
@@ -358,13 +352,13 @@ export const stopApp = async (app) => {
   }
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].moveToFront({ client: REFAPP2_CLIENT_ID})
+    result = await thunderJS()['org.rdk.RDKShell'].moveToFront({ client: REFAPP2_CLIENT_ID})
   } catch (error) {
     console.log('Error on moveToFront: ', error)
   }
 
   try {
-    result = await thunderJS['org.rdk.RDKShell'].setFocus({ client: REFAPP2_CLIENT_ID})
+    result = await thunderJS()['org.rdk.RDKShell'].setFocus({ client: REFAPP2_CLIENT_ID})
   } catch (error) {
     console.log('Error on setFocus: ', error)
   }
@@ -408,14 +402,13 @@ export const getVideoPlaybackState = async () => {
 }
 
 export const startVideo = async (id, url) => {
-  initThunderJS()
   console.log('startVideo', id, url)
   let result = null
 
   await registerPlayerEvents()
 
   try {
-    result = await thunderJS['org.rdk.FireboltMediaPlayer'].create(
+    result = await thunderJS()['org.rdk.FireboltMediaPlayer'].create(
         { id: id })
   } catch (error) {
     console.log('Error on startVideo: ', error)
@@ -426,7 +419,7 @@ export const startVideo = async (id, url) => {
   }
 
   try {
-    result = await thunderJS['org.rdk.FireboltMediaPlayer'].load(
+    result = await thunderJS()['org.rdk.FireboltMediaPlayer'].load(
       {
         id: id,
         url: url
@@ -440,11 +433,10 @@ export const startVideo = async (id, url) => {
 }
 
 export const stopVideo = async (id) => {
-  initThunderJS()
   console.log('stopVideo')
   let result = null
   try {
-    result = await thunderJS['org.rdk.FireboltMediaPlayer'].stop(
+    result = await thunderJS()['org.rdk.FireboltMediaPlayer'].stop(
       {
         id: id
       })
@@ -459,11 +451,10 @@ export const stopVideo = async (id) => {
 }
 
 export const pauseVideo = async (id) => {
-  initThunderJS()
   console.log('pauseVideo')
   let result = null
   try {
-    result = await thunderJS['org.rdk.FireboltMediaPlayer'].pause(
+    result = await thunderJS()['org.rdk.FireboltMediaPlayer'].pause(
       {
         id: id
       })
@@ -476,12 +467,11 @@ export const pauseVideo = async (id) => {
 }
 
 export const playVideo = async (id) => {
-  initThunderJS()
   console.log('playVideo')
   let result = null
 
   try {
-    result = await thunderJS['org.rdk.FireboltMediaPlayer'].play(
+    result = await thunderJS()['org.rdk.FireboltMediaPlayer'].play(
       {
         id: id
       })
@@ -494,12 +484,11 @@ export const playVideo = async (id) => {
 }
 
 export const seekToVideo = async (id, positionSec) => {
-  initThunderJS()
   console.log('seekToVideo')
   let result = null
 
   try {
-    result = await thunderJS['org.rdk.FireboltMediaPlayer'].seekTo(
+    result = await thunderJS()['org.rdk.FireboltMediaPlayer'].seekTo(
       {
         id: id,
         positionSec: positionSec

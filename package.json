@@ -6,7 +6,7 @@
     "axios": "^0.21.1",
     "dashjs": "^3.1.1",
     "hls.js": "^0.13.2",
-    "ThunderJS": "rdkcentral/ThunderJS"
+    "ThunderJS": "github:sverkoye/ThunderJS#fix-for-multiple-thunderjs-instances"
   },
   "scripts": {
     "dev": "lng dev",
