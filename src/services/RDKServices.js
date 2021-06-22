@@ -25,11 +25,7 @@ let platform = null
 const REFAPP2_CLIENT_ID = 'refapp2'
 
 function getDacAppInstallUrl(url) {
-  if (platform === '7218c') {
-    // TODO: temporary hack
-    url = url.replace(/rpi3/g, '7218c')
-  }
-  return url
+  return url.replace(/rpi3/g, platform)
 }
 
 let _thunderjs = null
@@ -213,11 +209,13 @@ export const getPlatformName = async () => {
     platform = platform.split('-')[0]
 
     if (platform === 'raspberrypi') {
-      platform = 'rpi'
+      platform = 'rpi3'
     } else if (platform === 'brcm972180hbc') {
       platform = '7218c'
     } else if (platform === 'vip7802') {
       platform = '7218c'
+    } else if (platform.toLowerCase().includes('hp44h')) {
+      platform = 'hp44h'
     } else {
       // default
       platform = '7218c'
