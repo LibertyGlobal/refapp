@@ -33,6 +33,7 @@ function playQAM(service) {
     type: 'main',
     locator: service.locator,
     refId: service.channelId,
+    playerParams: { subContentType: 'live' },
   }
 
   return sessionManager.startPlayback(config)
