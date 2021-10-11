@@ -4,7 +4,7 @@
             "icon": "/cache/appsLogos/default_app_collection.png",
             "name": "you.i",
             "description": "Showcase application from the company youi.tv. The container package contains both the react native application and the You.i TV react native Gfx engine beneath.",
-            "url": "http://rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com/com.libertyglobal.app.youi/1.2.3/rpi3/rdk2020Q4/com.libertyglobal.app.youi_1.2.3_arm_linux_rpi3_rdk2020Q4.tar.gz",
+            "url": "https://gitlab.com/stagingrdkm/bundles/-/raw/main/rpi3/com.libertyglobal.app.youi_1.2.3_arm_linux_rpi3_rdk2020Q4.tar.gz",
             "type": "application/dac.native",
             "category": "Native DAC applications",
             "localisations": [
@@ -26,7 +26,7 @@
             "icon": "/cache/appsLogos/default_app_collection.png",
             "name": "flutter",
             "description": "Container contains both Flutter application and Flutter engine running on wayland-egl, developed by Liberty Global while evaluating Google Flutter UI toolkit.",
-            "url": "http://rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com/com.libertyglobal.app.flutter/0.0.1/rpi3/rdk2020Q4/com.libertyglobal.app.flutter_0.0.1_arm_linux_rpi3_rdk2020Q4.tar.gz",
+            "url": "https://gitlab.com/stagingrdkm/bundles/-/raw/main/rpi3/com.libertyglobal.app.flutter_0.0.1_arm_linux_rpi3_rdk2020Q4.tar.gz",
             "type": "application/dac.native",
             "category": "Native DAC applications",
             "localisations": [
@@ -43,7 +43,7 @@
             "icon": "/cache/appsLogos/default_app_collection.png",
             "name": "wayland-egl-test",
             "description": "Source code example of simple Wayland EGL application intended as tutorial for developers. Contains the few but necessary setup code for any direct to wayland-egl client application such as how to connect to wayland server, create/use EGL surface and draw on screen via opengles api. Application shows simple rectangle on screen. Applications based on this example should run on the various wayland compositors supporting the wayland-egl protocol out there.",
-            "url": "http://rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com/com.libertyglobal.app.waylandegltest/3.2.1/rpi3/rdk2020Q4/com.libertyglobal.app.waylandegltest_3.2.1_arm_linux_rpi3_rdk2020Q4.tar.gz",
+            "url": "https://gitlab.com/stagingrdkm/bundles/-/raw/main/rpi3/com.libertyglobal.app.waylandegltest_3.2.1_arm_linux_rpi3_rdk2020Q4.tar.gz",
             "type": "application/dac.native",
             "category": "Native DAC applications",
             "localisations": [
