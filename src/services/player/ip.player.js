@@ -43,6 +43,7 @@ function playIP(vod) {
     type: 'main',
     locator: vod.locator,
     refId: vod.refId,
+    playerParams: { subContentType: 'vod' },
   }
 
   return sessionManager.startPlayback(config)

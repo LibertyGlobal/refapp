@@ -18,7 +18,7 @@
  */
 
 'use strict'
-
+import { Settings } from '@lightningjs/sdk'
 import * as sessionManager from './strategies/sessionManager'
 
 let currentPlayableEntity = null
@@ -33,8 +33,11 @@ function playQAM(service) {
     type: 'main',
     locator: service.locator,
     refId: service.channelId,
+    playerParams: { subContentType: 'live' },
   }
-
+  if (Settings.get('app', 'disable_qam_emu', false)) {
+    return Promise.resolve()
+  }
   return sessionManager.startPlayback(config)
 }
 
@@ -55,6 +58,9 @@ function getPlaybackState() {
 }
 
 function stop() {
+  if (Settings.get('app', 'disable_qam_emu', false)) {
+    return Promise.resolve()
+  }
   return sessionManager.stopCurrentPlayback()
 }
 
