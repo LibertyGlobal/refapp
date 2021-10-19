@@ -215,7 +215,7 @@ export const getPlatformName = async () => {
     } else if (platform === 'vip7802') {
       platform = '7218c'
     } else if (platform.toLowerCase().includes('hp44h')) {
-      platform = 'hp44h'
+      platform = 'ah212'
     } else if (platform.toLowerCase().includes('amlogicfirebolt')) {
       platform = 'ah212'
     } else if (platform.toLowerCase().includes('mediabox')) {
