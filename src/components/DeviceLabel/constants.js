@@ -17,23 +17,8 @@
   * limitations under the License.
   */
 
-import { Lightning } from '@lightningjs/sdk'
-import constants from './constants'
-import theme from '@/themes/default'
-import { getIpAddress } from '@/services/RDKServices'
-
-export default class CurrentIP extends Lightning.Component {
-  static _template() {
-    return {
-      CurrentIP: {
-        x: constants.IP_LEFT,
-        y: constants.IP_TOP,
-        zIndex: constants.IP_ZINDEX
-      }
-    }
+module.exports = {
+    DEVICELABEL_LEFT: 400,
+    DEVICELABEL_TOP: 15,
+    DEVICELABEL_ZINDEX: 11
   }
-
-  async _init() {
-    this.tag('CurrentIP').text = await getIpAddress()
-  }
-}

@@ -24,8 +24,8 @@ let rdkservices_initialized = false
 let platform = null
 const REFAPP2_CLIENT_ID = 'refapp2'
 
-function getDacAppInstallUrl(url) {
-  return url.replace(/rpi3/g, platform)
+async function getDacAppInstallUrl(url) {
+  return url.replace(/rpi3/g, await getPlatformNameForDAC())
 }
 
 let _thunderjs = null
@@ -148,15 +148,14 @@ async function registerPackagerEvents(id, progress) {
 }
 
 export const installDACApp = async (app, progress) => {
-  await getPlatformName()
-
+  const url =  app.url.replace(/rpi3/g, await getPlatformNameForDAC())
   registerPackagerEvents('pkg-' + app.id, progress)
   
   console.log('installDACApp ' + app.id)
 
   let result = null
   try {
-    result = await thunderJS().Packager.install({ pkgId: 'pkg-' + app.id, type: 'DAC', url: getDacAppInstallUrl(app.url) })
+    result = await thunderJS().Packager.install({ pkgId: 'pkg-' + app.id, type: 'DAC', url: url })
   } catch (error) {
     console.log('Error on installDACApp: ', error)
   }
@@ -203,28 +202,47 @@ export const getInstalledDACApps = async () => {
   return result == null ? [] : result.applications
 }
 
-export const getPlatformName = async () => {
+export const getPlatformNameForDAC = async () => {
   if (platform == null) {
     platform = await getDeviceName()
     platform = platform.split('-')[0]
-
-    if (platform === 'raspberrypi') {
-      platform = 'rpi3'
-    } else if (platform === 'brcm972180hbc') {
-      platform = '7218c'
-    } else if (platform === 'vip7802') {
-      platform = '7218c'
-    } else if (platform.toLowerCase().includes('hp44h')) {
-      platform = 'ah212'
-    } else if (platform.toLowerCase().includes('amlogicfirebolt')) {
-      platform = 'ah212'
-    } else if (platform.toLowerCase().includes('mediabox')) {
-      platform = 'rtd1319'
-    } else {
-      // default
-      platform = '7218c'
-    }
   }
+
+  if (platform === 'raspberrypi') {
+    return 'rpi3'
+  } else if (platform === 'brcm972180hbc') {
+    return '7218c'
+  } else if (platform === 'vip7802') {
+    return '7218c'
+  } else if (platform.toLowerCase().includes('hp44h')) {
+    return 'ah212'
+  } else if (platform.toLowerCase().includes('amlogicfirebolt')) {
+    return 'ah212'
+  } else if (platform.toLowerCase().includes('mediabox')) {
+    return 'rtd1319'
+  } else {
+    // default
+    return '7218c'
+  }
+}
+
+export const getPlatformNiceName = async () => {
+  await getPlatformNameForDAC()
+
+  if (platform === 'raspberrypi') {
+    return 'Raspberry Pi 3'
+  } else if (platform === 'brcm972180hbc') {
+    return 'Broadcom 7218'
+  } else if (platform === 'vip7802') {
+    return 'Commscope VIP7802'
+  } else if (platform.toLowerCase().includes('hp44h')) {
+    return 'Amlogic HP44H'
+  } else if (platform.toLowerCase().includes('amlogicfirebolt')) {
+    return 'Amlogic AH212'
+  } else if (platform.toLowerCase().includes('mediabox')) {
+    return 'Realtek RTD1319'
+  }
+
   return platform
 }
 

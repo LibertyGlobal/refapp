@@ -24,6 +24,7 @@ import SplashScreen from './screens/SplashScreen'
 import NumberInput from './components/NumberInput'
 import CurrentTime from './components/CurrentTime'
 import CurrentIP from './components/CurrentIP'
+import DeviceLabel from './components/DeviceLabel'
 
 export default class App extends Lightning.Component {
   static _template() {
@@ -45,6 +46,10 @@ export default class App extends Lightning.Component {
       },
       CurrentIP:{
         type: CurrentIP,
+        visible: true
+      },
+      DeviceLabel:{
+        type: DeviceLabel,
         visible: true
       } 
     }
