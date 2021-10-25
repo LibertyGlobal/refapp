@@ -20,20 +20,20 @@
 import { Lightning } from '@lightningjs/sdk'
 import constants from './constants'
 import theme from '@/themes/default'
-import { getIpAddress } from '@/services/RDKServices'
+import { getPlatformNiceName } from '@/services/RDKServices'
 
-export default class CurrentIP extends Lightning.Component {
+export default class DeviceLabel extends Lightning.Component {
   static _template() {
     return {
-      CurrentIP: {
-        x: constants.IP_LEFT,
-        y: constants.IP_TOP,
-        zIndex: constants.IP_ZINDEX
+      DeviceLabel: {
+        x: constants.DEVICELABEL_LEFT,
+        y: constants.DEVICELABEL_TOP,
+        zIndex: constants.DEVICELABEL_ZINDEX
       }
     }
   }
 
   async _init() {
-    this.tag('CurrentIP').text = await getIpAddress()
+    this.tag('DeviceLabel').text = await getPlatformNiceName()
   }
 }
