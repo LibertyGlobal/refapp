@@ -24,10 +24,6 @@ let rdkservices_initialized = false
 let platform = null
 const REFAPP2_CLIENT_ID = 'refapp2'
 
-async function getDacAppInstallUrl(url) {
-  return url.replace(/rpi3/g, await getPlatformNameForDAC())
-}
-
 let _thunderjs = null
 function thunderJS() {
   if (_thunderjs)
