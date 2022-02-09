@@ -22,6 +22,7 @@ import ThunderJS from 'ThunderJS'
 
 let rdkservices_initialized = false
 let platform = null
+let dunfell = false
 const REFAPP2_CLIENT_ID = 'refapp2'
 
 let _thunderjs = null
@@ -198,9 +199,15 @@ export const getInstalledDACApps = async () => {
   return result == null ? [] : result.applications
 }
 
+export const isDunfellHost = async () => {
+  await getPlatformNameForDAC()
+  return dunfell
+}
+
 export const getPlatformNameForDAC = async () => {
   if (platform == null) {
     platform = await getDeviceName()
+    dunfell = platform.indexOf('dunfell') >= 0
     platform = platform.split('-')[0]
   }
 
@@ -322,6 +329,16 @@ export const startApp = async (app) => {
     return false
   }
 
+  // make sure the rialto display (video) is right behind cobalt
+  // only really playing video when cobalt dac app started
+  try {
+    result = await thunderJS()['org.rdk.RDKShell'].moveToFront({ client: 'rialtoserver'})
+  } catch (error) {
+    console.log('Error on moveToFront rialto: ', error)
+    // ignore error
+    //return false
+  }
+
   try {
     result = await thunderJS()['org.rdk.RDKShell'].moveToFront({ client: app.id})
   } catch (error) {
@@ -329,11 +346,6 @@ export const startApp = async (app) => {
     // ignore error
     //return false
   }
-
-  // ignore error on moveToFront, because it will report error if client is already on top
-  //if (result == null || !result.success) {
-  //  return false
-  //}
 
   try {
     result = await thunderJS()['org.rdk.RDKShell'].setFocus({ client: app.id})

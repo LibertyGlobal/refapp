@@ -26,7 +26,7 @@ import { navigate } from '../../lib/Router'
 import commonConstants from '@/constants/default'
 import constants from './constants'
 import theme from '../../themes/default'
-import { getInstalledDACApps } from '@/services/RDKServices'
+import { isDunfellHost, getInstalledDACApps } from '@/services/RDKServices'
 
 export default class AppsScreen extends BaseScreen {
   static _template() {
@@ -83,7 +83,8 @@ export default class AppsScreen extends BaseScreen {
   async update(params) {
     let response = null
     if (Settings.get('app', 'asms-mock', false)) {
-      response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data.json`))
+      const mockfile = await isDunfellHost()? 'asms-data-dunfell.json':'asms-data.json'
+      response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/${mockfile}`))
     } else {
       response = await fetch('http://' + window.location.host + '/apps')
     }
