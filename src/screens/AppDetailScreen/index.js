@@ -229,9 +229,9 @@ export default class AppDetailScreen extends BaseScreen {
       return
     }
 
+    await player.stopPlayBack()
     this._app.isRunning = await startApp(this._app)
     if (this._app.isRunning) {
-      await player.stopPlayBack()
       this.tag("StartingAppPopup").visible = true
       setTimeout(() => {
         this.tag("StartingAppPopup").visible = false
@@ -239,6 +239,8 @@ export default class AppDetailScreen extends BaseScreen {
       }, constants.POPUP_TIMEOUT)
       this.updateButtonsAndStatus()
       this._setState('AppIsRunning')
+    } else {
+      await player.playLastQamChannel()
     }
   }
 

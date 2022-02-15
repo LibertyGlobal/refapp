@@ -329,14 +329,11 @@ export const startApp = async (app) => {
     return false
   }
 
-  // make sure the rialto display (video) is right behind cobalt
-  // only really playing video when cobalt dac app started
+  // hide refapp2 GUI
   try {
-    result = await thunderJS()['org.rdk.RDKShell'].moveToFront({ client: 'rialtoserver'})
+    result = await thunderJS()['org.rdk.RDKShell'].setVisibility({ client: REFAPP2_CLIENT_ID, visible: false})
   } catch (error) {
-    console.log('Error on moveToFront rialto: ', error)
-    // ignore error
-    //return false
+    console.log('Error on setVisibility: ', error)
   }
 
   try {
@@ -377,6 +374,13 @@ export const stopApp = async (app) => {
     }
   } catch (error) {
     console.log('Error on stopDACApp: ', error)
+  }
+
+  // unhide refapp2 GUI
+  try {
+    result = await thunderJS()['org.rdk.RDKShell'].setVisibility({ client: REFAPP2_CLIENT_ID, visible: true})
+  } catch (error) {
+    console.log('Error on setVisibility: ', error)
   }
 
   try {
