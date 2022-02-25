@@ -140,7 +140,7 @@ export default class AppDetailScreen extends BaseScreen {
     }
 
     this._app.isDACApp = (this._app.type === 'application/dac.native')
-    this._app.isInstalled = this._app.isDACApp ? await isInstalledDACApp(this._app.id) : false
+    this._app.isInstalled = this._app.isDACApp ? await isInstalledDACApp(this._app) : false
     this._app.isRunning = await isAppRunning(this._app.id)
 
     // Icon should fetch from asms server
@@ -163,12 +163,13 @@ export default class AppDetailScreen extends BaseScreen {
     this._app.isRunning = false
     this._app.isInstalled = false
     this._app.isInstalling = false
+    this._app.isUnInstalling = false
     this._buttonIndex = 0;
     this._setState('AppStateButtons')
   }
 
   async _handleKey(key) {
-    if (this._app.isInstalling) {
+    if (this._app.isInstalling || this._app.isUnInstalling) {
       // no keys processing when installing, certainly no backwards nav
       return true
     }
@@ -188,11 +189,8 @@ export default class AppDetailScreen extends BaseScreen {
   async $onRemoveOK() {
     var dlg = this.tag('OkCancel');
 
-    let success = await uninstallDACApp(this._app.id)
-    if (success) {
-      this._app.isInstalled = false
-      this.updateButtonsAndStatus()
-    }
+    this._app.isUnInstalling = await uninstallDACApp(this._app, this.tag('StatusProgress'))
+    this.updateButtonsAndStatus()
     dlg.hide()
     this._setState('AppStateButtons')
   }
@@ -213,14 +211,28 @@ export default class AppDetailScreen extends BaseScreen {
     }
     this._app.isInstalling = await installDACApp(this._app, this.tag('StatusProgress'))
     this.updateButtonsAndStatus()
+    // LISA currently does not yet send many progress events, so
+    // at the very least indicate that app is installing
+    if (this._app.isInstalling) {
+      this.tag('StatusProgress').setProgress(0.0, "Installing...");
+    }
   }
 
-  async $fireINSTALLFinished(success, msg) {
-    this._app.isInstalled = success
-    this._app.isInstalling = false
-    this.updateButtonsAndStatus()
-    if (!success) {
-      this.tag('StatusProgress').setProgress(1.0, 'Error: '+ msg)
+  async $fireDACOperationFinished(success, msg)  {
+    if (this._app.isInstalling) {
+      this._app.isInstalled = success
+      this._app.isInstalling = false
+      this.updateButtonsAndStatus()
+      if (!success) {
+        this.tag('StatusProgress').setProgress(1.0, 'Error: '+ msg)
+      }
+    } else if (this._app.isUnInstalling) {
+      this._app.isInstalled = !success
+      this._app.isUnInstalling = false
+      this.updateButtonsAndStatus()
+      if (!success) {
+        this.tag('StatusProgress').setProgress(1.0, 'Error: '+ msg)
+      }
     }
   }
 
@@ -273,7 +285,7 @@ export default class AppDetailScreen extends BaseScreen {
     this.tag('ButtonInstall')._enableButton(!this._app.isInstalled && !this._app.isInstalling && this._app.isDACApp)
     this.tag('ButtonRun')._enableButton(!this._app.isRunning && (this._app.isInstalled || !this._app.isDACApp))
     this.tag('ButtonKill')._enableButton(this._app.isRunning)
-    this.tag('ButtonRemove')._enableButton(!this._app.isRunning && this._app.isInstalled)
+    this.tag('ButtonRemove')._enableButton(!this._app.isRunning && !this._app.isUnInstalling && this._app.isInstalled)
 
     // focus first enabled button
     let newIdx = 0

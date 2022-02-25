@@ -72,118 +72,92 @@ async function addEventHandler(eventHandlers, pluginname, eventname, cb) {
   eventHandlers.push(await registerListener(pluginname, eventname, cb))
 }
 
-async function registerPackagerEvents(id, progress) {
+async function registerLISAEvents(id, progress) {
   let eventHandlers = []
 
   progress.reset()
 
-  let handleFailure = (notification, eventname, plugin, str) => {
-    //console.log('handleFailure: ' + plugin + ' ' + eventname)
+  let handleProgress = (notification, eventname, plugin) => {
+    console.log('handleProgress: ' + plugin + ' ' + eventname)
 
-    if (plugin !== 'Packager') {
+    if (plugin !== 'LISA') {
       return
     }
-    if (id == notification.pkgId) {
-      progress.fireAncestors('$fireINSTALLFinished', false, str);
+    if (notification.status === 'Success') {
+      progress.fireAncestors('$fireDACOperationFinished', true);
+      eventHandlers.map(h => { h.dispose() })
+      eventHandlers = []
+    } else if (notification.status === 'Failed') {
+      progress.fireAncestors('$fireDACOperationFinished', false, 'Failed');
       eventHandlers.map(h => { h.dispose() })
       eventHandlers = []
     }
   }
 
-  let handleFailureDownload = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure downloading') };
-  let handleFailureDecryption = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure decrypting') };
-  let handleFailureExtraction = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure extracting') };
-  let handleFailureVerification = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure verifying') };
-  let handleFailureInstall = (notification, eventname, plugin) => { handleFailure(notification, eventname, plugin, 'Failure installing') };
-
-  let handleProgress = (notification, eventname, plugin) => {
-    //console.log('handleProgress: ' + plugin + ' ' + eventname)
-
-    if (plugin !== 'Packager') {
-      return
-    }
-    if (id == notification.pkgId) {
-      let pc = notification.status / 8.0;
-      progress.setProgress(pc, notification.what);
-      if (pc == 1.0) {
-        progress.fireAncestors('$fireINSTALLFinished', true);
-        eventHandlers.map(h => { h.dispose() })
-        eventHandlers = []
-      }
-    }
-  }
-
-  let handleProgressDownload = (notification, eventname, plugin) => {
-    notification.what = "Downloading..."
-    handleProgress.call(this, notification, eventname, plugin)
-  }
-
-  let handleProgressExtract = (notification, eventname, plugin) => {
-    notification.what = "Extracting..."
-    handleProgress.call(this, notification, eventname, plugin)
-  }
-
-  let handleProgressInstall = (notification, eventname, plugin) => {
-    notification.what = "Installing..."
-    handleProgress.call(this, notification, eventname, plugin)
-  }
-
-  addEventHandler( eventHandlers, 'Packager', 'onDownloadCommence', handleProgressDownload);
-  addEventHandler( eventHandlers, 'Packager', 'onDownloadComplete', handleProgressDownload);
-
-  addEventHandler( eventHandlers, 'Packager', 'onExtractCommence',  handleProgressExtract);
-  addEventHandler( eventHandlers, 'Packager', 'onExtractComplete',  handleProgressExtract);
-
-  addEventHandler( eventHandlers, 'Packager', 'onInstallCommence',  handleProgressInstall);
-  addEventHandler( eventHandlers, 'Packager', 'onInstallComplete',  handleProgressInstall);
-
-  addEventHandler( eventHandlers, 'Packager', 'onDownload_FAILED',     handleFailureDownload) ;
-  addEventHandler( eventHandlers, 'Packager', 'onDecryption_FAILED',   handleFailureDecryption) ;
-  addEventHandler( eventHandlers, 'Packager', 'onExtraction_FAILED',   handleFailureExtraction) ;
-  addEventHandler( eventHandlers, 'Packager', 'onVerification_FAILED', handleFailureVerification);
-  addEventHandler( eventHandlers, 'Packager', 'onInstall_FAILED',      handleFailureInstall);
+  addEventHandler( eventHandlers, 'LISA', 'operationStatus', handleProgress);
 }
 
 export const installDACApp = async (app, progress) => {
   const url =  app.url.replace(/rpi3/g, await getPlatformNameForDAC())
-  registerPackagerEvents('pkg-' + app.id, progress)
-  
+  registerLISAEvents(app.id, progress)
   console.log('installDACApp ' + app.id)
 
   let result = null
   try {
-    result = await thunderJS().Packager.install({ pkgId: 'pkg-' + app.id, type: 'DAC', url: url })
+    result = await thunderJS().LISA.install(
+      {
+        id: app.id,
+        type: 'dac',
+        appName: app.name,
+        category: app.category,
+        versionAsParameter: app.version,
+        url: url,
+      })
   } catch (error) {
-    console.log('Error on installDACApp: ', error)
+    console.log('Error on installDACApp: ' + error.code + ' ' + error.message)
+    return false
   }
-
-  return result == null ? false : result.success
+  return true
 }
 
-export const uninstallDACApp = async (id) => {
-  console.log('uninstallDACApp ' + id)
+export const uninstallDACApp = async (app, progress) => {
+  console.log('uninstallDACApp ' + app.id)
+
+  registerLISAEvents(app.id, progress)
 
   let result = null
   try {
-    result = await thunderJS().Packager.remove({ pkgId: 'pkg-' + id })
+    result = await thunderJS().LISA.uninstall(
+      {
+        id: app.id,
+        type: 'dac',
+        versionAsParameter: app.version,
+        uninstallType: 'full'
+      })
   } catch (error) {
-    console.log('Error on uninstallDACApp: ', error)
+    console.log('Error on uninstallDACApp: ' + error.code + ' ' + error.message)
+    return false
   }
-
-  return result == null ? false : result.success
+  return true
 }
 
-export const isInstalledDACApp = async (id) => {
-  console.log('isInstalled ' + id)
+export const isInstalledDACApp = async (app) => {
+  console.log('isInstalled ' + app.id)
 
   let result = null
   try {
-    result = await thunderJS().Packager.isInstalled({ pkgId: 'pkg-' + id })
+    result = await thunderJS().LISA.getStorageDetails(
+      {
+        id: app.id,
+        type: 'dac',
+        versionAsParameter: app.version,
+      })
   } catch (error) {
     console.log('Error on isInstalledDACApp: ', error)
+    return false
   }
 
-  return result == null ? false : result.available
+  return result == null ? false : result.apps.path !== ''
 }
 
 export const getInstalledDACApps = async () => {
@@ -191,12 +165,12 @@ export const getInstalledDACApps = async () => {
 
   let result = null
   try {
-    result = await thunderJS().Packager.getInstalled()
+    result = await thunderJS().LISA.getList()
   } catch (error) {
     console.log('Error on getInstalledDACApps: ', error)
   }
 
-  return result == null ? [] : result.applications
+  return result == null ? [] : (result.apps ? result.apps : [])
 }
 
 export const isDunfellHost = async () => {
@@ -311,7 +285,12 @@ export const startApp = async (app) => {
 
   try {
     if (app.type === 'application/dac.native') {
-      result = await thunderJS()['org.rdk.RDKShell'].launchApplication({ client: app.id, mimeType: 'application/dac.native', uri: 'pkg-' + app.id })
+      result = await thunderJS()['org.rdk.RDKShell'].launchApplication(
+        {
+          client: app.id,
+          mimeType: 'application/dac.native',
+          uri: app.id + ';' + app.version
+        })
     } else if (app.type === 'application/html') {
       result = await thunderJS()['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'HtmlApp' })
     } else if (app.type === 'application/lightning') {

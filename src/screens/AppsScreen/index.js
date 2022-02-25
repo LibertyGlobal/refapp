@@ -94,7 +94,7 @@ export default class AppsScreen extends BaseScreen {
 
     applications.forEach((app) => {
       app.isInstalled = false
-      let installedApp = installedApplications.find((a) => { return a.id === 'pkg-' + app.id })
+      let installedApp = installedApplications.find((a) => { return a.id === app.id })
       if (installedApp) {
         app.isInstalled = true
       }
