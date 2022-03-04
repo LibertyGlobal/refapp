@@ -211,11 +211,6 @@ export default class AppDetailScreen extends BaseScreen {
     }
     this._app.isInstalling = await installDACApp(this._app, this.tag('StatusProgress'))
     this.updateButtonsAndStatus()
-    // LISA currently does not yet send many progress events, so
-    // at the very least indicate that app is installing
-    if (this._app.isInstalling) {
-      this.tag('StatusProgress').setProgress(0.0, "Installing...");
-    }
   }
 
   async $fireDACOperationFinished(success, msg)  {
