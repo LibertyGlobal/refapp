@@ -72,6 +72,20 @@ async function addEventHandler(eventHandlers, pluginname, eventname, cb) {
   eventHandlers.push(await registerListener(pluginname, eventname, cb))
 }
 
+function translateLisaProgressEvent(evtname) {
+  if (evtname === "DOWNLOADING") {
+    return "Downloading..."
+  } else if (evtname === "UNTARING") {
+    return "Extracting..."
+  } else if (evtname === "UPDATING_DATABASE") {
+    return "Installing..."
+  } else if (evtname === "FINISHED") {
+    return "Finished"
+  } else {
+    return evtname
+  }
+}
+
 async function registerLISAEvents(id, progress) {
   let eventHandlers = []
 
@@ -83,12 +97,18 @@ async function registerLISAEvents(id, progress) {
     if (plugin !== 'LISA') {
       return
     }
-    if (notification.status === 'Success') {
-      progress.fireAncestors('$fireDACOperationFinished', true);
+    if (notification.status === 'Progress') {
+      let parts = notification.details.split(" ")
+      if (parts.length >= 2) {
+        let pc = parseFloat(parts[1]) / 100.0
+        progress.setProgress(pc, translateLisaProgressEvent(parts[0]))
+      }
+    } else if (notification.status === 'Success') {
+      progress.fireAncestors('$fireDACOperationFinished', true)
       eventHandlers.map(h => { h.dispose() })
       eventHandlers = []
     } else if (notification.status === 'Failed') {
-      progress.fireAncestors('$fireDACOperationFinished', false, 'Failed');
+      progress.fireAncestors('$fireDACOperationFinished', false, 'Failed')
       eventHandlers.map(h => { h.dispose() })
       eventHandlers = []
     }
