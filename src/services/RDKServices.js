@@ -209,6 +209,8 @@ export const getPlatformNameForDAC = async () => {
     return 'rpi3'
   } else if (platform === 'brcm972180hbc') {
     return '7218c'
+  } else if (platform === 'brcm972127ott') {
+    return '72127ott'
   } else if (platform === 'vip7802') {
     return '7218c'
   } else if (platform.toLowerCase().includes('hp44h')) {
@@ -230,6 +232,8 @@ export const getPlatformNiceName = async () => {
     return 'Raspberry Pi 3'
   } else if (platform === 'brcm972180hbc') {
     return 'Broadcom 7218'
+  } else if (platform === 'brcm972127ott') {
+    return 'Broadcom 72127OTT'
   } else if (platform === 'vip7802') {
     return 'Commscope VIP7802'
   } else if (platform.toLowerCase().includes('hp44h')) {
