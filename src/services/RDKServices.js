@@ -23,7 +23,9 @@ import ThunderJS from 'ThunderJS'
 let rdkservices_initialized = false
 let platform = null
 let dunfell = false
+let lock_handle = null
 const REFAPP2_CLIENT_ID = 'refapp2'
+const DAC_MIMETYPE = 'application/dac.native'
 
 let _thunderjs = null
 function thunderJS() {
@@ -127,11 +129,11 @@ export const installDACApp = async (app, progress) => {
     result = await thunderJS().LISA.install(
       {
         id: app.id,
-        type: 'dac',
+        type: DAC_MIMETYPE,
         appName: app.name,
         category: app.category,
         versionAsParameter: app.version,
-        url: url,
+        url: url
       })
   } catch (error) {
     console.log('Error on installDACApp: ' + error.code + ' ' + error.message)
@@ -150,7 +152,7 @@ export const uninstallDACApp = async (app, progress) => {
     result = await thunderJS().LISA.uninstall(
       {
         id: app.id,
-        type: 'dac',
+        type: DAC_MIMETYPE,
         versionAsParameter: app.version,
         uninstallType: 'full'
       })
@@ -169,7 +171,7 @@ export const isInstalledDACApp = async (app) => {
     result = await thunderJS().LISA.getStorageDetails(
       {
         id: app.id,
-        type: 'dac',
+        type: DAC_MIMETYPE,
         versionAsParameter: app.version,
       })
   } catch (error) {
@@ -308,12 +310,32 @@ export const startApp = async (app) => {
   let result = null
 
   try {
-    if (app.type === 'application/dac.native') {
+    if (app.type === DAC_MIMETYPE) {
+      try {
+        result = await thunderJS().LISA.lock(
+          {
+            id: app.id,
+            type: DAC_MIMETYPE,
+            versionAsParameter: app.version,
+            reason: 'Running app',
+            owner: 'refapp'
+          })
+        if (result == null || result.handle == null) {
+          console.log('Error on lock: ', error)
+          return false
+        }
+        lock_handle = result.handle
+        console.log('App locked with handle ' + lock_handle)
+      } catch (error) {
+        console.log('Error on lock: ', error)
+        return false
+      }
+
       result = await thunderJS()['org.rdk.RDKShell'].launchApplication(
         {
           client: app.id,
-          mimeType: 'application/dac.native',
-          uri: app.id + ';' + app.version
+          mimeType: DAC_MIMETYPE,
+          uri: app.id + ';' + app.version + ';' + DAC_MIMETYPE
         })
     } else if (app.type === 'application/html') {
       result = await thunderJS()['org.rdk.RDKShell'].launch({ callsign: app.id, uri: app.url, type: 'HtmlApp' })
@@ -344,7 +366,7 @@ export const startApp = async (app) => {
   } catch (error) {
     console.log('Error on moveToFront: ', error)
     // ignore error
-    //return false
+    // return false
   }
 
   try {
@@ -353,7 +375,7 @@ export const startApp = async (app) => {
     console.log('Error on setFocus: ', error)
     return false
   }
- 
+
   return result == null ? false : result.success
 }
 
@@ -361,10 +383,21 @@ export const stopApp = async (app) => {
   console.log('stopApp ' + app.id)
 
   let result = null
-  
+
   try {
-    if (app.type === 'application/dac.native') {
+    if (app.type === DAC_MIMETYPE) {
       result = await thunderJS()['org.rdk.RDKShell'].kill({ client: app.id })
+
+      try {
+        result = await thunderJS().LISA.unlock(
+          {
+            handle: lock_handle
+          })
+        console.log(result)
+      } catch (error) {
+        console.log('Error on unlock: ', error)
+      }
+
     } else if (app.type === 'application/html') {
       result = await thunderJS()['org.rdk.RDKShell'].kill({ client: app.id })
       result = await thunderJS()['org.rdk.RDKShell'].destroy({ callsign: app.id })
