@@ -194,10 +194,6 @@ export const getInstalledDACApps = async () => {
   return result == null ? [] : (result.apps ? result.apps : [])
 }
 
-export const isDunfellHost = async () => {
-  return true
-}
-
 export const getPlatformNameForDAC = async () => {
   if (platform == null) {
     platform = await getDeviceName()

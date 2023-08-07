@@ -26,7 +26,7 @@ import { navigate } from '../../lib/Router'
 import commonConstants from '@/constants/default'
 import constants from './constants'
 import theme from '../../themes/default'
-import { isDunfellHost, getInstalledDACApps } from '@/services/RDKServices'
+import { getInstalledDACApps } from '@/services/RDKServices'
 
 export default class AppsScreen extends BaseScreen {
   static _template() {
@@ -64,7 +64,7 @@ export default class AppsScreen extends BaseScreen {
 
   _getFocused() {
     return this.activeList
-  } 
+  }
 
   get lists() {
     return this.tag('Lists').children
@@ -83,8 +83,7 @@ export default class AppsScreen extends BaseScreen {
   async update(params) {
     let response = null
     if (Settings.get('app', 'asms-mock', false)) {
-      const mockfile = await isDunfellHost()? 'asms-data-dunfell.json':'asms-data.json'
-      response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/${mockfile}`))
+      response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data-dunfell.json`))
     } else {
       response = await fetch('http://' + window.location.host + '/apps')
     }
@@ -140,7 +139,7 @@ export default class AppsScreen extends BaseScreen {
   }
 
   _handleEnter() {
-    navigate(`appdetails/${this.activeList.apps[this.activeList.index].id}`, true)  
+    navigate(`appdetails/${this.activeList.apps[this.activeList.index].id}`, true)
   }
 
   _handleUp() {
