@@ -22,7 +22,6 @@ import ThunderJS from 'ThunderJS'
 
 let rdkservices_initialized = false
 let platform = null
-let dunfell = false
 let lock_handle = null
 const REFAPP2_CLIENT_ID = 'refapp2'
 const DAC_MIMETYPE = 'application/dac.native'
@@ -196,14 +195,12 @@ export const getInstalledDACApps = async () => {
 }
 
 export const isDunfellHost = async () => {
-  await getPlatformNameForDAC()
-  return dunfell
+  return true
 }
 
 export const getPlatformNameForDAC = async () => {
   if (platform == null) {
     platform = await getDeviceName()
-    dunfell = platform.indexOf('dunfell') >= 0
     platform = platform.split('-')[0]
   }
 
