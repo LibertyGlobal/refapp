@@ -29,7 +29,7 @@ import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
 import * as player  from '@/services/player/'
-import { isDunfellHost, isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning } from '@/services/RDKServices'
+import { isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning } from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
@@ -126,11 +126,10 @@ export default class AppDetailScreen extends BaseScreen {
       }
     }
   }
-  
+
   async update(params) {
     if (Settings.get('app', 'asms-mock', false)) {
-      const mockfile = await isDunfellHost()? 'asms-data-dunfell.json':'asms-data.json'
-      const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/${mockfile}`))
+      const response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data-dunfell.json`))
       const { applications } = await response.json()
       this._app = applications.find((a) => { return a.id === params })
     } else {
@@ -258,7 +257,7 @@ export default class AppDetailScreen extends BaseScreen {
       this.updateButtonsAndStatus()
     }
   }
-  
+
   $fireREMOVE() {
     if (!this._app.isInstalled) {
       return
