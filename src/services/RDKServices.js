@@ -209,6 +209,8 @@ export const getPlatformNameForDAC = async () => {
 
   if (platform === 'raspberrypi') {
     return 'rpi3'
+  } else if (platform === 'raspberrypi4') {
+    return 'rpi4'
   } else if (platform === 'brcm972180hbc') {
     return '7218c'
   } else if (platform === 'brcm972127ott') {
@@ -221,6 +223,8 @@ export const getPlatformNameForDAC = async () => {
     return 'ah212'
   } else if (platform.toLowerCase().includes('mediabox')) {
     return 'rtd1319'
+  } else if (platform.toLowerCase().includes('m393')) {
+    return 'm393'
   } else {
     // default
     return '7218c'
@@ -232,6 +236,8 @@ export const getPlatformNiceName = async () => {
 
   if (platform === 'raspberrypi') {
     return 'Raspberry Pi 3'
+  } else if (platform === 'raspberrypi4') {
+    return 'Raspberry Pi 4'
   } else if (platform === 'brcm972180hbc') {
     return 'Broadcom 7218'
   } else if (platform === 'brcm972127ott') {
@@ -242,6 +248,8 @@ export const getPlatformNiceName = async () => {
     return 'Amlogic HP44H'
   } else if (platform.toLowerCase().includes('amlogicfirebolt')) {
     return 'Amlogic AH212'
+  } else if (platform.toLowerCase().includes('m393')) {
+    return 'Sagemcom m393'
   } else if (platform.toLowerCase().includes('mediabox')) {
     return 'Realtek RTD1319'
   }
