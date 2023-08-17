@@ -85,7 +85,10 @@ export default class AppsScreen extends BaseScreen {
     if (Settings.get('app', 'asms-mock', false)) {
       response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data-dunfell.json`))
     } else {
-      response = await fetch('http://' + window.location.host + '/apps')
+      const url = new URL('http://' + window.location.host + '/apps')
+      const queryParams = { type: 'application/dac.native', platform: 'arm:v7:linux' }
+      url.search = new URLSearchParams(queryParams).toString()
+      response = await fetch(url)
     }
 
     const { applications } = await response.json()
