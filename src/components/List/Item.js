@@ -60,10 +60,14 @@ export default class Item extends Lightning.Component {
       this.tag('Background').color = color
     }
   }
-// TODO: Image should get from asms server, hardcoded for testing purpose
 
   set item(value) {
     this._item = value
+
+    let iconUrl = value.image || value.icon
+    if (!/^https?:\/\//i.test(iconUrl)) {
+      iconUrl = Utils.asset(iconUrl)
+    }
 
     this.patch({
       Image: {
@@ -74,7 +78,7 @@ export default class Item extends Lightning.Component {
             h: this._size.h
           },
           type: Lightning.textures.ImageTexture,
-          src: Utils.asset( value.image || value.icon) 
+          src: iconUrl
         }
       },
       Title: {

@@ -29,7 +29,15 @@ import theme from '../../themes/default'
 import Background from '../../components/Background'
 import constants from './constants'
 import * as player  from '@/services/player/'
-import { isInstalledDACApp, installDACApp, uninstallDACApp, startApp, stopApp, isAppRunning } from '@/services/RDKServices'
+import {
+  isInstalledDACApp,
+  installDACApp,
+  uninstallDACApp,
+  startApp,
+  stopApp,
+  isAppRunning,
+  getPlatformNameForDAC
+} from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
   static _template() {
@@ -133,7 +141,11 @@ export default class AppDetailScreen extends BaseScreen {
       const { applications } = await response.json()
       this._app = applications.find((a) => { return a.id === params })
     } else {
-      const response = await fetch('http://' + window.location.host + '/apps/' + params)
+      const url = new URL('http://' + window.location.host + '/apps/' + params)
+      const platformname = await getPlatformNameForDAC()
+      const queryParams = { platformName: platformname, firmwareVer: Settings.get('app', 'dacFirmwareVer', '') }
+      url.search = new URLSearchParams(queryParams).toString()
+      const response = await fetch(url)
       const { header } = await response.json()
       this._app = header
     }
@@ -150,9 +162,13 @@ export default class AppDetailScreen extends BaseScreen {
     this.tag('Type').text.text = "Type: " + this._app.type
     this.tag('Category').text.text = "Category: " + this._app.category
     this.tag('Description').text.text = "Description: " + this._app.description
-    this.tag('Icon').patch({
-      src: Utils.asset(this._app.icon)
-    })
+    if (!/^https?:\/\//i.test(this._app.icon)) {
+      this.tag('Icon').patch({
+        src: Utils.asset(this._app.icon)
+      })
+    } else {
+      this.tag('Icon').src = this._app.icon
+    }
 
     this.updateButtonsAndStatus()
   }
