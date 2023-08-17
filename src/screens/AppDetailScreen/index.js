@@ -162,9 +162,13 @@ export default class AppDetailScreen extends BaseScreen {
     this.tag('Type').text.text = "Type: " + this._app.type
     this.tag('Category').text.text = "Category: " + this._app.category
     this.tag('Description').text.text = "Description: " + this._app.description
-    this.tag('Icon').patch({
-      src: Utils.asset(this._app.icon)
-    })
+    if (!/^https?:\/\//i.test(this._app.icon)) {
+      this.tag('Icon').patch({
+        src: Utils.asset(this._app.icon)
+      })
+    } else {
+      this.tag('Icon').src = this._app.icon
+    }
 
     this.updateButtonsAndStatus()
   }
