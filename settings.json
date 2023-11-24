@@ -6,8 +6,7 @@
     },
     "rdkservicesPort": 50050,
     "sessionMgrWsRpcPort": 50050,
-    "asms-mock": true,
-    "dacFirmwareVer": "1.0.0-2b0e9ede88821f9c76f263ac7fef29739968dabd-dbg",
+    "asms-mock": false,
     "disable_qam_emu": false,
     "debug": false
   },

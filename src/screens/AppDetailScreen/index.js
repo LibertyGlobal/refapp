@@ -36,7 +36,7 @@ import {
   startApp,
   stopApp,
   isAppRunning,
-  getPlatformNameForDAC
+  getLisaDACConfig
 } from '@/services/RDKServices'
 
 export default class AppDetailScreen extends BaseScreen {
@@ -142,8 +142,11 @@ export default class AppDetailScreen extends BaseScreen {
       this._app = applications.find((a) => { return a.id === params })
     } else {
       const url = new URL('http://' + window.location.host + '/apps/' + params)
-      const platformname = await getPlatformNameForDAC()
-      const queryParams = { platformName: platformname, firmwareVer: Settings.get('app', 'dacFirmwareVer', '') }
+      const [dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey] = await getLisaDACConfig()
+      const queryParams = {
+        platformName: dacBundlePlatformNameOverride,
+        firmwareVer: dacBundleFirmwareCompatibilityKey
+      }
       url.search = new URLSearchParams(queryParams).toString()
       const response = await fetch(url)
       const { header } = await response.json()

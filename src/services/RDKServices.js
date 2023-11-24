@@ -22,6 +22,7 @@ import ThunderJS from 'ThunderJS'
 
 let rdkservices_initialized = false
 let platform = null
+let lisaDacConfig = null
 let lock_handle = null
 const REFAPP2_CLIENT_ID = 'refapp2'
 const DAC_MIMETYPE = 'application/dac.native'
@@ -119,7 +120,12 @@ async function registerLISAEvents(id, progress) {
 }
 
 export const installDACApp = async (app, progress) => {
-  const url =  app.url.replace(/rpi3/g, await getPlatformNameForDAC())
+  let url = app.url
+  let mocked = Settings.get('app', 'asms-mock', false)
+  if (mocked)  {
+    url = url.replace(/rpi3/g, await getPlatformNameForDAC())
+  }
+
   registerLISAEvents(app.id, progress)
   console.log('installDACApp ' + app.id)
 
@@ -179,6 +185,48 @@ export const isInstalledDACApp = async (app) => {
   }
 
   return result == null ? false : result.apps.path !== ''
+}
+
+export const getLisaDACConfig = async () => {
+  if (lisaDacConfig) {
+    return lisaDacConfig
+  }
+
+  console.log('getLisaDACConfig')
+
+  let result = null
+  try {
+    result = await thunderJS().LISA.getMetadata(
+      {
+        id: 'lisa.dac.config',
+        type: 'application/LISA',
+        versionAsParameter: '0'
+      })
+  } catch (error) {
+    console.log('Error on getLisaDACConfig: ', error)
+    return false
+  }
+
+  if (result == null || result.auxMetadata == null) {
+    lisaDacConfig = ['unknown', 'unknown']
+    return lisaDacConfig
+  }
+
+  const auxMetadata = result.auxMetadata
+  let dacBundlePlatformNameOverride = 'unknown'
+  let dacBundleFirmwareCompatibilityKey = 'unknown'
+
+  // Loop through the auxMetadata array to find the desired values
+  for (const metadata of auxMetadata) {
+    if (metadata.key === 'dacBundlePlatformNameOverride' && metadata.value !== "") {
+      dacBundlePlatformNameOverride = metadata.value
+    } else if (metadata.key === 'dacBundleFirmwareCompatibilityKey' && metadata.value !== "") {
+      dacBundleFirmwareCompatibilityKey = metadata.value
+    }
+  }
+
+  lisaDacConfig = [dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey]
+  return lisaDacConfig
 }
 
 export const getInstalledDACApps = async () => {
@@ -245,9 +293,10 @@ export const getPlatformNiceName = async () => {
     return 'Sagemcom m393'
   } else if (platform.toLowerCase().includes('mediabox')) {
     return 'Realtek RTD1319'
+  } else {
+    const [dacBundlePlatformNameOverride, _] = await getLisaDACConfig()
+    return dacBundlePlatformNameOverride
   }
-
-  return platform
 }
 
 export const getDeviceName = async () => {
