@@ -11,7 +11,7 @@
         "itemHeight": 300,
         "items": [
           {
-            "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+            "locator": "http://wp1-obc0304-halo-hzn-ci.t1.lab.dyncdn.dmdsdp.com/dash/STB-AVC-DASH/RefAuSu/manifest.mpd",
             "id": "SH1",
             "label": "Movie 2",
             "image": "img/movies/movie_02.png",
@@ -59,7 +59,7 @@
             "year": 2011
           },
           {
-            "locator": "http://amssamples.streaming.mediaservices.windows.net/683f7e47-bd83-4427-b0a3-26a6c4547782/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+            "locator": "http://wp1-obc0304-halo-hzn-ci.t1.lab.dyncdn.dmdsdp.com/dash/STB-AVC-DASH/RefAuSu/manifest.mpd",
             "id": "SH1",
             "label": "Movie 2",
             "image": "img/movies/movie_02.png",
