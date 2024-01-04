@@ -4,8 +4,8 @@
       "clearColor": "0x00000000",
       "useImageWorker": true
     },
-    "rdkservicesPort": 50050,
-    "sessionMgrWsRpcPort": 50050,
+    "rdkservicesPort": 9998,
+    "sessionMgrWsRpcPort": 8082,
     "asms-mock": false,
     "disable_qam_emu": false,
     "debug": false

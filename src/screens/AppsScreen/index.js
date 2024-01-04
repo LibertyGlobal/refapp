@@ -26,7 +26,7 @@ import { navigate } from '../../lib/Router'
 import commonConstants from '@/constants/default'
 import constants from './constants'
 import theme from '../../themes/default'
-import { getInstalledDACApps } from '@/services/RDKServices'
+import {getInstalledDACApps, getLisaDACConfig} from '@/services/RDKServices'
 
 export default class AppsScreen extends BaseScreen {
   static _template() {
@@ -85,10 +85,15 @@ export default class AppsScreen extends BaseScreen {
     if (Settings.get('app', 'asms-mock', false)) {
       response = await fetch(Utils.asset(`cache/mocks/${getDomain()}/asms-data-dunfell.json`))
     } else {
-      const url = new URL('http://' + window.location.host + '/apps')
+      const [_, __, asmsConfig] = await getLisaDACConfig()
+      const url = new URL(asmsConfig.url + '/apps')
       const queryParams = { type: 'application/dac.native', platform: 'arm:v7:linux' }
       url.search = new URLSearchParams(queryParams).toString()
-      response = await fetch(url)
+      const headers = new Headers();
+      if (asmsConfig.authentication && asmsConfig.authentication.user && asmsConfig.authentication.password) {
+        headers.append('Authorization', `Basic ${btoa(asmsConfig.authentication.user + ':' + asmsConfig.authentication.password)}`)
+      }
+      response = await fetch(url, {headers})
     }
 
     const { applications } = await response.json()

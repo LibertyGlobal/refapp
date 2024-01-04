@@ -187,6 +187,26 @@ export const isInstalledDACApp = async (app) => {
   return result == null ? false : result.apps.path !== ''
 }
 
+async function fetchAsmsConfig(configUrl) {
+  try {
+    console.log('Fetching ASMS config from: '+configUrl)
+    const response = await fetch(configUrl)
+    const data = await response.json()
+    const { url, authentication } = data['appstore-catalog']
+    console.log('ASMS URL: ' + url)
+    if (authentication) {
+      console.log('ASMS User: ' + authentication.user)
+    }
+    return {
+      url,
+      authentication
+    }
+  } catch (error) {
+    console.error('Error fetching ASMS config:', error)
+    return null
+  }
+}
+
 export const getLisaDACConfig = async () => {
   if (lisaDacConfig) {
     return lisaDacConfig
@@ -208,13 +228,14 @@ export const getLisaDACConfig = async () => {
   }
 
   if (result == null || result.auxMetadata == null) {
-    lisaDacConfig = ['unknown', 'unknown']
+    lisaDacConfig = ['unknown', 'unknown', {}]
     return lisaDacConfig
   }
 
   const auxMetadata = result.auxMetadata
   let dacBundlePlatformNameOverride = 'unknown'
   let dacBundleFirmwareCompatibilityKey = 'unknown'
+  let asmsConfig = {}
 
   // Loop through the auxMetadata array to find the desired values
   for (const metadata of auxMetadata) {
@@ -222,10 +243,12 @@ export const getLisaDACConfig = async () => {
       dacBundlePlatformNameOverride = metadata.value
     } else if (metadata.key === 'dacBundleFirmwareCompatibilityKey' && metadata.value !== "") {
       dacBundleFirmwareCompatibilityKey = metadata.value
+    } else if (metadata.key === 'configUrl' && metadata.value !== "") {
+      asmsConfig = await fetchAsmsConfig(metadata.value)
     }
   }
 
-  lisaDacConfig = [dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey]
+  lisaDacConfig = [dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey, asmsConfig]
   return lisaDacConfig
 }
 
@@ -294,7 +317,7 @@ export const getPlatformNiceName = async () => {
   } else if (platform.toLowerCase().includes('mediabox')) {
     return 'Realtek RTD1319'
   } else {
-    const [dacBundlePlatformNameOverride, _] = await getLisaDACConfig()
+    const [dacBundlePlatformNameOverride, _, __ ] = await getLisaDACConfig()
     return dacBundlePlatformNameOverride
   }
 }
