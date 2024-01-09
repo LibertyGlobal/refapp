@@ -141,14 +141,18 @@ export default class AppDetailScreen extends BaseScreen {
       const { applications } = await response.json()
       this._app = applications.find((a) => { return a.id === params })
     } else {
-      const url = new URL('http://' + window.location.host + '/apps/' + params)
-      const [dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey] = await getLisaDACConfig()
+      const [dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey, asmsConfig] = await getLisaDACConfig()
+      const url = new URL(asmsConfig.url + '/apps/' + params);
       const queryParams = {
         platformName: dacBundlePlatformNameOverride,
         firmwareVer: dacBundleFirmwareCompatibilityKey
       }
       url.search = new URLSearchParams(queryParams).toString()
-      const response = await fetch(url)
+      const headers = new Headers();
+      if (asmsConfig.authentication && asmsConfig.authentication.user && asmsConfig.authentication.password) {
+        headers.append('Authorization', `Basic ${btoa(asmsConfig.authentication.user + ':' + asmsConfig.authentication.password)}`)
+      }
+      const response = await fetch(url, {headers})
       const { header } = await response.json()
       this._app = header
     }
